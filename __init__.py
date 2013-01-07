@@ -11,6 +11,7 @@ except:
     import urllib
 
 class SWUApi(object):
+    API_PROTOCOL = 'https'
     API_HOST = 'api.sendwithus.com'
     API_VERSION = '0'
     SEND_ENDPOINT = 'send'
@@ -19,7 +20,7 @@ class SWUApi(object):
     API_CLIENT_VERSION = '0.1'
     API_KEY = '0'
 
-    def __init__(self, api_key=None, wait=False *args, **kwargs):
+    def __init__(self, api_key=None, wait=False, *args, **kwargs):
         """Constructor, expects api key"""
 
         if not api_key:
@@ -29,7 +30,8 @@ class SWUApi(object):
         self.wait = wait
 
     def _build_request_path(self, endpoint):
-        return "%s/v%s/%s" % (self.API_HOST, self.API_VERSION, endpoint)
+        return "%s://%s/v%s/%s" % (self.API_PROTOCOL, self.API_HOST, 
+                self.API_VERSION, endpoint)
 
     def _api_request(self, endpoint, *args, **kwargs):
         """Private method for api requests"""
