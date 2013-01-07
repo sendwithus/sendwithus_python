@@ -1,26 +1,32 @@
-#!/usr/bin/env python
 """
 Send With Us - Python Client
 Copyright SendWithus 2013
 """
+import logging
+FORMAT = '%(asctime)-15s %(message)s'
+logger = logging.getLogger('sendwithus')
+logger.propagate = False
 
 try:
+    # this is a botched python2 attempt, do something better later
     import urllib2 as urllib
     from urllib import urlencode
 except:
     import urllib
 
-class SWUApi(object):
-    API_PROTOCOL = 'https'
+class SWUAPI:
+    API_PROTO = 'https'
     API_HOST = 'api.sendwithus.com'
     API_VERSION = '0'
+
     SEND_ENDPOINT = 'send'
 
-
     API_CLIENT_VERSION = '0.1'
-    API_KEY = '0'
+    API_KEY = 'xxxexy'
 
-    def __init__(self, api_key=None, wait=False, *args, **kwargs):
+    DEBUG = False
+
+    def __init__(self, api_key=None, wait=False, **kwargs):
         """Constructor, expects api key"""
 
         if not api_key:
@@ -28,20 +34,43 @@ class SWUApi(object):
 
         self.API_KEY = api_key
         self.wait = wait
+        
+        if 'API_HOST' in kwargs:
+            self.API_HOST = kwargs['API_HOST']
+        if 'API_PROTO' in kwargs:
+            self.API_PROTO = kwargs['API_PROTO']
+        if 'API_VERSION' in kwargs:
+            self.API_VERSION = kwargs['API_VERSION']
+        if 'DEBUG' in kwargs:
+            self.DEBUG = kwargs['DEBUG']
+
+        if self.DEBUG:
+            logging.basicConfig(format=FORMAT, level=logging.DEBUG)
+            logger.debug('Debug enabled')
+            logger.propagate = True
 
     def _build_request_path(self, endpoint):
-        return "%s://%s/v%s/%s" % (self.API_PROTOCOL, self.API_HOST, 
+        path = "%s://%s/api/v%s/%s" % (self.API_PROTO, self.API_HOST, 
                 self.API_VERSION, endpoint)
+
+        logger.debug('\tpath: %s' % path)
+
+        return path
 
     def _api_request(self, endpoint, *args, **kwargs):
         """Private method for api requests"""
+        logger.debug(' > Sending API request to endpoint: %s' % endpoint)
 
         headers = {'X-SWU-API-KEY': self.API_KEY}
 
         if 'headers' in args:
             headers.update(kwargs['headers'])
 
+        logger.debug('\theaders: %s' % headers)
+
         data = urlencode(kwargs['data'])
+        logger.debug('\tdata: %s' % data)
+
         path = self._build_request_path(endpoint)
         
         req = urllib.Request(path, data, headers)
