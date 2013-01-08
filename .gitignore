@@ -4,3 +4,9 @@
 *.swo
 *.swp
 local_settings.py
+
+# pypi building stuff
+MANIFEST
+dist/
+build/
+*.egg-info
