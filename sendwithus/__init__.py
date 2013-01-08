@@ -17,7 +17,7 @@ except:
 
 class api:
     API_PROTO = 'https'
-    API_PORT = '80'
+    API_PORT = '443'
     API_HOST = 'api.sendwithus.com'
     API_VERSION = '0'
     API_HEADER_KEY = 'X-SWU-API-KEY'
