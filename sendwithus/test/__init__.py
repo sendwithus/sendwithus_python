@@ -1,25 +1,24 @@
-from sendwithus import SWUAPI
+import unittest
 
-a = SWUAPI('68c9f6ccd3aa206362640c7fa9be236d4e0dd837', 
-        DEBUG=True,
-        API_PROTO='http',
-        API_HOST='localhost:8000')
-        #API_HOST='betawithus.herokuapp.com')
+from sendwithus import api
 
-print '\t\tSend'
-print '\t\tWith'
-print '\t\t Us '
-print '\n\n'
+class TestAPI(unittest.TestCase):
+    API_KEY = '68c9f6ccd3aa206362640c7fa9be236d4e0dd837'
+    options = {
+        'DEBUG': True,
+        'API_PROTO': 'http',
+        'API_HOST': 'localhost',
+        'API_PORT': '8000'
+    }
 
-print '\t 1 > Testing Send'
+    def setUp(self):
+        self.api = api(self.API_KEY, **self.options) 
 
-try:
-    a.send('good', 'matt@sendwithus.com', data={'name': 'Jimmy'})
-except Exception as e:
-    print ' => FAILED'
-    print ' |\t%s' % e
-    print ' \\\t Exiting, Goodbye!'
-    exit()
+    def test_send(self):
+        data = {'name': 'Jimmy'}
+        self.api.send('test_send', 'matt@sendwithus.com', data=data)
+        self.assertTrue(True)
 
-print '\t   > Passed!'
+if __name__ == '__main__':
+    unittest.main()
 

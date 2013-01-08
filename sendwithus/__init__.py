@@ -14,10 +14,12 @@ try:
 except:
     import urllib
 
-class SWUAPI:
+class api:
     API_PROTO = 'https'
+    API_PORT = '80'
     API_HOST = 'api.sendwithus.com'
     API_VERSION = '0'
+    API_HEADER_KEY = 'X-SWU-API-KEY'
 
     SEND_ENDPOINT = 'send'
 
@@ -39,6 +41,8 @@ class SWUAPI:
             self.API_HOST = kwargs['API_HOST']
         if 'API_PROTO' in kwargs:
             self.API_PROTO = kwargs['API_PROTO']
+        if 'API_PORT' in kwargs:
+            self.API_PORT = kwargs['API_PORT']
         if 'API_VERSION' in kwargs:
             self.API_VERSION = kwargs['API_VERSION']
         if 'DEBUG' in kwargs:
@@ -50,8 +54,8 @@ class SWUAPI:
             logger.propagate = True
 
     def _build_request_path(self, endpoint):
-        path = "%s://%s/api/v%s/%s" % (self.API_PROTO, self.API_HOST, 
-                self.API_VERSION, endpoint)
+        path = "%s://%s:%s/api/v%s/%s" % (self.API_PROTO, self.API_HOST, 
+                self.API_PORT, self.API_VERSION, endpoint)
 
         logger.debug('\tpath: %s' % path)
 
@@ -61,7 +65,7 @@ class SWUAPI:
         """Private method for api requests"""
         logger.debug(' > Sending API request to endpoint: %s' % endpoint)
 
-        headers = {'X-SWU-API-KEY': self.API_KEY}
+        headers = {self.API_HEADER_KEY: self.API_KEY}
 
         if 'headers' in args:
             headers.update(kwargs['headers'])
