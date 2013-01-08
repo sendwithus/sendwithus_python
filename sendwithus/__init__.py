@@ -13,6 +13,7 @@ try:
     from urllib import urlencode
 except:
     import urllib
+    import urllib.parse.urlencode as urlencode
 
 class api:
     API_PROTO = 'https'
