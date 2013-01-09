@@ -3,7 +3,7 @@ import unittest
 from sendwithus import api
 
 class TestAPI(unittest.TestCase):
-    API_KEY = '68c9f6ccd3aa206362640c7fa9be236d4e0dd837'
+    API_KEY = '64cc90d08fcb358f34202279c87deed4f2ad29fd'
     options = {
         'DEBUG': True,
         'API_PROTO': 'http',
