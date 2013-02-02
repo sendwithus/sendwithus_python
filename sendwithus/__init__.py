@@ -10,14 +10,6 @@ FORMAT = '%(asctime)-15s %(message)s'
 logger = logging.getLogger('sendwithus')
 logger.propagate = False
 
-try:
-    # this is a botched python2 attempt, do something better later
-    import urllib2 as urllib
-    from urllib import urlencode
-except:
-    import urllib
-    import urllib.parse as urlencode
-
 class api:
     API_PROTO = 'https'
     API_PORT = '443'
@@ -84,7 +76,6 @@ class api:
         logger.debug('\tdata: %s' % data)
 
         path = self._build_request_path(endpoint)
-
 
         r = requests.post(path, data=data, headers=headers)
 
