@@ -11,16 +11,16 @@ logger = logging.getLogger('sendwithus')
 logger.propagate = False
 
 class api:
-    API_PROTO = 'https'
-    API_PORT = '443'
-    API_HOST = 'api.sendwithus.com'
+    API_PROTO = 'http'
+    API_PORT = '80'
+    API_HOST = 'beta.sendwithus.com'
     API_VERSION = '0'
     API_HEADER_KEY = 'X-SWU-API-KEY'
 
     SEND_ENDPOINT = 'send'
 
     API_CLIENT_VERSION = '0.1'
-    API_KEY = 'xxxexy'
+    API_KEY = 'THIS_IS_A_TEST_API_KEY'
 
     DEBUG = False
 
