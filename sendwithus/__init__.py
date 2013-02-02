@@ -79,7 +79,7 @@ class api:
         r = requests.post(path, data=data, headers=headers)
 
         logger.debug('\tresponse code:%s' % r.status_code)
-        logger.debug('\tresponse: %s' % r.json)
+        logger.debug('\tresponse: %s' % r.json())
 
         return r
 
