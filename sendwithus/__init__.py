@@ -3,6 +3,9 @@ Send With Us - Python Client
 Copyright SendWithus 2013
 """
 import logging
+import requests
+from json import dumps
+
 FORMAT = '%(asctime)-15s %(message)s'
 logger = logging.getLogger('sendwithus')
 logger.propagate = False
@@ -66,7 +69,10 @@ class api:
         """Private method for api requests"""
         logger.debug(' > Sending API request to endpoint: %s' % endpoint)
 
-        headers = {self.API_HEADER_KEY: self.API_KEY}
+        headers = {self.API_HEADER_KEY: self.API_KEY,
+            'Content-type': 'application/json', 
+            'Accept': 'text/plain'
+        }
 
         if 'headers' in args:
             headers.update(kwargs['headers'])
@@ -74,18 +80,15 @@ class api:
         logger.debug('\theaders: %s' % headers)
 
         data = urlencode(kwargs['data'])
+        data = dumps(kwargs['data'])
         logger.debug('\tdata: %s' % data)
 
         path = self._build_request_path(endpoint)
-        
-        req = urllib.Request(path, data, headers)
 
-        resp = urllib.urlopen(req)
-        
-        if self.wait:
-            return resp.read()
 
-        return True
+        r = requests.post(path, data=data, headers=headers)
+
+        return r
 
     def send(self, email_name, email_to, data=None):
         if not data:
