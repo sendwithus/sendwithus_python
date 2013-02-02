@@ -71,7 +71,7 @@ class api:
 
         logger.debug('\theaders: %s' % headers)
 
-        data = dumps(kwargs['data'])
+        data = dumps(kwargs['payload'])
         logger.debug('\tdata: %s' % data)
 
         path = self._build_request_path(endpoint)
@@ -90,8 +90,11 @@ class api:
         if not data:
             data = {}
 
-        data['email_name'] = email_name
-        data['email_to'] = email_to
+        payload = {
+            'email_name':  email_name,
+            'email_to': email_to,
+            'email_data': data
+        }
 
-        return self._api_request(self.SEND_ENDPOINT, data=data)
+        return self._api_request(self.SEND_ENDPOINT, payload=payload)
 
