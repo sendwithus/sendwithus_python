@@ -71,13 +71,15 @@ class api:
 
         logger.debug('\theaders: %s' % headers)
 
-        data = urlencode(kwargs['data'])
         data = dumps(kwargs['data'])
         logger.debug('\tdata: %s' % data)
 
         path = self._build_request_path(endpoint)
 
         r = requests.post(path, data=data, headers=headers)
+
+        logger.debug('\tresponse code:%s' % r.status_code)
+        logger.debug('\tresponse: %s' % r.json)
 
         return r
 
