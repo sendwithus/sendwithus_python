@@ -6,9 +6,6 @@ class TestAPI(unittest.TestCase):
     API_KEY = 'THIS_IS_A_TEST_API_KEY'
     options = {
         'DEBUG': True,
-        'API_PROTO': 'http',
-        'API_HOST': 'beta.sendwithus.com',
-        'API_PORT': '80'
     }
 
     def setUp(self):
