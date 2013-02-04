@@ -12,8 +12,8 @@ class TestAPI(unittest.TestCase):
         self.api = api(self.API_KEY, **self.options) 
 
     def test_send(self):
-        data = {'name': 'Jimmy'}
-        self.api.send('test', 'test@sendwithus.com', data=data)
+        email_data = {'name': 'Jimmy'}
+        self.api.send('test', 'test@sendwithus.com', email_data=email_data)
         self.assertTrue(True)
 
 if __name__ == '__main__':

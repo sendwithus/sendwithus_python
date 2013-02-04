@@ -86,14 +86,14 @@ class api:
 
         return r
 
-    def send(self, email_name, email_to, data=None):
-        if not data:
-            data = {}
+    def send(self, email_name, email_to, email_data=None):
+        if not email_data:
+            email_data = {}
 
         payload = {
             'email_name':  email_name,
             'email_to': email_to,
-            'email_data': data
+            'email_data': email_data
         }
 
         return self._api_request(self.SEND_ENDPOINT, payload=payload)
