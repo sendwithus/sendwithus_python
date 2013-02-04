@@ -24,14 +24,13 @@ class api:
 
     DEBUG = False
 
-    def __init__(self, api_key=None, wait=False, **kwargs):
+    def __init__(self, api_key=None, **kwargs):
         """Constructor, expects api key"""
 
         if not api_key:
             raise Exception("You must speicfy an api key")
 
         self.API_KEY = api_key
-        self.wait = wait
         
         if 'API_HOST' in kwargs:
             self.API_HOST = kwargs['API_HOST']
