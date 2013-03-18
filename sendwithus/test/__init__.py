@@ -5,15 +5,15 @@ from sendwithus import api
 class TestAPI(unittest.TestCase):
     API_KEY = 'THIS_IS_A_TEST_API_KEY'
     options = {
-        'DEBUG': True,
+        'DEBUG': True
     }
 
     def setUp(self):
         self.api = api(self.API_KEY, **self.options) 
 
     def test_send(self):
-        email_data = {'name': 'Jimmy'}
-        self.api.send('test', 'test@sendwithus.com', email_data=email_data)
+        email_data = {'name': 'Jimmy', 'plants': ['Tree', 'Bush', 'Shrub']}
+        self.api.send('Welcome', 'demo@sendwithus.com', email_data=email_data)
         self.assertTrue(True)
 
 if __name__ == '__main__':
