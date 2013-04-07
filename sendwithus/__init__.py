@@ -14,12 +14,13 @@ class api:
     API_PROTO = 'https'
     API_PORT = '443'
     API_HOST = 'beta.sendwithus.com'
-    API_VERSION = '0'
+    API_VERSION = '1_0'
     API_HEADER_KEY = 'X-SWU-API-KEY'
 
+    EMAILS_ENDPOINT = 'emails'
     SEND_ENDPOINT = 'send'
 
-    API_CLIENT_VERSION = '0.1'
+    API_CLIENT_VERSION = '1.0.0'
     API_KEY = 'THIS_IS_A_TEST_API_KEY'
 
     DEBUG = False
@@ -70,12 +71,19 @@ class api:
 
         logger.debug('\theaders: %s' % headers)
 
-        data = dumps(kwargs['payload'])
+        data = None
+        if 'payload' in kwargs:
+            data = dumps(kwargs['payload'])
+        
         logger.debug('\tdata: %s' % data)
 
         path = self._build_request_path(endpoint)
 
-        r = requests.post(path, data=data, headers=headers)
+        # if no data assume a GET
+        if (data):
+            r = requests.post(path, data=data, headers=headers)
+        else:
+            r = requests.get(path, headers=headers)
 
         logger.debug('\tresponse code:%s' % r.status_code)
         try:
@@ -85,15 +93,28 @@ class api:
 
         return r
 
-    def send(self, email_name, email_to, email_data=None):
+    def emails(self):
+        return self._api_request(self.EMAILS_ENDPOINT)
+
+    def send(self, email_id, recipient, sender=None, email_data=None):
         if not email_data:
             email_data = {}
+        if not sender:
+            sender = {}
 
-        payload = {
-            'email_name':  email_name,
-            'email_to': email_to,
-            'email_data': email_data
-        }
+        if sender:    
+            payload = {
+                'email_id':  email_id,
+                'recipient': recipient,
+                'sender': sender,
+                'email_data': email_data
+            }
+        else:
+            payload = {
+                'email_id':  email_id,
+                'recipient': recipient,
+                'email_data': email_data
+            }
 
         return self._api_request(self.SEND_ENDPOINT, payload=payload)
 
