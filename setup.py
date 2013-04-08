@@ -11,7 +11,7 @@ setup (
     url='http://pypi.python.org/pypi/sendwithus/',
     license='LICENSE.txt',
     description='Python API client for sendwithus.com',
-    long_description=open('README.txt').read(),
+    long_description=open('README.md').read(),
     test_suite="sendwithus.test",
 )
 

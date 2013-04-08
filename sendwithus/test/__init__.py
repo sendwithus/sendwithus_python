@@ -12,17 +12,30 @@ class TestAPI(unittest.TestCase):
 
     def setUp(self):
         self.api = api(self.API_KEY, **self.options)
-        self.recipient = {'name': 'Matt', 'address': 'us@sendwithus.com'}
+        self.recipient = {
+                'name': 'Matt',
+                'address': 'us@sendwithus.com'}
         self.incomplete_recipient = {'name': 'Matt'}
-        self.sender = {'name': 'Company', 'address':'company@company.com', 'reply_to':'info@company.com'}
-        self.email_data = {'name': 'Jimmy', 'plants': ['Tree', 'Bush', 'Shrub']}
+        self.email_data = {
+                'name': 'Jimmy',
+                'plants': ['Tree', 'Bush', 'Shrub']}
+        self.sender = {
+                'name': 'Company',
+                'address':'company@company.com',
+                'reply_to':'info@company.com'}
 
     def assertSuccess(self, result):
         self.assertEqual(result.status_code, 200)
-        self.assertIsNotNone(result.json())
-        # test status is OK
-        # test success
-        # test receipt_id for send
+        try:
+            self.assertIsNotNone(result.json())
+        except:
+            self.fail("json() data expected on success")
+
+    def assertSuccessSend(self, result):
+        self.assertSuccess(result)
+        self.assertEqual(result.json().get('status'), 'OK')
+        self.assertTrue(result.json().get('success'))
+        self.assertIsNotNone(result.json().get('receipt_id'))
 
     def assertFail(self, result):
         self.assertNotEqual(result.status_code, 200)
@@ -40,7 +53,7 @@ class TestAPI(unittest.TestCase):
 
     def test_send_sender_info(self):
         """ Test send with sender info. """
-        result = self.api.send(self.EMAIL_ID, self.recipient, sender=self.sender, email_data=self.email_data)
+        result = self.api.send(self.EMAIL_ID, self.recipient, email_data=self.email_data, sender=self.sender)
         self.assertSuccess(result)
 
     def test_send_incomplete(self):

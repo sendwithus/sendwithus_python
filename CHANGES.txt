@@ -2,4 +2,4 @@ v0.1, January 6, 2013 -- Initial release.
 v0.1.3, February 1, 2013 -- full json post.
 v0.1.4, February 1, 2013 -- logging error on debug.
 v0.1.6, February 2, 2013 -- switched to email_data in json post.
-v1.0.0, April 7, 2013 -- updated for v1_0 of swu API
+v1.0.0, April 7, 2013 -- updated for v1_0 of SWU API
