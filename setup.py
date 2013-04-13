@@ -3,7 +3,7 @@ from setuptools import find_packages
 
 setup (
     name='sendwithus',
-    version='1.0.0',
+    version='1.0.1',
     author='Matt Harris',
     author_email='matt@sendwithus.com',
     packages=find_packages(),
