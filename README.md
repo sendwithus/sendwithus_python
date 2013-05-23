@@ -71,5 +71,5 @@ python requests library
 	    404
 
 ### packaging (internal)
-        python setup.py sdist bdist_wininst upload
+        python setup.py sdist upload
 
