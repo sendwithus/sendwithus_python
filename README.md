@@ -70,3 +70,6 @@ python requests library
 	    >>> r.status_code
 	    404
 
+### packaging (internal)
+        python setup.py sdist bdist_wininst upload
+

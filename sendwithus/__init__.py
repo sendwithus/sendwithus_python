@@ -7,6 +7,9 @@ import requests
 from json import dumps
 import warnings
 
+from encoder import swu_json_encode
+from version import version
+
 FORMAT = '%(asctime)-15s %(message)s'
 logger = logging.getLogger('sendwithus')
 logger.propagate = False
@@ -24,10 +27,12 @@ class api:
     EMAILS_ENDPOINT = 'emails'
     SEND_ENDPOINT = 'send'
 
-    API_CLIENT_VERSION = '1.0.0'
+    API_CLIENT_VERSION = version
     API_KEY = 'THIS_IS_A_TEST_API_KEY'
 
     DEBUG = False
+
+    JSON_ENCODE_DEFAULT = swu_json_encode
 
     def __init__(self, api_key=None, **kwargs):
         """Constructor, expects api key"""
@@ -47,6 +52,8 @@ class api:
             self.API_VERSION = kwargs['API_VERSION']
         if 'DEBUG' in kwargs:
             self.DEBUG = kwargs['DEBUG']
+        if 'JSON_ENCODE_DEFAULT' in kwargs:
+            self.JSON_ENCODE_DEFAULT = kwargs['JSON_ENCODE_DEFAULT']
 
         if self.DEBUG:
             logging.basicConfig(format=FORMAT, level=logging.DEBUG)
@@ -77,7 +84,7 @@ class api:
 
         data = None
         if 'payload' in kwargs:
-            data = dumps(kwargs['payload'])
+            data = dumps(kwargs['payload'], default=self.JSON_ENCODE_DEFAULT)
         
         logger.debug('\tdata: %s' % data)
 
