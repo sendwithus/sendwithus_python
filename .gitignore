@@ -8,5 +8,7 @@ local_settings.py
 # pypi building stuff
 MANIFEST
 dist/
+dist/*
 build/
+build/*
 *.egg-info
