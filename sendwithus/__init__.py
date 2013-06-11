@@ -20,6 +20,7 @@ class api:
     API_HOST = 'beta.sendwithus.com'
     API_VERSION = '1_0'
     API_HEADER_KEY = 'X-SWU-API-KEY'
+    API_HEADER_CLIENT = 'X-SWU-API-CLIENT'
 
     HTTP_GET = 'GET'
     HTTP_POST = 'POST'
@@ -27,6 +28,7 @@ class api:
     EMAILS_ENDPOINT = 'emails'
     SEND_ENDPOINT = 'send'
 
+    API_CLIENT_LANG = 'python'
     API_CLIENT_VERSION = version
     API_KEY = 'THIS_IS_A_TEST_API_KEY'
 
@@ -72,7 +74,11 @@ class api:
         """Private method for api requests"""
         logger.debug(' > Sending API request to endpoint: %s' % endpoint)
 
-        headers = {self.API_HEADER_KEY: self.API_KEY,
+        client_header = '%s-%s' % (self.API_CLIENT_LANG, self.API_CLIENT_VERSION)
+
+        headers = {
+            self.API_HEADER_KEY: self.API_KEY,
+            self.API_HEADER_CLIENT: client_header,
             'Content-type': 'application/json', 
             'Accept': 'text/plain'
         }
@@ -111,7 +117,8 @@ class api:
         """ API call to get a list of emails """
         return self._api_request(self.EMAILS_ENDPOINT, self.HTTP_GET)
 
-    def send(self, email_id, recipient, email_data=None, sender=None):
+    def send(self, email_id, recipient, email_data=None, sender=None, cc=None,
+            bcc=None):
         """ API call to send an email """
         if not email_data:
             email_data = {}
@@ -121,19 +128,22 @@ class api:
             warnings.warn("Passing email directly for recipient is deprecated", DeprecationWarning)
             recipient = { 'address' : recipient }
 
+        payload = {
+            'email_id':  email_id,
+            'recipient': recipient,
+            'email_data': email_data
+        }
+
         if sender:
-            payload = {
-                'email_id':  email_id,
-                'recipient': recipient,
-                'sender': sender,
-                'email_data': email_data
-            }
-        else:
-            payload = {
-                'email_id':  email_id,
-                'recipient': recipient,
-                'email_data': email_data
-            }
+            payload['sender'] = sender
+        if cc:
+            if not type(cc) == list:
+                logger.error('kwarg cc must be type(list), got %s' % type(cc))
+            payload['cc'] = cc
+        if bcc:
+            if not type(bcc) == list:
+                logger.error('kwarg bcc must be type(list), got %s' % type(bcc))
+            payload['bcc'] = bcc
 
         return self._api_request(self.SEND_ENDPOINT, self.HTTP_POST, payload=payload)
 
