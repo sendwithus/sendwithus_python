@@ -51,7 +51,7 @@ r = api.send(
     recipient={ 'name': 'Matt',
                 'address': 'us@sendwithus.com'},
     email_data={ 'first_name': 'Matt' },
-    sender={ 'address':'company@company.com')
+    sender={ 'address':'company@company.com' })
 print r.status_code
 # 200
 ```
