@@ -4,6 +4,8 @@ sendwithus python-client
 ## status
 BETA - this client implements v1_0 of SWU API and is functional and tested
 
+[![Build Status](https://travis-ci.org/sendwithus/sendwithus_python.png)](https://travis-ci.org/sendwithus/sendwithus_python)
+
 ## requirements
 python requests library
 
