@@ -15,12 +15,16 @@ python requests library
 
 ## usage
 
+For all examples, assume:
+```python
+import sendwithus
+api = sendwithus.api(api_key='YOUR-API-KEY')
+```
+
 ### Call with REQUIRED parameters only
 The `email_data` field is optional, but highly recommended!
 
 ```python
-import sendwithus
-api = sendwithus.api(api_key='YOUR-API-KEY')
 r = api.send(
     email_id='YOUR-EMAIL-ID',
     recipient={'address': 'us@sendwithus.com'})
@@ -30,8 +34,6 @@ print r.status_code
 
 ### Call with REQUIRED parameters and email_data
 ```python
-import sendwithus
-api = sendwithus.api(api_key='YOUR-API-KEY')
 r = api.send(
     email_id='YOUR-EMAIL-ID',
     recipient={'address': 'us@sendwithus.com'},
