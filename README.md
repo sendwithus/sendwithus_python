@@ -74,7 +74,9 @@ print r.status_code
 # 200
 ```
 
-### Optional CC
+### API FEATURES COMING SOON:
+
+#### Optional CC
 The `cc` kwarg expects a list of dictionaries, where `address` is required
 and `name` is optional
 
@@ -92,7 +94,7 @@ print r.status_code
 # 200
 ```
 
-### Optional BCC
+#### Optional BCC 
 The `bcc` kwarg expects a list of dictionaries, where `address` is required
 and `name` is optional
 
@@ -111,6 +113,8 @@ print r.status_code
 ```
 
 ### Every possible argument
+
+Includes **COMING SOON** kwargs for cc and bcc.
 
 ```python
 r = api.send(
