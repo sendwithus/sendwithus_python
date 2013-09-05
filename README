@@ -74,68 +74,6 @@ print r.status_code
 # 200
 ```
 
-### API FEATURES COMING SOON:
-
-#### Optional CC
-The `cc` kwarg expects a list of dictionaries, where `address` is required
-and `name` is optional
-
-```python
-r = api.send(
-    email_id='YOUR-EMAIL-ID',
-    recipient={ 'name': 'Matt',
-                'address': 'us@sendwithus.com'},
-    email_data={ 'first_name': 'Matt' },
-    cc=[
-        {'name': 'CC Name', 'address': 'ccaddress@company.com'},
-        {'name': 'CC 2 Name', 'address': 'ccaddress@company.com'}
-    ])
-print r.status_code
-# 200
-```
-
-#### Optional BCC 
-The `bcc` kwarg expects a list of dictionaries, where `address` is required
-and `name` is optional
-
-```python
-r = api.send(
-    email_id='YOUR-EMAIL-ID',
-    recipient={ 'name': 'Matt',
-                'address': 'us@sendwithus.com'},
-    email_data={ 'first_name': 'Matt' },
-    bcc=[
-        {'name': 'BCC Name', 'address': 'bccaddress@company.com'},
-        {'name': 'BCC 2 Name', 'address': 'bccaddress@company.com'}
-    ])
-print r.status_code
-# 200
-```
-
-### Every possible argument
-
-Includes **COMING SOON** kwargs for cc and bcc.
-
-```python
-r = api.send(
-    email_id='YOUR-EMAIL-ID',
-    recipient={ 'name': 'Matt',
-                'address': 'us@sendwithus.com'},
-    email_data={ 'first_name': 'Matt' },
-    sender={ 'name': 'Company',
-                'address':'company@company.com',
-                'reply_to':'info@company.com'},
-    cc=[
-        {'name': 'CC Name', 'address': 'ccaddress@company.com'},
-        {'name': 'CC 2 Name', 'address': 'ccaddress@company.com'}
-    ],
-    bcc=[
-        {'name': 'BCC Name', 'address': 'bccaddress@company.com'}
-    ])
-print r.status_code
-# 200
-```
-
 ## expected response
 
 ### Success
