@@ -1,18 +1,21 @@
 """
-Send With Us - Python Client
-Copyright SendWithus 2013
+sendwithus - Python Client
+For more information, visit http://www.sendwithus.com
 """
+
 import logging
+import json
 import requests
-from json import dumps
 import warnings
 
 from encoder import swu_json_encode
 from version import version
 
-FORMAT = '%(asctime)-15s %(message)s'
+
+LOGGER_FORMAT = '%(asctime)-15s %(message)s'
 logger = logging.getLogger('sendwithus')
 logger.propagate = False
+
 
 class api:
     API_PROTO = 'https'
@@ -40,10 +43,10 @@ class api:
         """Constructor, expects api key"""
 
         if not api_key:
-            raise Exception("You must speicfy an api key")
+            raise Exception("You must specify an api key")
 
         self.API_KEY = api_key
-        
+
         if 'API_HOST' in kwargs:
             self.API_HOST = kwargs['API_HOST']
         if 'API_PROTO' in kwargs:
@@ -58,12 +61,12 @@ class api:
             self.JSON_ENCODE_DEFAULT = kwargs['JSON_ENCODE_DEFAULT']
 
         if self.DEBUG:
-            logging.basicConfig(format=FORMAT, level=logging.DEBUG)
+            logging.basicConfig(format=LOGGER_FORMAT, level=logging.DEBUG)
             logger.debug('Debug enabled')
             logger.propagate = True
 
     def _build_request_path(self, endpoint):
-        path = "%s://%s:%s/api/v%s/%s" % (self.API_PROTO, self.API_HOST, 
+        path = "%s://%s:%s/api/v%s/%s" % (self.API_PROTO, self.API_HOST,
                 self.API_PORT, self.API_VERSION, endpoint)
 
         logger.debug('\tpath: %s' % path)
@@ -79,7 +82,7 @@ class api:
         headers = {
             self.API_HEADER_KEY: self.API_KEY,
             self.API_HEADER_CLIENT: client_header,
-            'Content-type': 'application/json', 
+            'Content-type': 'application/json',
             'Accept': 'text/plain'
         }
 
@@ -90,8 +93,8 @@ class api:
 
         data = None
         if 'payload' in kwargs:
-            data = dumps(kwargs['payload'], default=self.JSON_ENCODE_DEFAULT)
-        
+            data = json.dumps(kwargs['payload'], default=self.JSON_ENCODE_DEFAULT)
+
         logger.debug('\tdata: %s' % data)
 
         path = self._build_request_path(endpoint)
@@ -116,6 +119,20 @@ class api:
     def emails(self):
         """ API call to get a list of emails """
         return self._api_request(self.EMAILS_ENDPOINT, self.HTTP_GET)
+
+    def create_email(self, name, subject, html, text=''):
+        """ API call to create an email """
+        payload = {
+            'name': name,
+            'subject': subject,
+            'html': html,
+            'text': text
+        }
+
+        return self._api_request(
+            self.EMAILS_ENDPOINT,
+            self.HTTP_POST,
+            payload=payload)
 
     def send(self, email_id, recipient, email_data=None, sender=None, cc=None,
             bcc=None):
@@ -146,4 +163,3 @@ class api:
             payload['bcc'] = bcc
 
         return self._api_request(self.SEND_ENDPOINT, self.HTTP_POST, payload=payload)
-

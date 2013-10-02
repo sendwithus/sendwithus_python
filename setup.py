@@ -5,8 +5,8 @@ from sendwithus.version import version
 setup (
     name='sendwithus',
     version=version,
-    author='Matt Harris',
-    author_email='matt@sendwithus.com',
+    author='sendwithus',
+    author_email='us@sendwithus.com',
     packages=find_packages(),
     scripts=[],
     url='https://github.com/sendwithus/sendwithus_python',
