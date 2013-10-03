@@ -115,7 +115,7 @@ class TestAPI(unittest.TestCase):
         """ Test send with ivalid email_id. """
         result = self.api.send('INVALID_EMAIL_ID', self.recipient, email_data=self.email_data)
         self.assertFail(result)
-        self.assertEqual(result.status_code, 404) # invalid email_id
+        self.assertEqual(result.status_code, 400) # invalid email_id
 
     def test_send_invalid_cc(self):
         result = self.api.send(self.EMAIL_ID, self.recipient, email_data=self.email_data, cc='bad')
