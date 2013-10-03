@@ -52,6 +52,33 @@ class TestAPI(unittest.TestCase):
         result = self.api.emails()
         self.assertSuccess(result)
 
+    def test_create_email_success(self):
+        """ Test create emails endpoint """
+        result = self.api.create_email(
+            'name', 'subject', '<html><head></head><body></body></html>')
+        self.assertSuccess(result)
+
+    def test_create_email_bad_name(self):
+        """ Test create emails endpoint empty name"""
+        result = self.api.create_email(
+            '', 'subject', '<html><head></head><body></body></html>')
+        self.assertFail(result)
+        self.assertEqual(result.status_code, 400)
+
+    def test_create_email_bad_subject(self):
+        """ Test create emails endpoint empty subject"""
+        result = self.api.create_email(
+            'name', '', '<html><head></head><body></body></html>')
+        self.assertFail(result)
+        self.assertEqual(result.status_code, 400)
+
+    def test_create_email_bad_html(self):
+        """ Test create emails endpoint invalid html"""
+        result = self.api.create_email(
+            'name', 'subject', '<html><he></body></html>')
+        self.assertFail(result)
+        self.assertEqual(result.status_code, 400)
+
     def test_send(self):
         """ Test a send with no sender info. """
         result = self.api.send(self.EMAIL_ID, self.recipient, email_data=self.email_data)
