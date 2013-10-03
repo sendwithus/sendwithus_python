@@ -33,7 +33,8 @@ class TestAPI(unittest.TestCase):
     def assertSuccess(self, result):
         self.assertEqual(result.status_code, 200)
         try:
-            self.assertIsNotNone(result.json())
+            print result.json()
+            self.assertNotEqual(result.json(), None)
         except:
             self.fail("json() data expected on success")
 
@@ -41,7 +42,7 @@ class TestAPI(unittest.TestCase):
         self.assertSuccess(result)
         self.assertEqual(result.json().get('status'), 'OK')
         self.assertTrue(result.json().get('success'))
-        self.assertIsNotNone(result.json().get('receipt_id'))
+        self.assertNotEqual(result.json().get('receipt_id'), None)
 
     def assertFail(self, result):
         self.assertNotEqual(result.status_code, 200)
