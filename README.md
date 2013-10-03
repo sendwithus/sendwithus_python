@@ -1,9 +1,6 @@
 sendwithus python-client
 ========================
 
-## status
-BETA - this client implements v1_0 of SWU API and is functional and tested
-
 [![Build Status](https://travis-ci.org/sendwithus/sendwithus_python.png)](https://travis-ci.org/sendwithus/sendwithus_python)
 
 ## requirements
@@ -22,6 +19,35 @@ For all examples, assume:
 import sendwithus
 api = sendwithus.api(api_key='YOUR-API-KEY')
 ```
+
+# Emails
+
+## Get your emails
+
+```python
+api.emails()
+```
+
+## Create an email
+
+```python
+api.create_email(
+    name='Email Name',
+    subject='Email Subject',
+    html='<html><head></head><body>Valid HTML</body></html>',
+    text='Optional text content')
+```
+
+We validate all HTML and will return an error if it's invalid.
+
+```python
+r.status_code
+# 400
+r.content
+# 'email html failed to validate'
+```
+
+# Send
 
 ### Call with REQUIRED parameters only
 The `email_data` field is optional, but highly recommended!
@@ -98,12 +124,7 @@ print r.status_code
 * bad api key
 
 		>>> r.status_code    
-	    403
-
-* email_id not found
-
-	    >>> r.status_code
-	    404
+	    	403
 
 ### packaging (internal)
         python setup.py sdist upload
