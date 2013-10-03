@@ -76,7 +76,7 @@ print r.status_code
 
 ## expected response
 
-### Success
+### Success 
 	>>> r.status_code
 	200
 
