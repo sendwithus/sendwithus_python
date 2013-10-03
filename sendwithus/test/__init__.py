@@ -33,7 +33,6 @@ class TestAPI(unittest.TestCase):
     def assertSuccess(self, result):
         self.assertEqual(result.status_code, 200)
         try:
-            print result.json()
             self.assertNotEqual(result.json(), None)
         except:
             self.fail("json() data expected on success")
