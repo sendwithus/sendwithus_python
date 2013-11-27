@@ -1,10 +1,9 @@
 from distutils.core import setup
 from setuptools import find_packages
-from sendwithus.version import version
 
-setup (
+setup(
     name='sendwithus',
-    version=version,
+    version='1.0.5',
     author='sendwithus',
     author_email='us@sendwithus.com',
     packages=find_packages(),
