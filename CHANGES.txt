@@ -4,4 +4,7 @@ v0.1.4, February 1, 2013 -- logging error on debug.
 v0.1.6, February 2, 2013 -- switched to email_data in json post.
 v1.0.0, April 7, 2013 -- updated for v1_0 of SWU API
 v1.0.1, April 13, 2013 -- fixed MANIFEST.in not pulling .md files
-v1.0.5 October 3, 2013 -- Added create_email support
+v1.0.5, October 3, 2013 -- Added create_email support
+v1.0.7, November 25, 2013 -- Fix setup.py depending on requests
+v1.0.8, November 27, 2013 -- update api subdomain
+
