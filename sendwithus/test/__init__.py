@@ -125,7 +125,14 @@ class TestAPI(unittest.TestCase):
         result = self.api.send(self.EMAIL_ID, self.recipient, email_data=self.email_data, bcc='bad')
         self.assertFail(result)
 
-
+    def test_render(self):
+        result = self.api.render(self.EMAIL_ID, template_data=self.email_data)
+        self.assertSuccess(result)
+        
+    def test_render_invalid_id(self):
+        result = self.api.render('INVALID_EMAIL_ID', template_data=self.email_data)
+        self.assertFail(result)
+        
 if __name__ == '__main__':
     unittest.main()
 

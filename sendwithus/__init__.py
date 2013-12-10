@@ -30,6 +30,7 @@ class api:
 
     EMAILS_ENDPOINT = 'emails'
     SEND_ENDPOINT = 'send'
+    RENDER_ENDPOINT = 'render'
 
     API_CLIENT_LANG = 'python'
     API_CLIENT_VERSION = version
@@ -159,3 +160,15 @@ class api:
             payload['bcc'] = bcc
 
         return self._api_request(self.SEND_ENDPOINT, self.HTTP_POST, payload=payload)
+
+    def render(self, template_id, template_data=None): 
+        """ API call to render an email """
+        if not template_data:
+            template_data = {}
+
+        payload = {
+            'template_id':  template_id,
+            'template_data': template_data
+        }
+
+        return self._api_request(self.RENDER_ENDPOINT, self.HTTP_POST, payload=payload)
