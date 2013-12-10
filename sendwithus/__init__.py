@@ -8,7 +8,7 @@ import json
 import requests
 import warnings
 
-from encoder import swu_json_encode
+from encoder import SendwithusJSONEncoder
 from version import version
 
 
@@ -37,8 +37,6 @@ class api:
 
     DEBUG = False
 
-    JSON_ENCODE_DEFAULT = swu_json_encode
-
     def __init__(self, api_key=None, **kwargs):
         """Constructor, expects api key"""
 
@@ -57,8 +55,6 @@ class api:
             self.API_VERSION = kwargs['API_VERSION']
         if 'DEBUG' in kwargs:
             self.DEBUG = kwargs['DEBUG']
-        if 'JSON_ENCODE_DEFAULT' in kwargs:
-            self.JSON_ENCODE_DEFAULT = kwargs['JSON_ENCODE_DEFAULT']
 
         if self.DEBUG:
             logging.basicConfig(format=LOGGER_FORMAT, level=logging.DEBUG)
@@ -93,7 +89,7 @@ class api:
 
         data = None
         if 'payload' in kwargs:
-            data = json.dumps(kwargs['payload'], default=self.JSON_ENCODE_DEFAULT)
+            data = json.dumps(kwargs['payload'], cls=SendwithusJSONEncoder)
 
         logger.debug('\tdata: %s' % data)
 
