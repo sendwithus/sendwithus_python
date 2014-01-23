@@ -47,6 +47,16 @@ r.content
 # 'email html failed to validate'
 ```
 
+# Drip Campaigns
+
+## Deactive a drip campaign
+
+You can deactivate pending drip campaign emails for a customer
+
+```python
+api.drip_deactivate('customer@example.com')
+```
+
 # Send
 
 ### Call with REQUIRED parameters only
