@@ -3,16 +3,18 @@ import decimal
 
 from sendwithus import api
 
+
 class TestAPI(unittest.TestCase):
     API_KEY = 'THIS_IS_A_TEST_API_KEY'
     EMAIL_ID = 'test_fixture_1'
-    
+
     options = {
         'DEBUG': False
     }
 
     def setUp(self):
         self.api = api(self.API_KEY, **self.options)
+        self.email_address = 'person@example.com'
         self.recipient = {
             'name': 'Matt',
             'address': 'us@sendwithus.com'}
@@ -101,46 +103,78 @@ class TestAPI(unittest.TestCase):
 
     def test_send_sender_info(self):
         """ Test send with sender info. """
-        result = self.api.send(self.EMAIL_ID, self.recipient, email_data=self.email_data, sender=self.sender)
+        result = self.api.send(
+            self.EMAIL_ID,
+            self.recipient,
+            email_data=self.email_data,
+            sender=self.sender)
         self.assertSuccess(result)
 
     def test_send_cc(self):
         """ Test send with cc info. """
-        result = self.api.send(self.EMAIL_ID, self.recipient, email_data=self.email_data, cc=self.cc_test)
+        result = self.api.send(
+            self.EMAIL_ID,
+            self.recipient,
+            email_data=self.email_data,
+            cc=self.cc_test)
         self.assertSuccess(result)
 
     def test_send_bcc(self):
         """ Test send with bcc info. """
-        result = self.api.send(self.EMAIL_ID, self.recipient, email_data=self.email_data, bcc=self.bcc_test)
+        result = self.api.send(
+            self.EMAIL_ID,
+            self.recipient,
+            email_data=self.email_data,
+            bcc=self.bcc_test)
         self.assertSuccess(result)
 
     def test_send_incomplete(self):
         """ Test send with incomplete receiver. """
-        result = self.api.send(self.EMAIL_ID, self.incomplete_recipient, email_data=self.email_data)
+        result = self.api.send(
+            self.EMAIL_ID,
+            self.incomplete_recipient,
+            email_data=self.email_data)
         self.assertFail(result)
 
     def test_send_invalid_apikey(self):
         """ Test send with invalid API key. """
         invalid_api = api('INVALID_API_KEY', **self.options)
-        result = invalid_api.send(self.EMAIL_ID, self.recipient, email_data=self.email_data)
+        result = invalid_api.send(
+            self.EMAIL_ID,
+            self.recipient,
+            email_data=self.email_data)
         self.assertFail(result)
         self.assertEqual(result.status_code, 403)  # bad api key
 
     def test_send_invalid_email(self):
         """ Test send with ivalid email_id. """
-        result = self.api.send('INVALID_EMAIL_ID', self.recipient, email_data=self.email_data)
+        result = self.api.send(
+            'INVALID_EMAIL_ID',
+            self.recipient,
+            email_data=self.email_data)
         self.assertFail(result)
         self.assertEqual(result.status_code, 400)  # invalid email_id
 
     def test_send_invalid_cc(self):
-        result = self.api.send(self.EMAIL_ID, self.recipient, email_data=self.email_data, cc='bad')
+        result = self.api.send(
+            self.EMAIL_ID,
+            self.recipient,
+            email_data=self.email_data,
+            cc='bad')
         self.assertFail(result)
 
     def test_send_invalid_bcc(self):
-        result = self.api.send(self.EMAIL_ID, self.recipient, email_data=self.email_data, bcc='bad')
+        result = self.api.send(
+            self.EMAIL_ID,
+            self.recipient,
+            email_data=self.email_data,
+            bcc='bad')
         self.assertFail(result)
+
+    def test_drip_deactivate(self):
+        result = self.api.drip_deactivate(self.email_address)
+        self.assertSuccess(result)
 
 
 if __name__ == '__main__':
     unittest.main()
-

@@ -30,6 +30,7 @@ class api:
 
     EMAILS_ENDPOINT = 'emails'
     SEND_ENDPOINT = 'send'
+    DRIPS_DEACTIVATE_ENDPOINT = 'drips/deactivate'
 
     API_CLIENT_LANG = 'python'
     API_CLIENT_VERSION = version
@@ -62,8 +63,12 @@ class api:
             logger.propagate = True
 
     def _build_request_path(self, endpoint):
-        path = "%s://%s:%s/api/v%s/%s" % (self.API_PROTO, self.API_HOST,
-                self.API_PORT, self.API_VERSION, endpoint)
+        path = "%s://%s:%s/api/v%s/%s" % (
+            self.API_PROTO,
+            self.API_HOST,
+            self.API_PORT,
+            self.API_VERSION,
+            endpoint)
 
         logger.debug('\tpath: %s' % path)
 
@@ -73,7 +78,8 @@ class api:
         """Private method for api requests"""
         logger.debug(' > Sending API request to endpoint: %s' % endpoint)
 
-        client_header = '%s-%s' % (self.API_CLIENT_LANG, self.API_CLIENT_VERSION)
+        client_header = '%s-%s' % (
+            self.API_CLIENT_LANG, self.API_CLIENT_VERSION)
 
         headers = {
             self.API_HEADER_KEY: self.API_KEY,
@@ -130,7 +136,20 @@ class api:
             self.HTTP_POST,
             payload=payload)
 
-    def send(self, email_id, recipient, email_data=None, sender=None, cc=None,
+    def drip_deactivate(self, email_address):
+        payload = {'email_address': email_address}
+        return self._api_request(
+            self.DRIPS_DEACTIVATE_ENDPOINT,
+            self.HTTP_POST,
+            payload=payload)
+
+    def send(
+            self,
+            email_id,
+            recipient,
+            email_data=None,
+            sender=None,
+            cc=None,
             bcc=None):
         """ API call to send an email """
         if not email_data:
@@ -138,8 +157,10 @@ class api:
 
         # for backwards compatibility, will be removed
         if isinstance(recipient, basestring):
-            warnings.warn("Passing email directly for recipient is deprecated", DeprecationWarning)
-            recipient = { 'address' : recipient }
+            warnings.warn(
+                "Passing email directly for recipient is deprecated",
+                DeprecationWarning)
+            recipient = {'address': recipient}
 
         payload = {
             'email_id':  email_id,
@@ -151,11 +172,16 @@ class api:
             payload['sender'] = sender
         if cc:
             if not type(cc) == list:
-                logger.error('kwarg cc must be type(list), got %s' % type(cc))
+                logger.error(
+                    'kwarg cc must be type(list), got %s' % type(cc))
             payload['cc'] = cc
         if bcc:
             if not type(bcc) == list:
-                logger.error('kwarg bcc must be type(list), got %s' % type(bcc))
+                logger.error(
+                    'kwarg bcc must be type(list), got %s' % type(bcc))
             payload['bcc'] = bcc
 
-        return self._api_request(self.SEND_ENDPOINT, self.HTTP_POST, payload=payload)
+        return self._api_request(
+            self.SEND_ENDPOINT,
+            self.HTTP_POST,
+            payload=payload)
