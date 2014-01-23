@@ -47,6 +47,8 @@ r.content
 # 'email html failed to validate'
 ```
 
+# Drip Campaigns
+
 ## Deactive a drip campaign
 
 You can deactivate pending drip campaign emails for a customer
