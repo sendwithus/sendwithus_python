@@ -150,7 +150,8 @@ class api:
             email_data=None,
             sender=None,
             cc=None,
-            bcc=None):
+            bcc=None,
+            tags=[]):
         """ API call to send an email """
         if not email_data:
             email_data = {}
@@ -180,6 +181,12 @@ class api:
                 logger.error(
                     'kwarg bcc must be type(list), got %s' % type(bcc))
             payload['bcc'] = bcc
+
+        if tags:
+            if not type(tags) == list:
+                logger.error(
+                    'kwarg tags must be type(list), get %s' % (type(tags)))
+            payload['tags'] = tags
 
         return self._api_request(
             self.SEND_ENDPOINT,

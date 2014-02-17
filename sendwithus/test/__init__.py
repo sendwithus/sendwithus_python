@@ -171,6 +171,22 @@ class TestAPI(unittest.TestCase):
             bcc='bad')
         self.assertFail(result)
 
+    def test_send_tags(self):
+        result = self.api.send(
+            self.EMAIL_ID,
+            self.recipient,
+            email_data=self.email_data,
+            tags=['tag_one', 'tag_two', 'tag_three'])
+        self.assertSuccess(result)
+
+    def test_send_tags_invalid(self):
+        result = self.api.send(
+            self.EMAIL_ID,
+            self.recipient,
+            email_data=self.email_data,
+            tags='bad')
+        self.assertFail(result)
+
     def test_drip_deactivate(self):
         result = self.api.drip_deactivate(self.email_address)
         self.assertSuccess(result)
