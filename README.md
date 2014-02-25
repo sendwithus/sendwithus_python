@@ -9,9 +9,6 @@ python requests library
 ## installation
 	pip install sendwithus
 
-## to run tests
-	python setup.py test 
-
 ## usage
 
 For all examples, assume:
@@ -112,7 +109,7 @@ api.drip_deactivate('customer@example.com')
 
 ## expected response
 
-### Success 
+### Success
 	>>> r.status_code
 	200
 
@@ -127,14 +124,17 @@ api.drip_deactivate('customer@example.com')
 
 ### Error cases
 * malformed request
-	
+
 		>>> r.status_code
 		400
 
 * bad api key
 
-		>>> r.status_code    
+		>>> r.status_code
 	    	403
+
+## to run tests
+    python setup.py test
 
 ### packaging (internal)
         python setup.py sdist upload
