@@ -91,8 +91,38 @@ r = api.send(
                 'address': 'us@sendwithus.com'},
     email_data={ 'first_name': 'Matt' },
     sender={ 'name': 'Company',
-                'address':'company@company.com',
-                'reply_to':'info@company.com'})
+             'address':'company@company.com',
+             'reply_to':'info@company.com'})
+print r.status_code
+# 200
+```
+
+### Optional CC
+
+```python
+r = api.send(
+    email_id='YOUR-EMAIL-ID',
+    recipient={'name': 'Matt',
+                'address': 'us@sendwithus.com'},
+    cc=[
+      {'address': 'company@company.com'},
+      {'address': 'info@company.com'}
+    ]
+print r.status_code
+# 200
+```
+
+### Optional BCC
+
+```python
+r = api.send(
+    email_id='YOUR-EMAIL-ID',
+    recipient={'name': 'Matt',
+                'address': 'us@sendwithus.com'},
+    bcc=[
+      {'address': 'company@company.com'},
+      {'address': 'info@company.com'}
+    ]
 print r.status_code
 # 200
 ```
