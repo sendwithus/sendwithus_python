@@ -91,8 +91,8 @@ r = api.send(
                 'address': 'us@sendwithus.com'},
     email_data={ 'first_name': 'Matt' },
     sender={ 'name': 'Company',
-             'address':'company@company.com',
-             'reply_to':'info@company.com'})
+                'address':'company@company.com',
+                'reply_to':'info@company.com'})
 print r.status_code
 # 200
 ```
@@ -105,8 +105,8 @@ r = api.send(
     recipient={'name': 'Matt',
                 'address': 'us@sendwithus.com'},
     cc=[
-      {'address': 'company@company.com'},
-      {'address': 'info@company.com'}
+        {'address': 'company@company.com'},
+        {'address': 'info@company.com'}
     ]
 print r.status_code
 # 200
@@ -120,8 +120,8 @@ r = api.send(
     recipient={'name': 'Matt',
                 'address': 'us@sendwithus.com'},
     bcc=[
-      {'address': 'company@company.com'},
-      {'address': 'info@company.com'}
+        {'address': 'company@company.com'},
+        {'address': 'info@company.com'}
     ]
 print r.status_code
 # 200
