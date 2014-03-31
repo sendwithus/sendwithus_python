@@ -107,7 +107,7 @@ r = api.send(
     cc=[
         {'address': 'company@company.com'},
         {'address': 'info@company.com'}
-    ]
+    ])
 print r.status_code
 # 200
 ```
@@ -122,7 +122,19 @@ r = api.send(
     bcc=[
         {'address': 'company@company.com'},
         {'address': 'info@company.com'}
-    ]
+    ])
+print r.status_code
+# 200
+```
+
+### Optional ESP Account
+
+```python
+r = api.send(
+    email_id='YOUR-EMAIL-ID',
+    recipient={'name': 'Matt',
+                'address': 'us@sendwithus.com'},
+    esp_account='esp_1234asdf1234')
 print r.status_code
 # 200
 ```
