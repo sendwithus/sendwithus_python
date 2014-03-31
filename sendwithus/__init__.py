@@ -21,7 +21,7 @@ class api:
     API_PROTO = 'https'
     API_PORT = '443'
     API_HOST = 'api.sendwithus.com'
-    API_VERSION = '1_0'
+    API_VERSION = '1'
     API_HEADER_KEY = 'X-SWU-API-KEY'
     API_HEADER_CLIENT = 'X-SWU-API-CLIENT'
 
