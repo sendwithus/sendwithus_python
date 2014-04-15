@@ -152,7 +152,8 @@ class api:
             cc=None,
             bcc=None,
             tags=[],
-            esp_account=None):
+            esp_account=None,
+            email_version_name=None):
         """ API call to send an email """
         if not email_data:
             email_data = {}
@@ -194,6 +195,13 @@ class api:
                 logger.error(
                     'kwarg esp_account must be type(basestring), got %s' % (type(esp_account)))
             payload['esp_account'] = esp_account
+
+        if email_version_name:
+            if not isinstance(email_version_name, basestring):
+                logger.error(
+                    'kwarg email_version_name must be type(basestring), got %s' % (
+                        type(email_version_name)))
+            payload['version_name'] = email_version_name
 
         return self._api_request(
             self.SEND_ENDPOINT,

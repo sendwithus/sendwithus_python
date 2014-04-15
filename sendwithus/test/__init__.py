@@ -191,6 +191,14 @@ class TestAPI(unittest.TestCase):
         result = self.api.drip_deactivate(self.email_address)
         self.assertSuccess(result)
 
+    def test_version_name(self):
+        result = self.api.send(
+            self.EMAIL_ID,
+            self.recipient,
+            email_data=self.email_data,
+            email_version_name='version-override')
+        self.assertSuccess(result)
+
 
 if __name__ == '__main__':
     unittest.main()
