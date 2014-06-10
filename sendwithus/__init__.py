@@ -30,7 +30,9 @@ class api:
 
     EMAILS_ENDPOINT = 'emails'
     SEND_ENDPOINT = 'send'
+    SEND_SEGMENT_ENDPOINT = 'segments/%s/send'
     DRIPS_DEACTIVATE_ENDPOINT = 'drips/deactivate'
+    CUSTOMER_CREATE_ENDPOINT = 'customers'
 
     API_CLIENT_LANG = 'python'
     API_CLIENT_VERSION = version
@@ -207,3 +209,30 @@ class api:
             self.SEND_ENDPOINT,
             self.HTTP_POST,
             payload=payload)
+
+    def send_segment(self,
+            email_id,
+            segment_id,
+            email_data=None):
+        if not email_data:
+            email_data = {}
+
+        payload = {
+            'email_id': email_id,
+            'email_data': email_data
+        }
+
+        return self._api_request(self.SEND_SEGMENT_ENDPOINT % segment_id,
+            self.HTTP_POST, payload=payload)
+
+    def customer_create(self, email, data=None):
+        if not data:
+            data = {}
+        
+        payload = {
+            'email': email,
+            'data': data
+        }
+
+        return self._api_request(self.CUSTOMER_CREATE_ENDPOINT,
+            self.HTTP_POST, payload=payload)
