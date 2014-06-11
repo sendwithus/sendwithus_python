@@ -27,12 +27,14 @@ class api:
 
     HTTP_GET = 'GET'
     HTTP_POST = 'POST'
+    HTTP_DELETE = 'DELETE'
 
     EMAILS_ENDPOINT = 'emails'
     SEND_ENDPOINT = 'send'
     SEND_SEGMENT_ENDPOINT = 'segments/%s/send'
     DRIPS_DEACTIVATE_ENDPOINT = 'drips/deactivate'
     CUSTOMER_CREATE_ENDPOINT = 'customers'
+    CUSTOMER_DELETE_ENDPOINT = 'customers/%s'
 
     API_CLIENT_LANG = 'python'
     API_CLIENT_VERSION = version
@@ -109,6 +111,8 @@ class api:
                 r = requests.post(path, data=data, headers=headers)
             else:
                 r = requests.post(path, headers=headers)
+        elif http_method == self.HTTP_DELETE:
+            r = requests.delete(path, headers=headers)
         else:
             r = requests.get(path, headers=headers)
 
@@ -210,10 +214,8 @@ class api:
             self.HTTP_POST,
             payload=payload)
 
-    def send_segment(self,
-            email_id,
-            segment_id,
-            email_data=None):
+    def send_segment(self, email_id, segment_id, email_data=None):
+        """ API call to send a template, with data, to an entire segment"""
         if not email_data:
             email_data = {}
 
@@ -223,16 +225,21 @@ class api:
         }
 
         return self._api_request(self.SEND_SEGMENT_ENDPOINT % segment_id,
-            self.HTTP_POST, payload=payload)
+                                 self.HTTP_POST, payload=payload)
 
     def customer_create(self, email, data=None):
         if not data:
             data = {}
-        
+
         payload = {
             'email': email,
             'data': data
         }
 
         return self._api_request(self.CUSTOMER_CREATE_ENDPOINT,
-            self.HTTP_POST, payload=payload)
+                                 self.HTTP_POST, payload=payload)
+
+    def customer_delete(self, email):
+        endpoint = self.CUSTOMER_DELETE_ENDPOINT % email
+
+        return self._api_request(endpoint, self.HTTP_DELETE)
