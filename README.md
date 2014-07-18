@@ -149,6 +149,45 @@ You can deactivate pending drip campaign emails for a customer
 api.drip_deactivate('customer@example.com')
 ```
 
+# Customers
+
+## Create/update Customer
+
+You can use the same endpoint to create or update a customer. Sendwithus
+will peform a merge of the data on the customer profile, preferring the new data.
+
+```python
+api.customer_create('customer@example.com', data={'first_name': 'Matt'})
+```
+
+
+## Delete a Customer
+
+```python
+api.customer_delete('customer@example.com')
+```
+
+# Segmentation
+
+## Send Template to Segment
+
+You can use the Segments api to send a template to all customers who match a
+segment. The Segment must be created in the Sendwithus dashboard, which is
+where you will find the `segment_id` for use in this api.
+
+```python
+api.send_segment('tem_12345', 'seg_1245')
+```
+
+### Extra Data
+
+You may specify extra data to be merged into the template, alongside the
+individual customer profiles
+
+```python
+api.send_segment('tem_12345', 'seg_12345', email_data={'color': 'blue'})
+```
+
 ## expected response
 
 ### Success

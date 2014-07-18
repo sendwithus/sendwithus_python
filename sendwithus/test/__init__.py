@@ -15,6 +15,7 @@ class TestAPI(unittest.TestCase):
     def setUp(self):
         self.api = api(self.API_KEY, **self.options)
         self.email_address = 'person@example.com'
+        self.segment_id = 'seg_VC8FDxDno9X64iUPDFSd76'
         self.recipient = {
             'name': 'Matt',
             'address': 'us@sendwithus.com'}
@@ -197,6 +198,19 @@ class TestAPI(unittest.TestCase):
             self.recipient,
             email_data=self.email_data,
             email_version_name='version-override')
+        self.assertSuccess(result)
+
+    def test_create_customer(self):
+        data = {'first_name': 'Python Client Unit Test'}
+        result = self.api.customer_create('test+python@sendwithus.com', data)
+        self.assertSuccess(result)
+
+    def test_delete_customer(self):
+        result = self.api.customer_delete('test+python@sendwithus.com')
+        self.assertSuccess(result)
+
+    def test_send_segment(self):
+        result = self.api.send_segment(self.EMAIL_ID, self.segment_id)
         self.assertSuccess(result)
 
 
