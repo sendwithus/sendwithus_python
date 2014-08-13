@@ -35,6 +35,10 @@ class api:
     DRIPS_DEACTIVATE_ENDPOINT = 'drips/deactivate'
     CUSTOMER_CREATE_ENDPOINT = 'customers'
     CUSTOMER_DELETE_ENDPOINT = 'customers/%s'
+    DRIP_CAMPAIGN_LIST_ENDPOINT = 'drip_campaigns'
+    DRIP_CAMPAGIN_ACTIVATE_ENDPOINT = 'drip_campaigns/%s/activate'
+    DRIP_CAMPAGIN_DEACTIVATE_ENDPOINT = 'drip_campaigns/%s/deactivate'
+    DRIP_CAMPAIGN_LIST_STEPS_ENDPOINT = 'drip_campaigns/%s/steps'
 
     API_CLIENT_LANG = 'python'
     API_CLIENT_VERSION = version
@@ -143,6 +147,9 @@ class api:
             payload=payload)
 
     def drip_deactivate(self, email_address):
+        warnings.warn(
+                "Old Drip Campaign Endpoints will soon be deprecated",
+                DeprecationWarning)
         payload = {'email_address': email_address}
         return self._api_request(
             self.DRIPS_DEACTIVATE_ENDPOINT,
@@ -243,3 +250,24 @@ class api:
         endpoint = self.CUSTOMER_DELETE_ENDPOINT % email
 
         return self._api_request(endpoint, self.HTTP_DELETE)
+
+    # New Drips 2.0 API
+    def list_drip_campaigns(self):
+        return self._api_request(self.DRIP_CAMPAIGN_LIST_ENDPOINT, self.HTTP_GET)
+
+    def start_on_drip_campaign(self, email, drip_campaign_id):
+        endpoint = self.DRIP_CAMPAGIN_ACTIVATE_ENDPOINT % drip_campaign_id
+        payload = {
+            'recipient_address': email
+        }
+        return self._api_request(endpoint, self.HTTP_POST, payload)
+
+    def remove_from_drip_campaign(self, email, drip_campaign_id):
+        endpoint = self.DRIP_CAMPAGIN_DEACTIVATE_ENDPOINT % drip_campaign_id
+        payload = {
+            'recipient_address': email
+        }
+        return self._api_request(endpoint, self.HTTP_POST, payload)
+
+    def list_drip_campaign_steps(self, drip_campaign_id):
+        return self._api_request(self.DRIP_CAMPAIGN_LIST_STEPS_ENDPOINT, self.HTTP_GET)
