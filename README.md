@@ -153,11 +153,15 @@ api.drip_deactivate('customer@example.com')
 
 ## List all drip campaigns
 
+List all drip campaigns for the current profile
+
 ```python
 api.list_drip_campaigns()
 ```
 
 ## Start a customer on a drip campaign
+
+Starts a customer on the first step of a specified drip campaign
 
 ```python
 api.start_on_drip_campaign('customer@email.com', 'dc_1234asdf')
@@ -165,11 +169,15 @@ api.start_on_drip_campaign('customer@email.com', 'dc_1234asdf')
 
 ## Remove a customer from a drip campaign
 
+Deactivates all pending emails for a customer on a specified drip campaign
+
 ```python
 api.remove_from_drip_campaign('customer@email.com', 'dc_1234asdf')
 ```
 
 ## List the individual steps of a drip campaign
+
+List the individual steps of a specified drip campaign
 
 ```python
 api.list_drip_campaign_steps('dc_1234asdf')
