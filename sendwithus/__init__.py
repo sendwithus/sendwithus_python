@@ -141,7 +141,7 @@ class api:
             return self._api_request(self.TEMPLATES_SPECIFIC_ENDPOINT % template_id, self.HTTP_GET)
 
     def create_email(self, name, subject, html, text=''):
-        """ API call to create an email or new version of an email """
+        """ API call to create an email """
         payload = {
             'name': name,
             'subject': subject,
@@ -154,8 +154,7 @@ class api:
             self.HTTP_POST,
             payload=payload)
 
-
-    def create_new_version(self, name, subject, html=None, text='', template_id=None):
+    def create_new_version(self, name, subject, text='', template_id=None, html=None):
         """ API call to create a new version of a template """
         if(html):
             payload = {
@@ -170,6 +169,7 @@ class api:
                 'subject': subject,
                 'text' : text
             }
+            
         return self._api_request(
             self.TEMPLATES_NEW_VERSION_ENDPOINT % template_id,
             self.HTTP_POST,
@@ -195,7 +195,6 @@ class api:
             self.TEMPLATES_VERSION_ENDPOINT % (template_id, version_id),
             self.HTTP_PUT,
             payload=payload)
-        
 
     def drip_deactivate(self, email_address):
         payload = {'email_address': email_address}
