@@ -27,9 +27,14 @@ class api:
 
     HTTP_GET = 'GET'
     HTTP_POST = 'POST'
+    HTTP_PUT = 'PUT'
     HTTP_DELETE = 'DELETE'
 
     EMAILS_ENDPOINT = 'emails'
+    TEMPLATES_ENDPOINT = 'templates'
+    TEMPLATES_SPECIFIC_ENDPOINT = 'templates/%s'
+    TEMPLATES_NEW_VERSION_ENDPOINT = 'templates/%s/versions'
+    TEMPLATES_VERSION_ENDPOINT = 'templates/%s/versions/%s'
     SEND_ENDPOINT = 'send'
     SEND_SEGMENT_ENDPOINT = 'segments/%s/send'
     DRIPS_DEACTIVATE_ENDPOINT = 'drips/deactivate'
@@ -128,8 +133,15 @@ class api:
         """ API call to get a list of emails """
         return self._api_request(self.EMAILS_ENDPOINT, self.HTTP_GET)
 
+    def get_template(self, template_id, version=None):
+        """ API call to get a specific template """
+        if (version):
+            return self._api_request(self.TEMPLATES_VERSION_ENDPOINT % (template_id , version), self.HTTP_GET)
+        else:
+            return self._api_request(self.TEMPLATES_SPECIFIC_ENDPOINT % template_id, self.HTTP_GET)
+
     def create_email(self, name, subject, html, text=''):
-        """ API call to create an email """
+        """ API call to create an email or new version of an email """
         payload = {
             'name': name,
             'subject': subject,
@@ -141,6 +153,49 @@ class api:
             self.EMAILS_ENDPOINT,
             self.HTTP_POST,
             payload=payload)
+
+
+    def create_new_version(self, name, subject, html=None, text='', template_id=None):
+        """ API call to create a new version of a template """
+        if(html):
+            payload = {
+                'name': name,
+                'subject': subject,
+                'html' : html,
+                'text' : text
+            }            
+        else:
+            payload = {
+                'name': name,
+                'subject': subject,
+                'text' : text
+            }
+        return self._api_request(
+            self.TEMPLATES_NEW_VERSION_ENDPOINT % template_id,
+            self.HTTP_POST,
+            payload=payload)
+            
+    def update_template_version(self, name, subject, template_id, version_id, text='', html=None):
+        """ API call to update a template version """
+        if(html):
+            payload = {
+                'name': name,
+                'subject': subject,
+                'html' : html,
+                'text' : text
+            }            
+        else:
+            payload = {
+                'name': name,
+                'subject': subject,
+                'text' : text
+            }
+            
+        return self._api_request(
+            self.TEMPLATES_VERSION_ENDPOINT % (template_id, version_id),
+            self.HTTP_PUT,
+            payload=payload)
+        
 
     def drip_deactivate(self, email_address):
         payload = {'email_address': email_address}

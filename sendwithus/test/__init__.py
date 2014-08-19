@@ -59,10 +59,32 @@ class TestAPI(unittest.TestCase):
         result = self.api.emails()
         self.assertSuccess(result)
 
+    def test_get_template(self):
+        """ Test template endpoint. """
+        result = self.api.get_template("pmaBsiatWCuptZmojWESme")
+        self.assertSuccess(result)
+
+    def test_get_template_with_version(self):
+        """ Test template with version endpoint. """
+        result = self.api.get_template("pmaBsiatWCuptZmojWESme", version="ver_pYj27c8DTBsWB4MRsoB2MF")
+        self.assertSuccess(result)
+
     def test_create_email_success(self):
         """ Test create emails endpoint """
         result = self.api.create_email(
             'name', 'subject', '<html><head></head><body></body></html>')
+        self.assertSuccess(result)
+
+    def test_create_new_version_success(self):
+        result = self.api.create_new_version(
+            'name', 'subject', text="Some stuff", template_id="pmaBsiatWCuptZmojWESme"
+        )
+        self.assertSuccess(result)
+
+    def test_update_template_version(self):
+        result = self.api.update_template_version(
+            'name', 'subject', "pmaBsiatWCuptZmojWESme", "ver_pYj27c8DTBsWB4MRsoB2MF", text="Some more stuff", 
+        )
         self.assertSuccess(result)
 
     def test_create_email_bad_name(self):
@@ -148,7 +170,7 @@ class TestAPI(unittest.TestCase):
         self.assertEqual(result.status_code, 403)  # bad api key
 
     def test_send_invalid_email(self):
-        """ Test send with ivalid email_id. """
+        """ Test send with invalid email_id. """
         result = self.api.send(
             'INVALID_EMAIL_ID',
             self.recipient,
