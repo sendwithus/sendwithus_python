@@ -36,8 +36,8 @@ class api:
     CUSTOMER_CREATE_ENDPOINT = 'customers'
     CUSTOMER_DELETE_ENDPOINT = 'customers/%s'
     DRIP_CAMPAIGN_LIST_ENDPOINT = 'drip_campaigns'
-    DRIP_CAMPAGIN_ACTIVATE_ENDPOINT = 'drip_campaigns/%s/activate'
-    DRIP_CAMPAGIN_DEACTIVATE_ENDPOINT = 'drip_campaigns/%s/deactivate'
+    DRIP_CAMPAIGN_ACTIVATE_ENDPOINT = 'drip_campaigns/%s/activate'
+    DRIP_CAMPAIGN_DEACTIVATE_ENDPOINT = 'drip_campaigns/%s/deactivate'
     DRIP_CAMPAIGN_LIST_STEPS_ENDPOINT = 'drip_campaigns/%s/steps'
 
     API_CLIENT_LANG = 'python'
@@ -256,14 +256,14 @@ class api:
         return self._api_request(self.DRIP_CAMPAIGN_LIST_ENDPOINT, self.HTTP_GET)
 
     def start_on_drip_campaign(self, recipient_address, drip_campaign_id):
-        endpoint = self.DRIP_CAMPAGIN_ACTIVATE_ENDPOINT % drip_campaign_id
+        endpoint = self.DRIP_CAMPAIGN_ACTIVATE_ENDPOINT % drip_campaign_id
         payload = {
             'recipient_address': recipient_address
         }
         return self._api_request(endpoint, self.HTTP_POST, payload)
 
     def remove_from_drip_campaign(self, recipient_address, drip_campaign_id):
-        endpoint = self.DRIP_CAMPAGIN_DEACTIVATE_ENDPOINT % drip_campaign_id
+        endpoint = self.DRIP_CAMPAIGN_DEACTIVATE_ENDPOINT % drip_campaign_id
         payload = {
             'recipient_address': recipient_address
         }
