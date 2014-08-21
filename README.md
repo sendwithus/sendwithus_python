@@ -175,12 +175,10 @@ Deactivates all pending emails for a customer on a specified drip campaign
 api.remove_from_drip_campaign('customer@email.com', 'dc_1234asdf')
 ```
 
-## List the individual steps of a drip campaign
-
-List the individual steps of a specified drip campaign
+## List the details of a specific campaign
 
 ```python
-api.list_drip_campaign_steps('dc_1234asdf')
+api.drip_campaign_details('dc_1234asdf')
 ````
 
 # Customers
