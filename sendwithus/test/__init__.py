@@ -218,16 +218,16 @@ class TestAPI(unittest.TestCase):
         result = self.api.list_drip_campaigns()
         self.assertSuccess(result)
 
-    def start_on_drip_campaign(self):
+    def test_start_on_drip_campaign(self):
         result = self.api.start_on_drip_campaign(self.email_address, self.drip_campaign_id)
         self.assertSuccess(result)
 
-    def remove_from_drip_campaign(self):
+    def test_remove_from_drip_campaign(self):
         result = self.api.remove_from_drip_campaign(self.email_address, self.drip_campaign_id)
         self.assertSuccess(result)
 
-    def list_drip_campaign_steps(self):
-        result = self.api.list_drip_campaign_steps(self.drip_campaign_id)
+    def test_drip_campaign_details(self):
+        result = self.api.drip_campaign_details(self.drip_campaign_id)
         self.assertSuccess(result)
 
 if __name__ == '__main__':
