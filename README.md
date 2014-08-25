@@ -178,7 +178,7 @@ api.remove_from_drip_campaign('customer@email.com', 'dc_1234asdf1234')
 ## List the details of a specific campaign
 
 ```python
-api.drip_campaign_details('dc_1234asdf')
+api.drip_campaign_details('dc_1234asdf1234')
 ````
 
 # Customers
