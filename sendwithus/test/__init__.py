@@ -36,7 +36,7 @@ class TestAPI(unittest.TestCase):
         self.bcc_test = [{
             'name': 'Matt BCC',
             'address': 'test+bcc@sendwithus.com'}]
-        self.drip_campaign_id = 'dc_asdf1234'
+        self.drip_campaign_id = 'dc_Rmd7y5oUJ3tn86sPJ8ESCk'
 
     def assertSuccess(self, result):
         self.assertEqual(result.status_code, 200)
