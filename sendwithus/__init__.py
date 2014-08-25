@@ -147,9 +147,6 @@ class api:
             payload=payload)
 
     def drip_deactivate(self, email_address):
-        warnings.warn(
-                "Old Drip Campaign Endpoints will soon be deprecated",
-                DeprecationWarning)
         payload = {'email_address': email_address}
 
         return self._api_request(
