@@ -7,7 +7,7 @@ sendwithus python-client
 python requests library
 
 ## installation
-	pip install sendwithus
+    pip install sendwithus
 
 ## usage
 
@@ -149,6 +149,38 @@ You can deactivate pending drip campaign emails for a customer
 api.drip_deactivate('customer@example.com')
 ```
 
+# Drip Campaigns 2.0
+
+## List all drip campaigns
+
+List all drip campaigns for the current profile
+
+```python
+api.list_drip_campaigns()
+```
+
+## Start a customer on a drip campaign
+
+Starts a customer on the first step of a specified drip campaign
+
+```python
+api.start_on_drip_campaign('customer@email.com', 'dc_1234asdf1234')
+```
+
+## Remove a customer from a drip campaign
+
+Deactivates all pending emails for a customer on a specified drip campaign
+
+```python
+api.remove_from_drip_campaign('customer@email.com', 'dc_1234asdf1234')
+```
+
+## List the details of a specific campaign
+
+```python
+api.drip_campaign_details('dc_1234asdf')
+````
+
 # Customers
 
 ## Create/update Customer
@@ -191,28 +223,28 @@ api.send_segment('tem_12345', 'seg_12345', email_data={'color': 'blue'})
 ## expected response
 
 ### Success
-	>>> r.status_code
-	200
+    >>> r.status_code
+    200
 
-	>>> r.json().get('success')
-	True
+    >>> r.json().get('success')
+    True
 
-	>>> r.json().get('status')
-	u'OK'
+    >>> r.json().get('status')
+    u'OK'
 
-	>>> r.json().get('receipt_id')
-	u'numeric-receipt-id'
+    >>> r.json().get('receipt_id')
+    u'numeric-receipt-id'
 
 ### Error cases
 * malformed request
 
-		>>> r.status_code
-		400
+        >>> r.status_code
+        400
 
 * bad api key
 
-		>>> r.status_code
-	    	403
+        >>> r.status_code
+            403
 
 ## to run tests
     python setup.py test

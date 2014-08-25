@@ -36,6 +36,7 @@ class TestAPI(unittest.TestCase):
         self.bcc_test = [{
             'name': 'Matt BCC',
             'address': 'test+bcc@sendwithus.com'}]
+        self.drip_campaign_id = 'dc_Rmd7y5oUJ3tn86sPJ8ESCk'
 
     def assertSuccess(self, result):
         self.assertEqual(result.status_code, 200)
@@ -213,6 +214,21 @@ class TestAPI(unittest.TestCase):
         result = self.api.send_segment(self.EMAIL_ID, self.segment_id)
         self.assertSuccess(result)
 
+    def test_list_drip_campaigns(self):
+        result = self.api.list_drip_campaigns()
+        self.assertSuccess(result)
+
+    def test_start_on_drip_campaign(self):
+        result = self.api.start_on_drip_campaign(self.email_address, self.drip_campaign_id)
+        self.assertSuccess(result)
+
+    def test_remove_from_drip_campaign(self):
+        result = self.api.remove_from_drip_campaign(self.email_address, self.drip_campaign_id)
+        self.assertSuccess(result)
+
+    def test_drip_campaign_details(self):
+        result = self.api.drip_campaign_details(self.drip_campaign_id)
+        self.assertSuccess(result)
 
 if __name__ == '__main__':
     unittest.main()
