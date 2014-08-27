@@ -32,10 +32,15 @@ class api:
 
     EMAILS_ENDPOINT = 'emails'
     TEMPLATES_ENDPOINT = 'templates'
+    LOGS_ENDPOINT = 'logs'
+    GET_LOG_ENDPOINT = 'logs/%s'
+    GET_LOG_EVENTS_ENDPOINT = 'logs/%s/events'
     TEMPLATES_SPECIFIC_ENDPOINT = 'templates/%s'
     TEMPLATES_NEW_VERSION_ENDPOINT = 'templates/%s/versions'
     TEMPLATES_VERSION_ENDPOINT = 'templates/%s/versions/%s'
     SEND_ENDPOINT = 'send'
+    SEGMENTS_ENDPOINT = 'segments'
+    RUN_SEGMENT_ENDPOINT = 'segments/%s/run'
     SEND_SEGMENT_ENDPOINT = 'segments/%s/send'
     DRIPS_DEACTIVATE_ENDPOINT = 'drips/deactivate'
     CUSTOMER_CREATE_ENDPOINT = 'customers'
@@ -128,6 +133,18 @@ class api:
             logger.debug('\tresponse: %s' % r.content)
 
         return r
+
+    def logs(self):
+        """ API call to get a list of logs """
+        return self._api_request(self.LOGS_ENDPOINT, self.HTTP_GET)
+
+    def get_log(self, log_id):
+        """ API call to get a specific log entry """
+        return self._api_request(self.GET_LOG_ENDPOINT % log_id, self.HTTP_GET)
+
+    def get_log_events(self, log_id):
+        """ API call to get a specific log entry """
+        return self._api_request(self.GET_LOG_EVENTS_ENDPOINT % log_id, self.HTTP_GET)
 
     def emails(self):
         """ API call to get a list of emails """
@@ -267,6 +284,14 @@ class api:
             self.SEND_ENDPOINT,
             self.HTTP_POST,
             payload=payload)
+
+    def segments(self):
+        """ API call to get a list of segments """
+        return self._api_request(self.SEGMENTS_ENDPOINT, self.HTTP_GET)
+
+    def run_segment(self, segment_id):
+        """ API call to run a segment, and return the customers"""
+        return self._api_request(self.RUN_SEGMENT_ENDPOINT % segment_id, self.HTTP_GET)
 
     def send_segment(self, email_id, segment_id, email_data=None):
         """ API call to send a template, with data, to an entire segment"""
