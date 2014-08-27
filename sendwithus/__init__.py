@@ -29,7 +29,7 @@ class api:
     HTTP_POST = 'POST'
     HTTP_DELETE = 'DELETE'
 
-    EMAILS_ENDPOINT = 'emails'
+    TEMPLATES_ENDPOINT = 'templates'
     SEND_ENDPOINT = 'send'
     SEND_SEGMENT_ENDPOINT = 'segments/%s/send'
     DRIPS_DEACTIVATE_ENDPOINT = 'drips/deactivate'
@@ -129,11 +129,19 @@ class api:
         return r
 
     def emails(self):
-        """ API call to get a list of emails """
-        return self._api_request(self.EMAILS_ENDPOINT, self.HTTP_GET)
+        """ [DEPRECATED] API call to get a list of emails """
+        return self.templates()
+
+    def templates(self):
+        """ API call to get a list of templates """
+        return self._api_request(self.TEMPLATES_ENDPOINT, self.HTTP_GET)
 
     def create_email(self, name, subject, html, text=''):
-        """ API call to create an email """
+        """ [DECPRECATED] API call to create an email """
+        return self.create_template(name, subject, html, text)
+
+    def create_template(self, name, subject, html, text=''):
+        """ API call to create a template """
         payload = {
             'name': name,
             'subject': subject,
@@ -142,7 +150,7 @@ class api:
         }
 
         return self._api_request(
-            self.EMAILS_ENDPOINT,
+            self.TEMPLATES_ENDPOINT,
             self.HTTP_POST,
             payload=payload)
 
