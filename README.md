@@ -17,18 +17,18 @@ import sendwithus
 api = sendwithus.api(api_key='YOUR-API-KEY')
 ```
 
-# Emails
+# Templates
 
-## Get your emails
+## Get your templates
 
 ```python
-api.emails()
+api.templates()
 ```
 
-## Create an email
+## Create a template
 
 ```python
-api.create_email(
+api.create_template(
     name='Email Name',
     subject='Email Subject',
     html='<html><head></head><body>Valid HTML</body></html>',
