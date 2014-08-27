@@ -189,6 +189,18 @@ api.remove_from_drip_campaign('customer@email.com', 'dc_1234asdf1234')
 api.drip_campaign_details('dc_1234asdf1234')
 ````
 
+## List the active customers on a drip campaign
+
+```python
+api.drip_campaign_customers('dc_1234asdf1234')
+````
+
+## List the active customers on a specific drip step
+
+```python
+api.drip_step_customers('dc_1234asdf1234', 'dcs_jklqwer567')
+````
+
 # Customers
 
 ## Create/update Customer
