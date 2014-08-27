@@ -253,10 +253,14 @@ class api:
     def list_drip_campaigns(self):
         return self._api_request(self.DRIP_CAMPAIGN_LIST_ENDPOINT, self.HTTP_GET)
 
-    def start_on_drip_campaign(self, recipient_address, drip_campaign_id):
+    def start_on_drip_campaign(self, recipient_address, drip_campaign_id, email_data=None):
+        if not email_data:
+            email_data = {}
+
         endpoint = self.DRIP_CAMPAIGN_ACTIVATE_ENDPOINT % drip_campaign_id
         payload = {
-            'recipient_address': recipient_address
+            'recipient_address': recipient_address,
+            'email_data': email_data
         }
 
         return self._api_request(endpoint, self.HTTP_POST, payload=payload)
