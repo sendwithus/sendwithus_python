@@ -36,6 +36,9 @@ class TestAPI(unittest.TestCase):
         self.bcc_test = [{
             'name': 'Matt BCC',
             'address': 'test+bcc@sendwithus.com'}]
+        self.enabled_drip_campaign_id = 'dc_Rmd7y5oUJ3tn86sPJ8ESCk'
+        self.disabled_drip_campaign_id = 'dc_AjR6Ue9PHPFYmEu2gd8x5V'
+        self.false_drip_campaign_id = 'false_drip_campaign_id'
 
     def assertSuccess(self, result):
         self.assertEqual(result.status_code, 200)
@@ -235,6 +238,51 @@ class TestAPI(unittest.TestCase):
         result = self.api.send_segment(self.EMAIL_ID, self.segment_id)
         self.assertSuccess(result)
 
+    def test_list_drip_campaigns(self):
+        """ Test listing drip campaigns. """
+        result = self.api.list_drip_campaigns()
+        self.assertSuccess(result)
+
+    def test_start_on_drip_campaign(self):
+        """ Test starting a customer on a drip campaign. """
+        result = self.api.start_on_drip_campaign(
+            self.email_address,
+            self.enabled_drip_campaign_id)
+        self.assertSuccess(result)
+
+    def test_start_on_disabled_drip_campaign(self):
+        """ Test starting a customer on a drip campaign. """
+        result = self.api.start_on_drip_campaign(
+            self.email_address,
+            self.disabled_drip_campaign_id)
+        self.assertFail(result)
+
+    def test_start_on_false_drip_campaign(self):
+        """ Test starting a customer on a drip campaign. """
+        result = self.api.start_on_drip_campaign(
+            self.email_address,
+            self.false_drip_campaign_id)
+        self.assertFail(result)
+
+    def test_start_on_drip_campaign_with_data(self):
+        """ Test starting a customer on a drip campaign with data. """
+        result = self.api.start_on_drip_campaign(
+            self.email_address,
+            self.enabled_drip_campaign_id,
+            email_data=self.email_data)
+        self.assertSuccess(result)
+
+    def test_remove_from_drip_campaign(self):
+        """ Test removing a customer from a drip campaign. """
+        result = self.api.remove_from_drip_campaign(
+            self.email_address,
+            self.enabled_drip_campaign_id)
+        self.assertSuccess(result)
+
+    def test_drip_campaign_details(self):
+        """ Test listing drip campaign details. """
+        result = self.api.drip_campaign_details(self.enabled_drip_campaign_id)
+        self.assertSuccess(result)
 
 if __name__ == '__main__':
     unittest.main()

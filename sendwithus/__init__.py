@@ -30,7 +30,6 @@ class api:
     HTTP_PUT = 'PUT'
     HTTP_DELETE = 'DELETE'
 
-    EMAILS_ENDPOINT = 'emails'
     TEMPLATES_ENDPOINT = 'templates'
     LOGS_ENDPOINT = 'logs'
     GET_LOG_ENDPOINT = 'logs/%s'
@@ -45,6 +44,10 @@ class api:
     DRIPS_DEACTIVATE_ENDPOINT = 'drips/deactivate'
     CUSTOMER_CREATE_ENDPOINT = 'customers'
     CUSTOMER_DELETE_ENDPOINT = 'customers/%s'
+    DRIP_CAMPAIGN_LIST_ENDPOINT = 'drip_campaigns'
+    DRIP_CAMPAIGN_ACTIVATE_ENDPOINT = 'drip_campaigns/%s/activate'
+    DRIP_CAMPAIGN_DEACTIVATE_ENDPOINT = 'drip_campaigns/%s/deactivate'
+    DRIP_CAMPAIGN_DETAILS_ENDPOINT = 'drip_campaigns/%s'
 
     API_CLIENT_LANG = 'python'
     API_CLIENT_VERSION = version
@@ -147,18 +150,26 @@ class api:
         return self._api_request(self.GET_LOG_EVENTS_ENDPOINT % log_id, self.HTTP_GET)
 
     def emails(self):
-        """ API call to get a list of emails """
-        return self._api_request(self.EMAILS_ENDPOINT, self.HTTP_GET)
+        """ [DEPRECATED] API call to get a list of emails """
+        return self.templates()
+
+    def templates(self):
+        """ API call to get a list of templates """
+        return self._api_request(self.TEMPLATES_ENDPOINT, self.HTTP_GET)
 
     def get_template(self, template_id, version=None):
         """ API call to get a specific template """
         if (version):
-            return self._api_request(self.TEMPLATES_VERSION_ENDPOINT % (template_id , version), self.HTTP_GET)
+            return self._api_request(self.TEMPLATES_VERSION_ENDPOINT % (template_id, version), self.HTTP_GET)
         else:
             return self._api_request(self.TEMPLATES_SPECIFIC_ENDPOINT % template_id, self.HTTP_GET)
 
     def create_email(self, name, subject, html, text=''):
-        """ API call to create an email """
+        """ [DECPRECATED] API call to create an email """
+        return self.create_template(name, subject, html, text)
+
+    def create_template(self, name, subject, html, text=''):
+        """ API call to create a template """
         payload = {
             'name': name,
             'subject': subject,
@@ -167,7 +178,7 @@ class api:
         }
 
         return self._api_request(
-            self.EMAILS_ENDPOINT,
+            self.TEMPLATES_ENDPOINT,
             self.HTTP_POST,
             payload=payload)
 
@@ -177,37 +188,37 @@ class api:
             payload = {
                 'name': name,
                 'subject': subject,
-                'html' : html,
-                'text' : text
-            }            
+                'html': html,
+                'text': text
+            }
         else:
             payload = {
                 'name': name,
                 'subject': subject,
-                'text' : text
+                'text': text
             }
-            
+
         return self._api_request(
             self.TEMPLATES_NEW_VERSION_ENDPOINT % template_id,
             self.HTTP_POST,
             payload=payload)
-            
+
     def update_template_version(self, name, subject, template_id, version_id, text='', html=None):
         """ API call to update a template version """
         if(html):
             payload = {
                 'name': name,
                 'subject': subject,
-                'html' : html,
-                'text' : text
-            }            
+                'html': html,
+                'text': text
+            }
         else:
             payload = {
                 'name': name,
                 'subject': subject,
-                'text' : text
+                'text': text
             }
-            
+
         return self._api_request(
             self.TEMPLATES_VERSION_ENDPOINT % (template_id, version_id),
             self.HTTP_PUT,
@@ -215,6 +226,7 @@ class api:
 
     def drip_deactivate(self, email_address):
         payload = {'email_address': email_address}
+
         return self._api_request(
             self.DRIPS_DEACTIVATE_ENDPOINT,
             self.HTTP_POST,
@@ -322,3 +334,32 @@ class api:
         endpoint = self.CUSTOMER_DELETE_ENDPOINT % email
 
         return self._api_request(endpoint, self.HTTP_DELETE)
+
+    # New Drips 2.0 API
+    def list_drip_campaigns(self):
+        return self._api_request(self.DRIP_CAMPAIGN_LIST_ENDPOINT, self.HTTP_GET)
+
+    def start_on_drip_campaign(self, recipient_address, drip_campaign_id, email_data=None):
+        if not email_data:
+            email_data = {}
+
+        endpoint = self.DRIP_CAMPAIGN_ACTIVATE_ENDPOINT % drip_campaign_id
+        payload = {
+            'recipient_address': recipient_address,
+            'email_data': email_data
+        }
+
+        return self._api_request(endpoint, self.HTTP_POST, payload=payload)
+
+    def remove_from_drip_campaign(self, recipient_address, drip_campaign_id):
+        endpoint = self.DRIP_CAMPAIGN_DEACTIVATE_ENDPOINT % drip_campaign_id
+        payload = {
+            'recipient_address': recipient_address
+        }
+
+        return self._api_request(endpoint, self.HTTP_POST, payload=payload)
+
+    def drip_campaign_details(self, drip_campaign_id):
+        endpoint = self.DRIP_CAMPAIGN_DETAILS_ENDPOINT % drip_campaign_id
+
+        return self._api_request(endpoint, self.HTTP_GET)
