@@ -167,6 +167,14 @@ Starts a customer on the first step of a specified drip campaign
 api.start_on_drip_campaign('customer@email.com', 'dc_1234asdf1234')
 ```
 
+### Extra Data
+
+You may specify extra data to be merged into the templates in the drip campaign
+
+```python
+api.start_on_drip_campaign('customer@email.com', 'dc_1234asdf1234', email_data={'color': 'blue'})
+```
+
 ## Remove a customer from a drip campaign
 
 Deactivates all pending emails for a customer on a specified drip campaign
