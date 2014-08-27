@@ -132,6 +132,10 @@ class api:
         """ API call to get a list of emails """
         return self._api_request(self.EMAILS_ENDPOINT, self.HTTP_GET)
 
+    def templates(self):
+        """ API call to get a list of templates """
+        return self.emails()
+
     def create_email(self, name, subject, html, text=''):
         """ API call to create an email """
         payload = {
