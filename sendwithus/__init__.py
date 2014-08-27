@@ -27,10 +27,19 @@ class api:
 
     HTTP_GET = 'GET'
     HTTP_POST = 'POST'
+    HTTP_PUT = 'PUT'
     HTTP_DELETE = 'DELETE'
 
     TEMPLATES_ENDPOINT = 'templates'
+    LOGS_ENDPOINT = 'logs'
+    GET_LOG_ENDPOINT = 'logs/%s'
+    GET_LOG_EVENTS_ENDPOINT = 'logs/%s/events'
+    TEMPLATES_SPECIFIC_ENDPOINT = 'templates/%s'
+    TEMPLATES_NEW_VERSION_ENDPOINT = 'templates/%s/versions'
+    TEMPLATES_VERSION_ENDPOINT = 'templates/%s/versions/%s'
     SEND_ENDPOINT = 'send'
+    SEGMENTS_ENDPOINT = 'segments'
+    RUN_SEGMENT_ENDPOINT = 'segments/%s/run'
     SEND_SEGMENT_ENDPOINT = 'segments/%s/send'
     DRIPS_DEACTIVATE_ENDPOINT = 'drips/deactivate'
     CUSTOMER_CREATE_ENDPOINT = 'customers'
@@ -128,6 +137,18 @@ class api:
 
         return r
 
+    def logs(self):
+        """ API call to get a list of logs """
+        return self._api_request(self.LOGS_ENDPOINT, self.HTTP_GET)
+
+    def get_log(self, log_id):
+        """ API call to get a specific log entry """
+        return self._api_request(self.GET_LOG_ENDPOINT % log_id, self.HTTP_GET)
+
+    def get_log_events(self, log_id):
+        """ API call to get a specific log entry """
+        return self._api_request(self.GET_LOG_EVENTS_ENDPOINT % log_id, self.HTTP_GET)
+
     def emails(self):
         """ [DEPRECATED] API call to get a list of emails """
         return self.templates()
@@ -135,6 +156,13 @@ class api:
     def templates(self):
         """ API call to get a list of templates """
         return self._api_request(self.TEMPLATES_ENDPOINT, self.HTTP_GET)
+
+    def get_template(self, template_id, version=None):
+        """ API call to get a specific template """
+        if (version):
+            return self._api_request(self.TEMPLATES_VERSION_ENDPOINT % (template_id, version), self.HTTP_GET)
+        else:
+            return self._api_request(self.TEMPLATES_SPECIFIC_ENDPOINT % template_id, self.HTTP_GET)
 
     def create_email(self, name, subject, html, text=''):
         """ [DECPRECATED] API call to create an email """
@@ -152,6 +180,48 @@ class api:
         return self._api_request(
             self.TEMPLATES_ENDPOINT,
             self.HTTP_POST,
+            payload=payload)
+
+    def create_new_version(self, name, subject, text='', template_id=None, html=None):
+        """ API call to create a new version of a template """
+        if(html):
+            payload = {
+                'name': name,
+                'subject': subject,
+                'html': html,
+                'text': text
+            }
+        else:
+            payload = {
+                'name': name,
+                'subject': subject,
+                'text': text
+            }
+
+        return self._api_request(
+            self.TEMPLATES_NEW_VERSION_ENDPOINT % template_id,
+            self.HTTP_POST,
+            payload=payload)
+
+    def update_template_version(self, name, subject, template_id, version_id, text='', html=None):
+        """ API call to update a template version """
+        if(html):
+            payload = {
+                'name': name,
+                'subject': subject,
+                'html': html,
+                'text': text
+            }
+        else:
+            payload = {
+                'name': name,
+                'subject': subject,
+                'text': text
+            }
+
+        return self._api_request(
+            self.TEMPLATES_VERSION_ENDPOINT % (template_id, version_id),
+            self.HTTP_PUT,
             payload=payload)
 
     def drip_deactivate(self, email_address):
@@ -226,6 +296,14 @@ class api:
             self.SEND_ENDPOINT,
             self.HTTP_POST,
             payload=payload)
+
+    def segments(self):
+        """ API call to get a list of segments """
+        return self._api_request(self.SEGMENTS_ENDPOINT, self.HTTP_GET)
+
+    def run_segment(self, segment_id):
+        """ API call to run a segment, and return the customers"""
+        return self._api_request(self.RUN_SEGMENT_ENDPOINT % segment_id, self.HTTP_GET)
 
     def send_segment(self, email_id, segment_id, email_data=None):
         """ API call to send a template, with data, to an entire segment"""
