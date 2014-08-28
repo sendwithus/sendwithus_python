@@ -86,7 +86,7 @@ class TestAPI(unittest.TestCase):
 
     def test_update_template_version(self):
         result = self.api.update_template_version(
-            'name', 'subject', "pmaBsiatWCuptZmojWESme", "ver_pYj27c8DTBsWB4MRsoB2MF", text="Some more stuff", 
+            'name', 'subject', "pmaBsiatWCuptZmojWESme", "ver_pYj27c8DTBsWB4MRsoB2MF", text="Some more stuff",
         )
         self.assertSuccess(result)
 
@@ -283,6 +283,15 @@ class TestAPI(unittest.TestCase):
         """ Test listing drip campaign details. """
         result = self.api.drip_campaign_details(self.enabled_drip_campaign_id)
         self.assertSuccess(result)
+
+    def test_drip_campaign_customers(self):
+        """ Test listing drip campaign customers. """
+        result = self.api.start_on_drip_campaign(
+            self.email_address,
+            self.enabled_drip_campaign_id)
+        self.assertSuccess(result)
+        result = self.api.drip_campaign_customers(self.enabled_drip_campaign_id)
+        self.assertEqual(result.json().get('object'), 'drip_campaign')
 
 if __name__ == '__main__':
     unittest.main()

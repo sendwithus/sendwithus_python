@@ -198,7 +198,7 @@ api.drip_campaign_customers('dc_1234asdf1234')
 ## List the active customers on a specific drip step
 
 ```python
-api.drip_step_customers('dc_1234asdf1234', 'dcs_jklqwer567')
+api.drip_campaign_step_customers('dc_1234asdf1234', 'dcs_jklqwer567')
 ````
 
 # Customers

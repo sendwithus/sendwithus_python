@@ -371,7 +371,7 @@ class api:
 
         return self._api_request(endpoint, self.HTTP_GET)
 
-    def drip_step_customers(self, drip_campaign_id, drip_step_id):
+    def drip_campaign_step_customers(self, drip_campaign_id, drip_step_id):
         endpoint = self.DRIP_STEP_CUSTOMERS_ENDPOINT % (drip_campaign_id, drip_step_id)
 
         return self._api_request(endpoint, self.HTTP_GET)
