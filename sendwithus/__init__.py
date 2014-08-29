@@ -48,6 +48,8 @@ class api:
     DRIP_CAMPAIGN_ACTIVATE_ENDPOINT = 'drip_campaigns/%s/activate'
     DRIP_CAMPAIGN_DEACTIVATE_ENDPOINT = 'drip_campaigns/%s/deactivate'
     DRIP_CAMPAIGN_DETAILS_ENDPOINT = 'drip_campaigns/%s'
+    DRIP_CAMPAIGN_CUSTOMERS_ENDPOINT = 'drip_campaigns/%s/customers'
+    DRIP_CAMPAIGN_STEP_CUSTOMERS_ENDPOINT = 'drip_campaigns/%s/steps/%s/customers'
 
     API_CLIENT_LANG = 'python'
     API_CLIENT_VERSION = version
@@ -361,5 +363,15 @@ class api:
 
     def drip_campaign_details(self, drip_campaign_id):
         endpoint = self.DRIP_CAMPAIGN_DETAILS_ENDPOINT % drip_campaign_id
+
+        return self._api_request(endpoint, self.HTTP_GET)
+
+    def drip_campaign_customers(self, drip_campaign_id):
+        endpoint = self.DRIP_CAMPAIGN_CUSTOMERS_ENDPOINT % drip_campaign_id
+
+        return self._api_request(endpoint, self.HTTP_GET)
+
+    def drip_campaign_step_customers(self, drip_campaign_id, drip_step_id):
+        endpoint = self.DRIP_CAMPAIGN_STEP_CUSTOMERS_ENDPOINT % (drip_campaign_id, drip_step_id)
 
         return self._api_request(endpoint, self.HTTP_GET)
