@@ -437,3 +437,6 @@ class batchapi(api):
             logger.debug('\tresponse: %s' % r.content)
 
         return r.json()
+
+        def command_length(self):
+            return len(self.COMMANDS)
