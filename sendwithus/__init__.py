@@ -438,5 +438,5 @@ class batchapi(api):
 
         return r.json()
 
-        def command_length(self):
-            return len(self.COMMANDS)
+    def command_length(self):
+        return len(self.COMMANDS)
