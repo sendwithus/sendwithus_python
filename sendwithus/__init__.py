@@ -50,6 +50,7 @@ class api:
     DRIP_CAMPAIGN_DETAILS_ENDPOINT = 'drip_campaigns/%s'
     DRIP_CAMPAIGN_CUSTOMERS_ENDPOINT = 'drip_campaigns/%s/customers'
     DRIP_CAMPAIGN_STEP_CUSTOMERS_ENDPOINT = 'drip_campaigns/%s/steps/%s/customers'
+    BATCH_ENDPOINT = 'batch'
 
     API_CLIENT_LANG = 'python'
     API_CLIENT_VERSION = version
@@ -375,3 +376,64 @@ class api:
         endpoint = self.DRIP_CAMPAIGN_STEP_CUSTOMERS_ENDPOINT % (drip_campaign_id, drip_step_id)
 
         return self._api_request(endpoint, self.HTTP_GET)
+
+
+class batchapi(api):
+    COMMANDS = []
+
+    def _api_request(self, endpoint, http_method, *args, **kwargs):
+        """Private method for api requests"""
+        logger.debug(' > Queing batch api request for endpoint: %s' % endpoint)
+
+        client_header = '%s-%s' % (
+            self.API_CLIENT_LANG, self.API_CLIENT_VERSION)
+
+        headers = {
+            self.API_HEADER_KEY: self.API_KEY,
+            self.API_HEADER_CLIENT: client_header,
+            'Content-type': 'application/json',
+            'Accept': 'text/plain'
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs['headers'])
+
+        command = {
+            "path": "/api/v%s/%s" % (self.API_VERSION, endpoint),
+            "method": http_method,
+            "body": kwargs.get('payload')
+        }
+
+        self.COMMANDS.append(command)
+
+    def execute(self):
+        """Execute all currently queued batch commands"""
+        logger.debug(' > Batch API request (length %s)' % len(self.COMMANDS))
+
+        client_header = '%s-%s' % (
+            self.API_CLIENT_LANG, self.API_CLIENT_VERSION)
+
+        headers = {
+            self.API_HEADER_KEY: self.API_KEY,
+            self.API_HEADER_CLIENT: client_header,
+            'Content-type': 'application/json',
+            'Accept': 'text/plain'
+        }
+
+        logger.debug('\tbatch headers: %s' % headers)
+        logger.debug('\tbatch command length: %s' % len(self.COMMANDS))
+
+        path = self._build_request_path(self.BATCH_ENDPOINT)
+
+        data = json.dumps(self.COMMANDS, cls=SendwithusJSONEncoder)
+        r = requests.post(path, data=data, headers=headers)
+
+        self.COMMANDS = []
+
+        logger.debug('\tresponse code:%s' % r.status_code)
+        try:
+            logger.debug('\tresponse: %s' % r.json())
+        except:
+            logger.debug('\tresponse: %s' % r.content)
+
+        return r.json()
