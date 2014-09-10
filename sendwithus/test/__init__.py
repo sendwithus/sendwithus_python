@@ -2,7 +2,6 @@ import unittest
 import decimal
 
 from sendwithus import api
-from sendwithus import batchapi
 
 
 class TestAPI(unittest.TestCase):
@@ -15,7 +14,6 @@ class TestAPI(unittest.TestCase):
 
     def setUp(self):
         self.api = api(self.API_KEY, **self.options)
-        self.batchapi = batchapi(self.API_KEY, **self.options)
         self.email_address = 'person@example.com'
         self.segment_id = 'seg_VC8FDxDno9X64iUPDFSd76'
         self.recipient = {
@@ -294,21 +292,26 @@ class TestAPI(unittest.TestCase):
 
     def test_drip_campaign_step_customers(self):
         """ Test listing drip campaign customers. """
-        result = self.api.drip_campaign_step_customers(self.enabled_drip_campaign_id, self.drip_campaign_step_id)
+        result = self.api.drip_campaign_step_customers(
+            self.enabled_drip_campaign_id, self.drip_campaign_step_id)
         self.assertEqual(result.json().get('object'), 'drip_step')
 
     def test_batch_create_customer(self):
+        batch_api = self.api.start_batch()
+
         data = {'segment': 'Batch Updated Customer'}
         for x in range(10):
-            self.batchapi.customer_create('test+python+%s@sendwithus.com' % x, data)
-            self.assertEqual(self.batchapi.command_length(), x + 1)
+            batch_api.customer_create('test+python+%s@sendwithus.com' % x, data)
+            self.assertEqual(batch_api.command_length(), x + 1)
 
-        result = self.batchapi.execute()
+        result = batch_api.execute()
         # should return a list of 10 result objects
         self.assertEqual(len(result), 10)
+        for response in result:
+            self.assertEqual(response['status_code'], 200)
 
         # queue should be empty now.
-        self.assertEqual(self.batchapi.command_length(), 0)
+        self.assertEqual(batch_api.command_length(), 0)
 
 if __name__ == '__main__':
     unittest.main()

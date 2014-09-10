@@ -82,55 +82,59 @@ class api:
             logger.debug('Debug enabled')
             logger.propagate = True
 
-    def _build_request_path(self, endpoint):
-        path = "%s://%s:%s/api/v%s/%s" % (
-            self.API_PROTO,
-            self.API_HOST,
-            self.API_PORT,
-            self.API_VERSION,
-            endpoint)
+    def _build_http_auth(self):
+        return (self.API_KEY, '')
 
-        logger.debug('\tpath: %s' % path)
-
-        return path
-
-    def _api_request(self, endpoint, http_method, *args, **kwargs):
-        """Private method for api requests"""
-        logger.debug(' > Sending API request to endpoint: %s' % endpoint)
-
-        client_header = '%s-%s' % (
-            self.API_CLIENT_LANG, self.API_CLIENT_VERSION)
+    def _build_request_headers(self, custom_headers=None):
+        client_header = '%s-%s' % (self.API_CLIENT_LANG, self.API_CLIENT_VERSION)
 
         headers = {
-            self.API_HEADER_KEY: self.API_KEY,
             self.API_HEADER_CLIENT: client_header,
             'Content-type': 'application/json',
             'Accept': 'text/plain'
         }
 
-        if 'headers' in kwargs:
-            headers.update(kwargs['headers'])
+        if custom_headers:
+            headers.update(custom_headers)
 
+        return headers
+
+    def _build_request_path(self, endpoint, absolute=True):
+        path = '/api/v%s/%s' % (self.API_VERSION, endpoint)
+        if absolute:
+            path = "%s://%s:%s%s" % (self.API_PROTO, self.API_HOST, self.API_PORT, path)
+        return path
+
+    def _build_payload(self, data):
+        if not data:
+            return None
+        return json.dumps(data, cls=SendwithusJSONEncoder)
+
+    def _api_request(self, endpoint, http_method, *args, **kwargs):
+        """Private method for api requests"""
+        logger.debug(' > Sending API request to endpoint: %s' % endpoint)
+
+        auth = self._build_http_auth()
+
+        headers = self._build_request_headers(kwargs.get('headers'))
         logger.debug('\theaders: %s' % headers)
 
-        data = None
-        if 'payload' in kwargs:
-            data = json.dumps(kwargs['payload'], cls=SendwithusJSONEncoder)
-
-        logger.debug('\tdata: %s' % data)
-
         path = self._build_request_path(endpoint)
+        logger.debug('\tpath: %s' % path)
+
+        data = self._build_payload(kwargs.get('payload'))
+        logger.debug('\tdata: %s' % data)
 
         # do some error handling
         if (http_method == self.HTTP_POST):
             if (data):
-                r = requests.post(path, data=data, headers=headers)
+                r = requests.post(path, auth=auth, data=data, headers=headers)
             else:
-                r = requests.post(path, headers=headers)
+                r = requests.post(path, auth=auth, headers=headers)
         elif http_method == self.HTTP_DELETE:
-            r = requests.delete(path, headers=headers)
+            r = requests.delete(path, auth=auth, headers=headers)
         else:
-            r = requests.get(path, headers=headers)
+            r = requests.get(path, auth=auth, headers=headers)
 
         logger.debug('\tresponse code:%s' % r.status_code)
         try:
@@ -377,32 +381,37 @@ class api:
 
         return self._api_request(endpoint, self.HTTP_GET)
 
+    def start_batch(self):
+        return BatchAPI(
+            api_key=self.API_KEY,
+            API_HOST=self.API_HOST,
+            API_PROTO=self.API_PROTO,
+            API_PORT=self.API_PORT,
+            API_VERSION=self.API_VERSION,
+            DEBUG=self.DEBUG)
 
-class batchapi(api):
+
+class BatchAPI(api):
     COMMANDS = []
 
     def _api_request(self, endpoint, http_method, *args, **kwargs):
         """Private method for api requests"""
         logger.debug(' > Queing batch api request for endpoint: %s' % endpoint)
 
-        client_header = '%s-%s' % (
-            self.API_CLIENT_LANG, self.API_CLIENT_VERSION)
+        path = self._build_request_path(endpoint, absolute=False)
+        logger.debug('\tpath: %s' % path)
 
-        headers = {
-            self.API_HEADER_KEY: self.API_KEY,
-            self.API_HEADER_CLIENT: client_header,
-            'Content-type': 'application/json',
-            'Accept': 'text/plain'
-        }
-
-        if 'headers' in kwargs:
-            headers.update(kwargs['headers'])
+        data = None
+        if 'payload' in kwargs:
+            data = kwargs['payload']
+        logger.debug('\tdata: %s' % data)
 
         command = {
-            "path": "/api/v%s/%s" % (self.API_VERSION, endpoint),
-            "method": http_method,
-            "body": kwargs.get('payload')
+            "path": path,
+            "method": http_method
         }
+        if data:
+            command['body'] = data
 
         self.COMMANDS.append(command)
 
@@ -410,23 +419,17 @@ class batchapi(api):
         """Execute all currently queued batch commands"""
         logger.debug(' > Batch API request (length %s)' % len(self.COMMANDS))
 
-        client_header = '%s-%s' % (
-            self.API_CLIENT_LANG, self.API_CLIENT_VERSION)
+        auth = self._build_http_auth()
 
-        headers = {
-            self.API_HEADER_KEY: self.API_KEY,
-            self.API_HEADER_CLIENT: client_header,
-            'Content-type': 'application/json',
-            'Accept': 'text/plain'
-        }
-
+        headers = self._build_request_headers()
         logger.debug('\tbatch headers: %s' % headers)
+
         logger.debug('\tbatch command length: %s' % len(self.COMMANDS))
 
         path = self._build_request_path(self.BATCH_ENDPOINT)
 
         data = json.dumps(self.COMMANDS, cls=SendwithusJSONEncoder)
-        r = requests.post(path, data=data, headers=headers)
+        r = requests.post(path, auth=auth, headers=headers, data=data)
 
         self.COMMANDS = []
 
