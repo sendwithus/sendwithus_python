@@ -401,14 +401,15 @@ class BatchAPI(api):
         path = self._build_request_path(endpoint, absolute=False)
         logger.debug('\tpath: %s' % path)
 
-        data = self._build_payload(kwargs.get('payload'))
+        data = None
+        if 'payload' in kwargs:
+            data = kwargs['payload']
         logger.debug('\tdata: %s' % data)
 
         command = {
             "path": path,
             "method": http_method
         }
-
         if data:
             command['body'] = data
 

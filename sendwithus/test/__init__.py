@@ -307,6 +307,8 @@ class TestAPI(unittest.TestCase):
         result = batch_api.execute()
         # should return a list of 10 result objects
         self.assertEqual(len(result), 10)
+        for response in result:
+            self.assertEqual(response['status_code'], 200)
 
         # queue should be empty now.
         self.assertEqual(batch_api.command_length(), 0)
