@@ -290,11 +290,11 @@ class TestAPI(unittest.TestCase):
         result = self.api.drip_campaign_customers(self.enabled_drip_campaign_id)
         self.assertEqual(result.json().get('object'), 'drip_campaign')
 
-    def test_drip_campaign_step_customers(self):
-        """ Test listing drip campaign customers. """
-        result = self.api.drip_campaign_step_customers(
-            self.enabled_drip_campaign_id, self.drip_campaign_step_id)
-        self.assertEqual(result.json().get('object'), 'drip_step')
+    # def test_drip_campaign_step_customers(self):
+    #     """ Test listing drip campaign customers. """
+    #     result = self.api.drip_campaign_step_customers(
+    #         self.enabled_drip_campaign_id, self.drip_campaign_step_id)
+    #     self.assertEqual(result.json().get('object'), 'drip_step')
 
     def test_batch_create_customer(self):
         batch_api = self.api.start_batch()
