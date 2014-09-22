@@ -7,6 +7,7 @@ import logging
 import json
 import requests
 import warnings
+import base64
 
 from encoder import SendwithusJSONEncoder
 from version import version
@@ -40,7 +41,7 @@ class api:
     SEND_ENDPOINT = 'send'
     SEGMENTS_ENDPOINT = 'segments'
     RUN_SEGMENT_ENDPOINT = 'segments/%s/run'
-    SEND_SEGMENT_ENDPOINT = 'segments/%s/send'
+    SEND_SEGMENT_ENDPOINT = 'segments/%s/send' 
     DRIPS_DEACTIVATE_ENDPOINT = 'drips/deactivate'
     CUSTOMER_CREATE_ENDPOINT = 'customers'
     CUSTOMER_DELETE_ENDPOINT = 'customers/%s'
@@ -249,7 +250,8 @@ class api:
             bcc=None,
             tags=[],
             esp_account=None,
-            email_version_name=None):
+            email_version_name=None,
+            files=[]):
         """ API call to send an email """
         if not email_data:
             email_data = {}
@@ -298,6 +300,19 @@ class api:
                     'kwarg email_version_name must be type(basestring), got %s' % (
                         type(email_version_name)))
             payload['version_name'] = email_version_name
+
+        if files:
+            file_list = []
+            if isinstance(files, list):
+                for file_name in files:
+                    with open(file_name, "rb") as f:
+                        file_list.append({'id': f.name, 'data': base64.b64encode(f.read())})
+
+                payload['files'] = file_list
+
+            else:
+                logger.error(
+                    'kwarg files must be type(list), got %s' % type(files))
 
         return self._api_request(
             self.SEND_ENDPOINT,
@@ -443,3 +458,5 @@ class BatchAPI(api):
 
     def command_length(self):
         return len(self.COMMANDS)
+
+
