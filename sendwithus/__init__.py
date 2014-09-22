@@ -41,7 +41,7 @@ class api:
     SEND_ENDPOINT = 'send'
     SEGMENTS_ENDPOINT = 'segments'
     RUN_SEGMENT_ENDPOINT = 'segments/%s/run'
-    SEND_SEGMENT_ENDPOINT = 'segments/%s/send' 
+    SEND_SEGMENT_ENDPOINT = 'segments/%s/send'
     DRIPS_DEACTIVATE_ENDPOINT = 'drips/deactivate'
     CUSTOMER_CREATE_ENDPOINT = 'customers'
     CUSTOMER_DELETE_ENDPOINT = 'customers/%s'
@@ -304,9 +304,8 @@ class api:
         if files:
             file_list = []
             if isinstance(files, list):
-                for file_name in files:
-                    with open(file_name, "rb") as f:
-                        file_list.append({'id': f.name, 'data': base64.b64encode(f.read())})
+                for f in files:
+                    file_list.append({'id': f.name, 'data': base64.b64encode(f.read())})
 
                 payload['files'] = file_list
 
