@@ -139,6 +139,18 @@ print r.status_code
 # 200
 ```
 
+### Optional File Attachments
+
+```python
+r = api.send(
+    email_id='YOUR-EMAIL-ID',
+    recipient={'name': 'Matt',
+               'address': 'us@sendwithus.com'},
+    files=[open('/home/Matt/report1.txt', 'r'), open('/home/Matt/report2.txt', 'r')])
+print r.status_code
+# 200
+```
+
 # Drip Campaigns
 
 ## Deactive a drip campaign
