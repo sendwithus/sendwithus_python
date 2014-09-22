@@ -146,7 +146,7 @@ r = api.send(
     email_id='YOUR-EMAIL-ID',
     recipient={'name': 'Matt',
                'address': 'us@sendwithus.com'},
-	files=['/home/Matt/report1.txt', '/home/Matt/report2.txt'])
+	files=[open('/home/Matt/report1.txt', 'r'), open('/home/Matt/report2.txt', 'r')])
 print r.status_code
 # 200
 ```
