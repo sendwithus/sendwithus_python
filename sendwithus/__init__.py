@@ -458,5 +458,3 @@ class BatchAPI(api):
 
     def command_length(self):
         return len(self.COMMANDS)
-
-
