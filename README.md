@@ -197,8 +197,7 @@ api.drip_deactivate('customer@example.com')
 
 ```python
 api.drip_campaign_details('dc_1234asdf1234')
-````
-`
+```
 
 # Customers
 
