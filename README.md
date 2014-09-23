@@ -153,16 +153,6 @@ print r.status_code
 
 # Drip Campaigns
 
-## Deactive a drip campaign
-
-You can deactivate pending drip campaign emails for a customer
-
-```python
-api.drip_deactivate('customer@example.com')
-```
-
-# Drip Campaigns 2.0
-
 ## List all drip campaigns
 
 List all drip campaigns for the current profile
@@ -195,23 +185,20 @@ Deactivates all pending emails for a customer on a specified drip campaign
 api.remove_from_drip_campaign('customer@email.com', 'dc_1234asdf1234')
 ```
 
+## Remove a customer from all drip campaigns
+
+You can deactivate all pending drip campaign emails for a customer
+
+```python
+api.drip_deactivate('customer@example.com')
+```
+
 ## List the details of a specific campaign
 
 ```python
 api.drip_campaign_details('dc_1234asdf1234')
 ````
-
-## List the active customers on a drip campaign
-
-```python
-api.drip_campaign_customers('dc_1234asdf1234')
-````
-
-## List the active customers on a specific drip step
-
-```python
-api.drip_campaign_step_customers('dc_1234asdf1234', 'dcs_jklqwer567')
-````
+`
 
 # Customers
 
