@@ -9,8 +9,8 @@ import requests
 import warnings
 import base64
 
-from encoder import SendwithusJSONEncoder
-from version import version
+from .encoder import SendwithusJSONEncoder
+from .version import version
 
 
 LOGGER_FORMAT = '%(asctime)-15s %(message)s'
