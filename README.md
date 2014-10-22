@@ -268,5 +268,5 @@ api.send_segment('tem_12345', 'seg_12345', email_data={'color': 'blue'})
     python setup.py test
 
 ### packaging (internal)
-        python setup.py sdist upload
+        python setup.py register sdist upload
 
