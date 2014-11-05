@@ -313,5 +313,9 @@ class TestAPI(unittest.TestCase):
         # queue should be empty now.
         self.assertEqual(batch_api.command_length(), 0)
 
+    def test_render(self):
+        result = self.api.render(self.EMAIL_ID, self.email_data)
+        self.assertSuccess(result)
+
 if __name__ == '__main__':
     unittest.main()
