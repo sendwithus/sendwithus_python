@@ -106,11 +106,10 @@ class TestAPI(unittest.TestCase):
         self.assertEqual(result.status_code, 400)
 
     def test_create_email_bad_html(self):
-        """ Test create emails endpoint invalid html"""
+        """ Test create emails endpoint invalid html (no longer fails) """
         result = self.api.create_email(
             'name', 'subject', '<html><he></body></html>')
-        self.assertFail(result)
-        self.assertEqual(result.status_code, 400)
+        self.assertEqual(result.status_code, 200)
 
     def test_send(self):
         """ Test a send with no sender info. """
