@@ -52,6 +52,7 @@ class api:
     DRIP_CAMPAIGN_CUSTOMERS_ENDPOINT = 'drip_campaigns/%s/customers'
     DRIP_CAMPAIGN_STEP_CUSTOMERS_ENDPOINT = 'drip_campaigns/%s/steps/%s/customers'
     BATCH_ENDPOINT = 'batch'
+    RENDER_ENDPOINT = 'render'
 
     API_CLIENT_LANG = 'python'
     API_CLIENT_VERSION = version
@@ -403,6 +404,13 @@ class api:
             API_PORT=self.API_PORT,
             API_VERSION=self.API_VERSION,
             DEBUG=self.DEBUG)
+
+    def render(self, email_id, email_data):
+        payload = {
+            "template_id": email_id,
+            "template_data": email_data
+        }
+        return self._api_request(self.RENDER_ENDPOINT, self.HTTP_POST, payload=payload)
 
 
 class BatchAPI(api):
