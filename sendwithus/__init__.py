@@ -405,11 +405,17 @@ class api:
             API_VERSION=self.API_VERSION,
             DEBUG=self.DEBUG)
 
-    def render(self, email_id, email_data):
+    def render(self, email_id, email_data, version_id=None, version_name=None):
         payload = {
             "template_id": email_id,
             "template_data": email_data
         }
+        if version_id:
+            payload['version_id'] = version_id
+
+        if version_name:
+            payload['version_name'] = version_name
+
         return self._api_request(self.RENDER_ENDPOINT, self.HTTP_POST, payload=payload)
 
 
