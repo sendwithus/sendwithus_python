@@ -227,7 +227,7 @@ against your sent emails.
 **NOTE:** Revenue is in cents (eg. $100.50 = 10050)
 
 ```python
-api.customer_conversion('customer@exmaple.com', revenue=10050)
+api.customer_conversion('customer@example.com', revenue=10050)
 ```
 
 # Segmentation

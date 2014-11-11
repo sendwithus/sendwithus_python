@@ -234,6 +234,14 @@ class TestAPI(unittest.TestCase):
         result = self.api.customer_delete('test+python@sendwithus.com')
         self.assertSuccess(result)
 
+    def test_customer_conversion(self):
+        result = self.api.customer_conversion('test+python@sendwithus.com')
+        self.assertSuccess(result)
+
+    def test_customer_conversion_revenue(self):
+        result = self.api.customer_conversion('test+python@sendwithus.com', revenue=1234)
+        self.assertSuccess(result)
+
     def test_send_segment(self):
         result = self.api.send_segment(self.EMAIL_ID, self.segment_id)
         self.assertSuccess(result)
