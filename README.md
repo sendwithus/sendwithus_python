@@ -217,13 +217,26 @@ api.customer_create('customer@example.com', data={'first_name': 'Matt'})
 api.customer_delete('customer@example.com')
 ```
 
+# Conversions
+
+## Create a customer conversion event
+
+You can use the Conversion API to track conversion and revenue data events
+against your sent emails.
+
+**NOTE:** Revenue is in cents (eg. $100.50 = 10050)
+
+```python
+api.customer_conversion('customer@example.com', revenue=10050)
+```
+
 # Segmentation
 
 ## Send Template to Segment
 
-You can use the Segments api to send a template to all customers who match a
+You can use the Segments API to send a template to all customers who match a
 segment. The Segment must be created in the Sendwithus dashboard, which is
-where you will find the `segment_id` for use in this api.
+where you will find the `segment_id` for use in this API.
 
 ```python
 api.send_segment('tem_12345', 'seg_1245')
@@ -242,7 +255,7 @@ api.send_segment('tem_12345', 'seg_12345', email_data={'color': 'blue'})
 
 ## Render a Template with data
 
-The render api allows you to render a template with data, using the exact same rendering workflow that Sendwithus uses when delivering your email.
+The render API allows you to render a template with data, using the exact same rendering workflow that Sendwithus uses when delivering your email.
 
 ```python
 api.render('tem_12345', { "amount": "$12.00" }, 'French-Version')
@@ -269,7 +282,7 @@ api.render('tem_12345', { "amount": "$12.00" }, 'French-Version')
         >>> r.status_code
         400
 
-* bad api key
+* bad API key
 
         >>> r.status_code
             403

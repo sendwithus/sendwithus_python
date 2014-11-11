@@ -45,6 +45,7 @@ class api:
     DRIPS_DEACTIVATE_ENDPOINT = 'drips/deactivate'
     CUSTOMER_CREATE_ENDPOINT = 'customers'
     CUSTOMER_DELETE_ENDPOINT = 'customers/%s'
+    CUSTOMER_CONVERSION_ENDPOINT = 'customers/%s/conversions'
     DRIP_CAMPAIGN_LIST_ENDPOINT = 'drip_campaigns'
     DRIP_CAMPAIGN_ACTIVATE_ENDPOINT = 'drip_campaigns/%s/activate'
     DRIP_CAMPAIGN_DEACTIVATE_ENDPOINT = 'drip_campaigns/%s/deactivate'
@@ -356,6 +357,15 @@ class api:
         endpoint = self.CUSTOMER_DELETE_ENDPOINT % email
 
         return self._api_request(endpoint, self.HTTP_DELETE)
+
+    def customer_conversion(self, email, revenue=None):
+        endpoint = self.CUSTOMER_CONVERSION_ENDPOINT % email
+
+        payload = {
+            'revenue': revenue
+        }
+
+        return self._api_request(endpoint, self.HTTP_POST, payload=payload)
 
     # New Drips 2.0 API
     def list_drip_campaigns(self):
