@@ -22,6 +22,8 @@ setup(
     classifiers=[
         "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.4",
         "License :: OSI Approved :: Apache Software License",
         "Development Status :: 5 - Production/Stable",
         "Topic :: Communications :: Email"

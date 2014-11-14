@@ -53,7 +53,7 @@ The `email_data` field is optional, but highly recommended!
 r = api.send(
     email_id='YOUR-EMAIL-ID',
     recipient={'address': 'us@sendwithus.com'})
-print r.status_code
+print(r.status_code)
 # 200
 ```
 
@@ -63,7 +63,7 @@ r = api.send(
     email_id='YOUR-EMAIL-ID',
     recipient={'address': 'us@sendwithus.com'},
     email_data={ 'first_name': 'Matt' })
-print r.status_code
+print(r.status_code)
 # 200
 ```
 
@@ -77,7 +77,7 @@ r = api.send(
                 'address': 'us@sendwithus.com'},
     email_data={ 'first_name': 'Matt' },
     sender={ 'address':'company@company.com' })
-print r.status_code
+print(r.status_code)
 # 200
 ```
 
@@ -93,7 +93,7 @@ r = api.send(
     sender={ 'name': 'Company',
                 'address':'company@company.com',
                 'reply_to':'info@company.com'})
-print r.status_code
+print(r.status_code)
 # 200
 ```
 
@@ -108,7 +108,7 @@ r = api.send(
         {'address': 'company@company.com'},
         {'address': 'info@company.com'}
     ])
-print r.status_code
+print(r.status_code)
 # 200
 ```
 
@@ -123,7 +123,7 @@ r = api.send(
         {'address': 'company@company.com'},
         {'address': 'info@company.com'}
     ])
-print r.status_code
+print(r.status_code)
 # 200
 ```
 
@@ -135,7 +135,7 @@ r = api.send(
     recipient={'name': 'Matt',
                 'address': 'us@sendwithus.com'},
     esp_account='esp_1234asdf1234')
-print r.status_code
+print(r.status_code)
 # 200
 ```
 
@@ -147,7 +147,7 @@ r = api.send(
     recipient={'name': 'Matt',
                'address': 'us@sendwithus.com'},
     files=[open('/home/Matt/report1.txt', 'r'), open('/home/Matt/report2.txt', 'r')])
-print r.status_code
+print(r.status_code)
 # 200
 ```
 
@@ -291,5 +291,5 @@ api.render('tem_12345', { "amount": "$12.00" }, 'French-Version')
     python setup.py test
 
 ### packaging (internal)
-        python setup.py sdist upload
+        python setup.py register sdist upload
 

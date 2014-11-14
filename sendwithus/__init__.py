@@ -9,8 +9,9 @@ import requests
 import warnings
 import base64
 
-from encoder import SendwithusJSONEncoder
-from version import version
+from .compat import string_types, PY3
+from .encoder import SendwithusJSONEncoder
+from .version import version
 
 
 LOGGER_FORMAT = '%(asctime)-15s %(message)s'
@@ -259,7 +260,7 @@ class api:
             email_data = {}
 
         # for backwards compatibility, will be removed
-        if isinstance(recipient, basestring):
+        if isinstance(recipient, string_types):
             warnings.warn(
                 "Passing email directly for recipient is deprecated",
                 DeprecationWarning)
@@ -291,16 +292,23 @@ class api:
             payload['tags'] = tags
 
         if esp_account:
-            if not isinstance(esp_account, basestring):
+            if not isinstance(esp_account, string_types):
+                args = (
+                    'str' if PY3 else 'basestring',
+                    type(esp_account),
+                )
                 logger.error(
-                    'kwarg esp_account must be type(basestring), got %s' % (type(esp_account)))
+                    'kwarg esp_account must be type(basestring), got %s' % args)
             payload['esp_account'] = esp_account
 
         if email_version_name:
-            if not isinstance(email_version_name, basestring):
+            if not isinstance(email_version_name, string_types):
+                args = (
+                    'str' if PY3 else 'basestring',
+                    type(email_version_name),
+                )
                 logger.error(
-                    'kwarg email_version_name must be type(basestring), got %s' % (
-                        type(email_version_name)))
+                    'kwarg email_version_name must be type(basestring), got %s' % args)
             payload['version_name'] = email_version_name
 
         if files:
