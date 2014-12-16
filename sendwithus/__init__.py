@@ -259,7 +259,7 @@ class api:
             email_data = {}
 
         # for backwards compatibility, will be removed
-        if isinstance(recipient, basestring):
+        if isinstance(recipient, str):
             warnings.warn(
                 "Passing email directly for recipient is deprecated",
                 DeprecationWarning)
