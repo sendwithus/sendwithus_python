@@ -3,11 +3,12 @@ sendwithus - Python Client
 For more information, visit http://www.sendwithus.com
 """
 
+import base64
 import logging
 import json
 import requests
+from six import string_types
 import warnings
-import base64
 
 from .encoder import SendwithusJSONEncoder
 from .version import version
@@ -259,7 +260,7 @@ class api:
             email_data = {}
 
         # for backwards compatibility, will be removed
-        if isinstance(recipient, basestring):
+        if isinstance(recipient, string_types):
             warnings.warn(
                 "Passing email directly for recipient is deprecated",
                 DeprecationWarning)
@@ -291,15 +292,15 @@ class api:
             payload['tags'] = tags
 
         if esp_account:
-            if not isinstance(esp_account, basestring):
+            if not isinstance(esp_account, string_types):
                 logger.error(
-                    'kwarg esp_account must be type(basestring), got %s' % (type(esp_account)))
+                    'kwarg esp_account must be a string, got %s' % (type(esp_account)))
             payload['esp_account'] = esp_account
 
         if email_version_name:
-            if not isinstance(email_version_name, basestring):
+            if not isinstance(email_version_name, string_types):
                 logger.error(
-                    'kwarg email_version_name must be type(basestring), got %s' % (
+                    'kwarg email_version_name must be a string, got %s' % (
                         type(email_version_name)))
             payload['version_name'] = email_version_name
 
