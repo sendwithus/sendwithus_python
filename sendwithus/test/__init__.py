@@ -311,7 +311,7 @@ class TestAPI(unittest.TestCase):
             batch_api.customer_create('test+python+%s@sendwithus.com' % x, data)
             self.assertEqual(batch_api.command_length(), x + 1)
 
-        result = batch_api.execute()
+        result = batch_api.execute().json()
         # should return a list of 10 result objects
         self.assertEqual(len(result), 10)
         for response in result:
