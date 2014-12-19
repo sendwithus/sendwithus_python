@@ -62,13 +62,14 @@ class api:
 
     DEBUG = False
 
-    def __init__(self, api_key=None, **kwargs):
+    def __init__(self, api_key=None, json_encoder=SendwithusJSONEncoder, **kwargs):
         """Constructor, expects api key"""
 
         if not api_key:
             raise Exception("You must specify an api key")
 
         self.API_KEY = api_key
+        self._json_encoder = json_encoder
 
         if 'API_HOST' in kwargs:
             self.API_HOST = kwargs['API_HOST']
@@ -112,7 +113,7 @@ class api:
     def _build_payload(self, data):
         if not data:
             return None
-        return json.dumps(data, cls=SendwithusJSONEncoder)
+        return json.dumps(data, cls=self._json_encoder)
 
     def _api_request(self, endpoint, http_method, *args, **kwargs):
         """Private method for api requests"""
@@ -414,7 +415,8 @@ class api:
             API_PROTO=self.API_PROTO,
             API_PORT=self.API_PORT,
             API_VERSION=self.API_VERSION,
-            DEBUG=self.DEBUG)
+            DEBUG=self.DEBUG,
+            json_encoder = self._json_encoder)
 
     def render(self, email_id, email_data, version_id=None, version_name=None):
         payload = {
@@ -467,7 +469,7 @@ class BatchAPI(api):
 
         path = self._build_request_path(self.BATCH_ENDPOINT)
 
-        data = json.dumps(self.COMMANDS, cls=SendwithusJSONEncoder)
+        data = json.dumps(self.COMMANDS, cls=self._json_encoder)
         r = requests.post(path, auth=auth, headers=headers, data=data)
 
         self.COMMANDS = []
@@ -478,7 +480,7 @@ class BatchAPI(api):
         except:
             logger.debug('\tresponse: %s' % r.content)
 
-        return r.json()
+        return r
 
     def command_length(self):
         return len(self.COMMANDS)
