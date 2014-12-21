@@ -32,13 +32,15 @@ class api:
     HTTP_PUT = 'PUT'
     HTTP_DELETE = 'DELETE'
 
-    TEMPLATES_ENDPOINT = 'templates'
     LOGS_ENDPOINT = 'logs'
     GET_LOG_ENDPOINT = 'logs/%s'
     GET_LOG_EVENTS_ENDPOINT = 'logs/%s/events'
+    TEMPLATES_ENDPOINT = 'templates'
     TEMPLATES_SPECIFIC_ENDPOINT = 'templates/%s'
     TEMPLATES_NEW_VERSION_ENDPOINT = 'templates/%s/versions'
     TEMPLATES_VERSION_ENDPOINT = 'templates/%s/versions/%s'
+    SNIPPETS_ENDPOINT = 'snippets'
+    SNIPPET_ENDPOINT = 'snippets/%s'
     SEND_ENDPOINT = 'send'
     SEGMENTS_ENDPOINT = 'segments'
     RUN_SEGMENT_ENDPOINT = 'segments/%s/run'
@@ -136,6 +138,11 @@ class api:
                 r = requests.post(path, auth=auth, data=data, headers=headers)
             else:
                 r = requests.post(path, auth=auth, headers=headers)
+        elif http_method == self.HTTP_PUT:
+            if (data):
+                r = requests.put(path, auth=auth, data=data, headers=headers)
+            else:
+                r = requests.put(path, auth=auth, headers=headers)
         elif http_method == self.HTTP_DELETE:
             r = requests.delete(path, auth=auth, headers=headers)
         else:
@@ -172,7 +179,8 @@ class api:
     def get_template(self, template_id, version=None):
         """ API call to get a specific template """
         if (version):
-            return self._api_request(self.TEMPLATES_VERSION_ENDPOINT % (template_id, version), self.HTTP_GET)
+            return self._api_request(
+                self.TEMPLATES_VERSION_ENDPOINT % (template_id, version), self.HTTP_GET)
         else:
             return self._api_request(self.TEMPLATES_SPECIFIC_ENDPOINT % template_id, self.HTTP_GET)
 
@@ -235,6 +243,34 @@ class api:
             self.TEMPLATES_VERSION_ENDPOINT % (template_id, version_id),
             self.HTTP_PUT,
             payload=payload)
+
+    def snippets(self):
+        """ API call to get list of snippets """
+        return self._api_request(self.SNIPPETS_ENDPOINT, self.HTTP_GET)
+
+    def get_snippet(self, snippet_id):
+        """ API call to get a specific Snippet """
+        return self._api_request(self.SNIPPET_ENDPOINT % (snippet_id), self.HTTP_GET)
+
+    def create_snippet(self, name, body):
+        """ API call to create a Snippet """
+        payload = {
+            'name': name,
+            'body': body
+        }
+        return self._api_request(self.SNIPPETS_ENDPOINT, self.HTTP_POST, payload=payload)
+
+    def update_snippet(self, snippet_id, name, body):
+        payload = {
+            'name': name,
+            'body': body
+        }
+
+        return self._api_request(
+            self.SNIPPET_ENDPOINT % (snippet_id),
+            self.HTTP_PUT,
+            payload=payload
+        )
 
     def drip_deactivate(self, email_address):
         payload = {'email_address': email_address}
@@ -416,7 +452,7 @@ class api:
             API_PORT=self.API_PORT,
             API_VERSION=self.API_VERSION,
             DEBUG=self.DEBUG,
-            json_encoder = self._json_encoder)
+            json_encoder=self._json_encoder)
 
     def render(self, email_id, email_data, version_id=None, version_name=None):
         payload = {
