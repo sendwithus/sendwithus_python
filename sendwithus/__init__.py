@@ -409,15 +409,47 @@ class api:
     def list_drip_campaigns(self):
         return self._api_request(self.DRIP_CAMPAIGN_LIST_ENDPOINT, self.HTTP_GET)
 
-    def start_on_drip_campaign(self, recipient_address, drip_campaign_id, email_data=None):
-        if not email_data:
-            email_data = {}
-
+    def start_on_drip_campaign(
+            self,
+            drip_campaign_id,
+            recipient,
+            email_data={},
+            sender=None,
+            cc=None,
+            bcc=None,
+            tags=[],
+            esp_account=None):
         endpoint = self.DRIP_CAMPAIGN_ACTIVATE_ENDPOINT % drip_campaign_id
+
         payload = {
-            'recipient_address': recipient_address,
+            'recipient': recipient,
             'email_data': email_data
         }
+
+        # Optional params
+
+        if sender:
+            payload['sender'] = sender
+        if cc:
+            if not type(cc) == list:
+                logger.error(
+                    'kwarg cc must be type(list), got %s' % type(cc))
+            payload['cc'] = cc
+        if bcc:
+            if not type(bcc) == list:
+                logger.error(
+                    'kwarg bcc must be type(list), got %s' % type(bcc))
+            payload['bcc'] = bcc
+        if tags:
+            if not type(tags) == list:
+                logger.error(
+                    'kwarg tags must be type(list), got %s' % (type(tags)))
+            payload['tags'] = tags
+        if esp_account:
+            if not isinstance(esp_account, string_types):
+                logger.error(
+                    'kwarg esp_account must be a string, got %s' % (type(esp_account)))
+            payload['esp_account'] = esp_account
 
         return self._api_request(endpoint, self.HTTP_POST, payload=payload)
 
