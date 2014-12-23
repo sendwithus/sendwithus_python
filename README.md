@@ -166,7 +166,7 @@ api.list_drip_campaigns()
 Starts a customer on the first step of a specified drip campaign
 
 ```python
-api.start_on_drip_campaign('customer@email.com', 'dc_1234asdf1234')
+api.start_on_drip_campaign('dc_1234asdf1234', {'address':'customer@email.com'})
 ```
 
 ### Extra Data
@@ -174,7 +174,15 @@ api.start_on_drip_campaign('customer@email.com', 'dc_1234asdf1234')
 You may specify extra data to be merged into the templates in the drip campaign
 
 ```python
-api.start_on_drip_campaign('customer@email.com', 'dc_1234asdf1234', email_data={'color': 'blue'})
+api.start_on_drip_campaign(
+    'dc_1234asdf1234',
+    {'address':'customer@email.com'},
+    email_data={'color': 'blue'},
+    sender={'address': 'from@email.com'},
+    cc=[{'address': 'cc@email.com'}],
+    tags=['tag_one', 'tag_two'],
+    esp_account='esp_1234'
+)
 ```
 
 ## Remove a customer from a drip campaign
