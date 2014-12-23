@@ -254,30 +254,34 @@ class TestAPI(unittest.TestCase):
     def test_start_on_drip_campaign(self):
         """ Test starting a customer on a drip campaign. """
         result = self.api.start_on_drip_campaign(
-            self.email_address,
-            self.enabled_drip_campaign_id)
+            self.enabled_drip_campaign_id,
+            {'address': self.email_address}
+        )
         self.assertSuccess(result)
 
     def test_start_on_disabled_drip_campaign(self):
         """ Test starting a customer on a drip campaign. """
         result = self.api.start_on_drip_campaign(
-            self.email_address,
-            self.disabled_drip_campaign_id)
+            self.disabled_drip_campaign_id,
+            {'address': self.email_address}
+        )
         self.assertFail(result)
 
     def test_start_on_false_drip_campaign(self):
         """ Test starting a customer on a drip campaign. """
         result = self.api.start_on_drip_campaign(
-            self.email_address,
-            self.false_drip_campaign_id)
+            self.false_drip_campaign_id,
+            {'address': self.email_address}
+        )
         self.assertFail(result)
 
     def test_start_on_drip_campaign_with_data(self):
         """ Test starting a customer on a drip campaign with data. """
         result = self.api.start_on_drip_campaign(
-            self.email_address,
             self.enabled_drip_campaign_id,
-            email_data=self.email_data)
+            {'address': self.email_address},
+            email_data=self.email_data
+        )
         self.assertSuccess(result)
 
     def test_remove_from_drip_campaign(self):
