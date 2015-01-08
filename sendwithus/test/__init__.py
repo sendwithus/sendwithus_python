@@ -230,6 +230,10 @@ class TestAPI(unittest.TestCase):
         result = self.api.customer_create('test+python@sendwithus.com', data)
         self.assertSuccess(result)
 
+    def test_get_customer(self):
+        result = self.api.customer_details('customer@example.com')
+        self.assertSuccess(result)
+
     def test_delete_customer(self):
         result = self.api.customer_delete('test+python@sendwithus.com')
         self.assertSuccess(result)
