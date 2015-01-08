@@ -209,10 +209,16 @@ api.drip_campaign_details('dc_1234asdf1234')
 
 # Customers
 
+## Get a Customer
+
+```python
+api.customer_details('customer@example.com')
+```
+
 ## Create/update Customer
 
 You can use the same endpoint to create or update a customer. Sendwithus
-will peform a merge of the data on the customer profile, preferring the new data.
+will perform a merge of the data on the customer profile, preferring the new data.
 
 ```python
 api.customer_create('customer@example.com', data={'first_name': 'Matt'})

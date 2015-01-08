@@ -47,6 +47,7 @@ class api:
     SEND_SEGMENT_ENDPOINT = 'segments/%s/send'
     DRIPS_DEACTIVATE_ENDPOINT = 'drips/deactivate'
     CUSTOMER_CREATE_ENDPOINT = 'customers'
+    CUSTOMER_DETAILS_ENDPOINT = 'customers/%s'
     CUSTOMER_DELETE_ENDPOINT = 'customers/%s'
     CUSTOMER_CONVERSION_ENDPOINT = 'customers/%s/conversions'
     DRIP_CAMPAIGN_LIST_ENDPOINT = 'drip_campaigns'
@@ -390,6 +391,11 @@ class api:
 
         return self._api_request(self.CUSTOMER_CREATE_ENDPOINT,
                                  self.HTTP_POST, payload=payload)
+
+    def customer_details(self, email):
+        endpoint = self.CUSTOMER_DETAILS_ENDPOINT % email
+
+        return self._api_request(endpoint, self.HTTP_GET)
 
     def customer_delete(self, email):
         endpoint = self.CUSTOMER_DELETE_ENDPOINT % email
