@@ -312,25 +312,41 @@ class TestAPI(unittest.TestCase):
     #     self.assertEqual(result.json().get('object'), 'drip_step')
 
     def test_batch_create_customer(self):
-        batch_api = self.api.start_batch()
+        batch_api_one = self.api.start_batch()
+        batch_api_two = self.api.start_batch()
 
         data = {'segment': 'Batch Updated Customer'}
         for x in range(10):
-            batch_api.customer_create('test+python+%s@sendwithus.com' % x, data)
-            self.assertEqual(batch_api.command_length(), x + 1)
+            batch_api_one.customer_create('test+python+%s@sendwithus.com' % x, data)
+            self.assertEqual(batch_api_one.command_length(), x + 1)
 
-        result = batch_api.execute().json()
-        # should return a list of 10 result objects
+            if (x % 2) == 0:
+                batch_api_two.customer_create('test+python+%s+again@sendwithus.com' % x, data)
+                self.assertEqual(batch_api_two.command_length(), (x/2)+1)
+
+        # Run batch 1
+        result = batch_api_one.execute().json()
         self.assertEqual(len(result), 10)
         for response in result:
             self.assertEqual(response['status_code'], 200)
 
-        # queue should be empty now.
-        self.assertEqual(batch_api.command_length(), 0)
+        # Batch one should be empty, batch two still full
+        self.assertEqual(batch_api_one.command_length(), 0)
+        self.assertEqual(batch_api_two.command_length(), 5)
+
+        result = batch_api_two.execute().json()
+        self.assertEqual(len(result), 5)
+        for response in result:
+            self.assertEqual(response['status_code'], 200)
+
+        # Both batches now empty
+        self.assertEqual(batch_api_one.command_length(), 0)
+        self.assertEqual(batch_api_two.command_length(), 0)
 
     def test_render(self):
         result = self.api.render(self.EMAIL_ID, self.email_data)
         self.assertSuccess(result)
+
 
 if __name__ == '__main__':
     unittest.main()

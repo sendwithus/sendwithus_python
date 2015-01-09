@@ -510,7 +510,7 @@ class BatchAPI(api):
 
     def __init__(self, *args, **kwargs):
         api.__init__(self, *args, **kwargs)
-        self.__commands = []
+        self._commands = []
 
     def _api_request(self, endpoint, http_method, *args, **kwargs):
         """Private method for api requests"""
@@ -531,25 +531,25 @@ class BatchAPI(api):
         if data:
             command['body'] = data
 
-        self.__commands.append(command)
+        self._commands.append(command)
 
     def execute(self):
         """Execute all currently queued batch commands"""
-        logger.debug(' > Batch API request (length %s)' % len(self.__commands))
+        logger.debug(' > Batch API request (length %s)' % len(self._commands))
 
         auth = self._build_http_auth()
 
         headers = self._build_request_headers()
         logger.debug('\tbatch headers: %s' % headers)
 
-        logger.debug('\tbatch command length: %s' % len(self.__commands))
+        logger.debug('\tbatch command length: %s' % len(self._commands))
 
         path = self._build_request_path(self.BATCH_ENDPOINT)
 
-        data = json.dumps(self.__commands, cls=self._json_encoder)
+        data = json.dumps(self._commands, cls=self._json_encoder)
         r = requests.post(path, auth=auth, headers=headers, data=data)
 
-        self.__commands = []
+        self._commands = []
 
         logger.debug('\tresponse code:%s' % r.status_code)
         try:
@@ -560,4 +560,4 @@ class BatchAPI(api):
         return r
 
     def command_length(self):
-        return len(self.__commands)
+        return len(self._commands)
