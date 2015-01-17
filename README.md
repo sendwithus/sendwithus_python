@@ -151,6 +151,17 @@ print r.status_code
 # 200
 ```
 
+### Optional Locale
+```python
+r = api.send(
+    email_id='YOUR-EMAIL-ID',
+    recipient={'name': 'Matt',
+               'address': 'us@sendwithus.com'},
+    locale='en-US')
+print r.status_code
+# 200
+```
+
 # Drip Campaigns
 
 ## List all drip campaigns
@@ -181,7 +192,8 @@ api.start_on_drip_campaign(
     sender={'address': 'from@email.com'},
     cc=[{'address': 'cc@email.com'}],
     tags=['tag_one', 'tag_two'],
-    esp_account='esp_1234'
+    esp_account='esp_1234',
+    locale='en-US'
 )
 ```
 
