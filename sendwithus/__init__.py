@@ -291,6 +291,7 @@ class api:
             bcc=None,
             tags=[],
             esp_account=None,
+            locale=None,
             email_version_name=None,
             files=[]):
         """ API call to send an email """
@@ -334,6 +335,11 @@ class api:
                 logger.error(
                     'kwarg esp_account must be a string, got %s' % (type(esp_account)))
             payload['esp_account'] = esp_account
+
+        if locale:
+            if not isinstance(locale, string_types):
+                logger.error('kwarg locale must be a string, got %s' % (type(locale)))
+            payload['locale'] = locale
 
         if email_version_name:
             if not isinstance(email_version_name, string_types):
@@ -411,7 +417,6 @@ class api:
 
         return self._api_request(endpoint, self.HTTP_POST, payload=payload)
 
-    # New Drips 2.0 API
     def list_drip_campaigns(self):
         return self._api_request(self.DRIP_CAMPAIGN_LIST_ENDPOINT, self.HTTP_GET)
 
@@ -424,7 +429,8 @@ class api:
             cc=None,
             bcc=None,
             tags=[],
-            esp_account=None):
+            esp_account=None,
+            locale=None):
         endpoint = self.DRIP_CAMPAIGN_ACTIVATE_ENDPOINT % drip_campaign_id
 
         payload = {
@@ -436,26 +442,35 @@ class api:
 
         if sender:
             payload['sender'] = sender
+
         if cc:
             if not type(cc) == list:
                 logger.error(
                     'kwarg cc must be type(list), got %s' % type(cc))
             payload['cc'] = cc
+
         if bcc:
             if not type(bcc) == list:
                 logger.error(
                     'kwarg bcc must be type(list), got %s' % type(bcc))
             payload['bcc'] = bcc
+
         if tags:
             if not type(tags) == list:
                 logger.error(
                     'kwarg tags must be type(list), got %s' % (type(tags)))
             payload['tags'] = tags
+
         if esp_account:
             if not isinstance(esp_account, string_types):
                 logger.error(
                     'kwarg esp_account must be a string, got %s' % (type(esp_account)))
             payload['esp_account'] = esp_account
+
+        if locale:
+            if not isinstance(locale, string_types):
+                logger.error('kwarg locale must be a string, got %s' % (type(locale)))
+            payload['locale'] = locale
 
         return self._api_request(endpoint, self.HTTP_POST, payload=payload)
 
