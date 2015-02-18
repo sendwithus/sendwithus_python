@@ -37,6 +37,8 @@ class api:
     GET_LOG_EVENTS_ENDPOINT = 'logs/%s/events'
     TEMPLATES_ENDPOINT = 'templates'
     TEMPLATES_SPECIFIC_ENDPOINT = 'templates/%s'
+    TEMPLATES_LOCALES_ENDPOINT = 'templates/%s/locales'
+    TEMPLATES_SPECIFIC_LOCALE_VERSIONS_ENDPOINT = 'templates/%s/locales/%s/versions'
     TEMPLATES_NEW_VERSION_ENDPOINT = 'templates/%s/versions'
     TEMPLATES_VERSION_ENDPOINT = 'templates/%s/versions/%s'
     SNIPPETS_ENDPOINT = 'snippets'
@@ -203,7 +205,25 @@ class api:
             self.HTTP_POST,
             payload=payload)
 
-    def create_new_version(self, name, subject, text='', template_id=None, html=None):
+    def create_new_locale(self, template_id, locale, version_name, subject, text='', html=''):
+        """ API call to create a new locale and version of a template """
+        payload = {
+            'locale': locale,
+            'name': version_name,
+            'subject': subject
+        }
+
+        if html:
+            payload['html'] = html
+        if text:
+            payload['text'] = text
+
+        return self._api_request(
+            self.TEMPLATES_LOCALES_ENDPOINT % template_id,
+            self.HTTP_POST,
+            payload=payload)
+
+    def create_new_version(self, name, subject, text='', template_id=None, html=None, locale=None):
         """ API call to create a new version of a template """
         if(html):
             payload = {
@@ -219,8 +239,13 @@ class api:
                 'text': text
             }
 
+        if locale:
+            url = self.TEMPLATES_SPECIFIC_LOCALE_VERSIONS_ENDPOINT % (template_id, locale)
+        else:
+            url = self.TEMPLATES_NEW_VERSION_ENDPOINT % template_id
+
         return self._api_request(
-            self.TEMPLATES_NEW_VERSION_ENDPOINT % template_id,
+            url,
             self.HTTP_POST,
             payload=payload)
 
