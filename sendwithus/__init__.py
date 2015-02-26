@@ -318,6 +318,7 @@ class api:
             esp_account=None,
             locale=None,
             email_version_name=None,
+            inline=None,
             files=[]):
         """ API call to send an email """
         if not email_data:
@@ -372,6 +373,16 @@ class api:
                     'kwarg email_version_name must be a string, got %s' % (
                         type(email_version_name)))
             payload['version_name'] = email_version_name
+
+        if inline:
+            if isinstance(inline, file):
+                image = ({'id': inline.name, 'data': base64.b64encode(inline.read())})
+
+                payload['inline'] = image
+
+            else:
+                logger.error(
+                    'kwarg files must be type(file), got %s' % type(inline))
 
         if files:
             file_list = []
