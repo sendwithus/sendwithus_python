@@ -151,6 +151,18 @@ print r.status_code
 # 200
 ```
 
+### Optional Inline Image
+
+```python
+r = api.send(
+    email_id='YOUR-EMAIL-ID',
+    recipient={'name': 'Matt',
+               'address': 'us@sendwithus.com'},
+    inline=open('image.jpg', 'r'))
+print r.status_code
+# 200
+```
+
 ### Optional Locale
 ```python
 r = api.send(
