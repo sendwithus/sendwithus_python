@@ -246,6 +246,30 @@ class TestAPI(unittest.TestCase):
         result = self.api.customer_conversion('test+python@sendwithus.com', revenue=1234)
         self.assertSuccess(result)
 
+    def test_list_customer_groups(self):
+        result = self.api.list_customer_groups()
+        self.assertSuccess(result)
+
+    def test_create_customer_group(self):
+        result = self.api.create_customer_group('test_group', description='sample description')
+        self.assertSuccess(result)
+
+    def test_delete_customer_group(self):
+        result = self.api.delete_customer_group('grp_1234')
+        self.assertSuccess(result)
+
+    def test_update_customer_group(self):
+        result = self.api.update_customer_group('grp_1234', name='new name', description='new description')
+        self.assertSuccess(result)
+
+    def test_add_customer_to_group(self):
+        result = self.api.add_customer_to_group('customer@example.com', 'grp_1234')
+        self.assertSuccess(result)
+
+    def test_remove_customer_from_group(self):
+        result = self.api.remove_customer_from_group('customer@example.com', 'grp_1234')
+        self.assertSuccess(result)
+
     def test_send_segment(self):
         result = self.api.send_segment(self.EMAIL_ID, self.segment_id)
         self.assertSuccess(result)

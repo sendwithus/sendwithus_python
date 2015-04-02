@@ -52,6 +52,9 @@ class api:
     CUSTOMER_DETAILS_ENDPOINT = 'customers/%s'
     CUSTOMER_DELETE_ENDPOINT = 'customers/%s'
     CUSTOMER_CONVERSION_ENDPOINT = 'customers/%s/conversions'
+    CUSTOMER_GROUPS_ENDPOINT = 'customers/%s/groups/%s'
+    GROUPS_ENDPOINT = 'groups'
+    GROUP_ENDPOINT = 'groups/%s'
     DRIP_CAMPAIGN_LIST_ENDPOINT = 'drip_campaigns'
     DRIP_CAMPAIGN_ACTIVATE_ENDPOINT = 'drip_campaigns/%s/activate'
     DRIP_CAMPAIGN_DEACTIVATE_ENDPOINT = 'drip_campaigns/%s/deactivate'
@@ -452,6 +455,44 @@ class api:
         }
 
         return self._api_request(endpoint, self.HTTP_POST, payload=payload)
+
+    def list_customer_groups(self):
+        return self._api_request(self.GROUPS_ENDPOINT, self.HTTP_GET)
+
+    def create_customer_group(self, name, description=''):
+        endpoint = self.GROUPS_ENDPOINT
+
+        payload = {
+            "name": name,
+            "description": description
+        }
+
+        return self._api_request(endpoint, self.HTTP_POST, payload=payload)
+
+    def delete_customer_group(self, group_id):
+        endpoint = self.GROUP_ENDPOINT % group_id
+
+        return self._api_request(endpoint, self.HTTP_DELETE)
+
+    def update_customer_group(self, group_id, name='', description=''):
+        endpoint = self.GROUP_ENDPOINT % group_id
+
+        payload = {
+            "name": name,
+            "description": description
+        }
+
+        return self._api_request(endpoint, self.HTTP_PUT, payload=payload)
+
+    def add_customer_to_group(self, email, group_id):
+        endpoint = self.CUSTOMER_GROUPS_ENDPOINT % (email, group_id)
+
+        return self._api_request(endpoint, self.HTTP_POST)
+
+    def remove_customer_from_group(self, email, group_id):
+        endpoint = self.CUSTOMER_GROUPS_ENDPOINT % (email, group_id)
+
+        return self._api_request(endpoint, self.HTTP_DELETE)
 
     def list_drip_campaigns(self):
         return self._api_request(self.DRIP_CAMPAIGN_LIST_ENDPOINT, self.HTTP_GET)
