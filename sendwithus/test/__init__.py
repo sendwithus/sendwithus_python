@@ -226,17 +226,15 @@ class TestAPI(unittest.TestCase):
             email_version_name='version-override')
         self.assertSuccess(result)
 
-    def test_create_customer(self):
+    def test_customer_actions(self):
         data = {'first_name': 'Python Client Unit Test'}
         result = self.api.customer_create('test+python@sendwithus.com', data)
+        self.assertSuccess(result)
+        result = self.api.customer_delete('test+python@sendwithus.com')
         self.assertSuccess(result)
 
     def test_get_customer(self):
         result = self.api.customer_details('customer@example.com')
-        self.assertSuccess(result)
-
-    def test_delete_customer(self):
-        result = self.api.customer_delete('test+python@sendwithus.com')
         self.assertSuccess(result)
 
     def test_customer_conversion(self):
