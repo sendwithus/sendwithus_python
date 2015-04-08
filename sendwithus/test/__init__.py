@@ -1,5 +1,7 @@
+import json
 import unittest
 import decimal
+import time
 
 from sendwithus import api
 
@@ -225,17 +227,15 @@ class TestAPI(unittest.TestCase):
             email_version_name='version-override')
         self.assertSuccess(result)
 
-    def test_create_customer(self):
+    def test_customer_actions(self):
         data = {'first_name': 'Python Client Unit Test'}
         result = self.api.customer_create('test+python@sendwithus.com', data)
+        self.assertSuccess(result)
+        result = self.api.customer_delete('test+python@sendwithus.com')
         self.assertSuccess(result)
 
     def test_get_customer(self):
         result = self.api.customer_details('customer@example.com')
-        self.assertSuccess(result)
-
-    def test_delete_customer(self):
-        result = self.api.customer_delete('test+python@sendwithus.com')
         self.assertSuccess(result)
 
     def test_customer_conversion(self):
@@ -244,6 +244,21 @@ class TestAPI(unittest.TestCase):
 
     def test_customer_conversion_revenue(self):
         result = self.api.customer_conversion('test+python@sendwithus.com', revenue=1234)
+        self.assertSuccess(result)
+
+    def test_customer_group_actions(self):
+        result = self.api.create_customer_group(name=str(time.time), description='sample description')
+        self.assertSuccess(result)
+        group_id = json.loads(result.text)['group']['id']
+        result = self.api.update_customer_group(group_id=group_id, name='new+name', description='new description')
+        self.assertSuccess(result)
+        result = self.api.add_customer_to_group(email='customer@example.com', group_id=group_id)
+        self.assertSuccess(result)
+        result = self.api.delete_customer_group(group_id=group_id)
+        self.assertSuccess(result)
+
+    def test_remove_customer_from_group(self):
+        result = self.api.remove_customer_from_group(email='customer@example.com', group_id='grp_1234')
         self.assertSuccess(result)
 
     def test_send_segment(self):
