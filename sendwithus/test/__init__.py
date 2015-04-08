@@ -1,6 +1,7 @@
 import json
 import unittest
 import decimal
+import time
 
 from sendwithus import api
 
@@ -246,7 +247,7 @@ class TestAPI(unittest.TestCase):
         self.assertSuccess(result)
 
     def test_customer_group_actions(self):
-        result = self.api.create_customer_group(name='swu+test+group+x', description='sample description')
+        result = self.api.create_customer_group(name=str(time.time), description='sample description')
         self.assertSuccess(result)
         group_id = json.loads(result.text)['group']['id']
         result = self.api.update_customer_group(group_id=group_id, name='new+name', description='new description')
