@@ -318,6 +318,7 @@ class api:
             cc=None,
             bcc=None,
             tags=[],
+            headers={},
             esp_account=None,
             locale=None,
             email_version_name=None,
@@ -358,6 +359,12 @@ class api:
                 logger.error(
                     'kwarg tags must be type(list), got %s' % (type(tags)))
             payload['tags'] = tags
+
+        if headers:
+            if not type(headers) == dict:
+                logger.error(
+                    'kwarg headers must be type(dict), got %s' % (type(headers)))
+            payload['headers'] = headers
 
         if esp_account:
             if not isinstance(esp_account, string_types):
