@@ -127,6 +127,18 @@ print r.status_code
 # 200
 ```
 
+### Optional Headers
+
+```python
+r = api.send(
+    email_id='YOUR-EMAIL-ID',
+    recipient={'name': 'Matt',
+                'address': 'us@sendwithus.com'},
+    headers={'X-HEADER-ONE': 'header-value'})
+print r.status_code
+# 200
+```
+
 ### Optional ESP Account
 
 ```python

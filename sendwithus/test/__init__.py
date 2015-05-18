@@ -215,6 +215,22 @@ class TestAPI(unittest.TestCase):
             tags='bad')
         self.assertFail(result)
 
+    def test_send_headers(self):
+        result = self.api.send(
+            self.EMAIL_ID,
+            self.recipient,
+            email_data = self.email_data,
+            headers={'X-HEADER-ONE': 'header-value'})
+        self.assertSuccess(result)
+
+    def test_send_headers_invalid(self):
+        result = self.api.send(
+            self.EMAIL_ID,
+            self.recipient,
+            email_data = self.email_data,
+            headers='X-HEADER-ONE')
+        self.assertFail(result)
+
     def test_drip_deactivate(self):
         result = self.api.drip_deactivate(self.email_address)
         self.assertSuccess(result)
