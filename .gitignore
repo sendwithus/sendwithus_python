@@ -12,3 +12,7 @@ dist/*
 build/
 build/*
 *.egg-info
+
+# IntelliJ
+.idea
+*.iml

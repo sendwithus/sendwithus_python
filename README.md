@@ -340,7 +340,7 @@ api.send_segment('tem_12345', 'seg_12345', email_data={'color': 'blue'})
 The render API allows you to render a template with data, using the exact same rendering workflow that Sendwithus uses when delivering your email.
 
 ```python
-api.render('tem_12345', { "amount": "$12.00" }, 'French-Version')
+api.render('tem_12345', { "amount": "$12.00" }, 'French-Version', strict=False)
 ```
 
 ## expected response
