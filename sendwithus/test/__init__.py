@@ -4,6 +4,7 @@ import decimal
 import time
 
 from sendwithus import api
+from sendwithus.exceptions import AuthenticationError, APIError, ServerError
 
 
 class TestAPI(unittest.TestCase):
@@ -378,6 +379,34 @@ class TestAPI(unittest.TestCase):
         result = self.api.render(self.EMAIL_ID, self.email_data)
         self.assertSuccess(result)
 
+
+class TestExceptions(unittest.TestCase):
+    API_KEY = 'THIS_IS_A_TEST_API_KEY'
+
+    options = {
+        'DEBUG': False
+    }
+
+    def test_authentication_error(self):
+        """Test raises AuthenticationError with invalid api key"""
+        invalid_api = api('INVALID_KEY', raise_errors=True, **self.options)
+
+        self.assertRaises(AuthenticationError, invalid_api.emails)
+
+    def test_invalid_request(self):
+        """Test raises APIError with invalid api request & raise_errors=True"""
+        swu_api = api(self.API_KEY, raise_errors=True, **self.options)
+
+        self.assertRaises(APIError, swu_api.create_email,
+                          'name', '', '<html><head></head><body></body></html>')
+
+    def test_raise_errors_option(self):
+        """Test raises no exception if raise_errors=False"""
+        swu_api = api(self.API_KEY, raise_errors=False, **self.options)
+        response = swu_api.create_email(
+            'name', '', '<html><head></head><body></body></html>')
+
+        self.assertEqual(400, response.status_code)
 
 if __name__ == '__main__':
     unittest.main()
