@@ -4,7 +4,7 @@ import decimal
 import time
 
 from sendwithus import api
-from sendwithus.exceptions import AuthenticationError, APIError, ServerError
+from sendwithus.exceptions import APIError, AuthenticationError
 
 
 class TestAPI(unittest.TestCase):
@@ -397,16 +397,21 @@ class TestExceptions(unittest.TestCase):
         """Test raises APIError with invalid api request & raise_errors=True"""
         swu_api = api(self.API_KEY, raise_errors=True, **self.options)
 
-        self.assertRaises(APIError, swu_api.create_email,
-                          'name', '', '<html><head></head><body></body></html>')
+        self.assertRaises(
+            APIError,
+            swu_api.create_email,
+            'name',
+            '',
+            '<html><head></head><body></body></html>'
+        )
 
     def test_raise_errors_option(self):
         """Test raises no exception if raise_errors=False"""
         swu_api = api(self.API_KEY, raise_errors=False, **self.options)
-        response = swu_api.create_email(
-            'name', '', '<html><head></head><body></body></html>')
+        response = swu_api.create_email('name', '', '<html><head></head><body></body></html>')
 
         self.assertEqual(400, response.status_code)
+
 
 if __name__ == '__main__':
     unittest.main()

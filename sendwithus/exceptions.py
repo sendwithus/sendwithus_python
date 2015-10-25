@@ -1,13 +1,13 @@
 class SendwithusError(Exception):
-    """Base class for Sendwithus-related errors"""
+    """Base class for Sendwithus API errors"""
 
 
 class AuthenticationError(SendwithusError):
-    """Errors caused with API keys"""
+    """API Authentication Failed"""
 
 
 class APIError(SendwithusError):
-    """4xx - Failed Request (Client error)"""
+    """4xx - Invalid Request (Client error)"""
 
 
 class ServerError(SendwithusError):
