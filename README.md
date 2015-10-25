@@ -17,6 +17,15 @@ import sendwithus
 api = sendwithus.api(api_key='YOUR-API-KEY')
 ```
 
+### error handling
+By default, the api calls return a response object. However, you can use
+`sendwithus.api(api_key='YOUR-API-KEY', raise_errors=True)` which will raise the following errors:
+* `AuthenticationError` - Caused by an invalid api key
+* `APIError` - Caused by an invalid api request (4xx error)
+* `ServerError` - Caused by a server error (5xx error)
+
+Errors can be imported from the `sendwithus.exceptions` module.
+
 # Templates
 
 ## Get your templates

@@ -12,6 +12,7 @@ import warnings
 
 from .encoder import SendwithusJSONEncoder
 from .version import version
+from .exceptions import AuthenticationError, APIError, ServerError
 
 
 LOGGER_FORMAT = '%(asctime)-15s %(message)s'
@@ -70,7 +71,7 @@ class api:
 
     DEBUG = False
 
-    def __init__(self, api_key=None, json_encoder=SendwithusJSONEncoder, **kwargs):
+    def __init__(self, api_key=None, json_encoder=SendwithusJSONEncoder, raise_errors=False, **kwargs):
         """Constructor, expects api key"""
 
         if not api_key:
@@ -78,6 +79,7 @@ class api:
 
         self.API_KEY = api_key
         self._json_encoder = json_encoder
+        self._raise_errors = raise_errors
 
         if 'API_HOST' in kwargs:
             self.API_HOST = kwargs['API_HOST']
@@ -123,6 +125,24 @@ class api:
             return None
         return json.dumps(data, cls=self._json_encoder)
 
+    def _parse_response(self, response):
+        """Parses the API response and raises appropriate errors if raise_errors was set to True"""
+        if not self._raise_errors:
+            return response
+        else:
+            is_4xx_error = str(response.status_code)[0] == '4'
+            is_5xx_error = str(response.status_code)[0] == '5'
+            content = response.content
+
+            if response.status_code == 403:
+                raise AuthenticationError(content)
+            elif is_4xx_error:
+                raise APIError(content)
+            elif is_5xx_error:
+                raise ServerError(content)
+            else:
+                return response
+
     def _api_request(self, endpoint, http_method, *args, **kwargs):
         """Private method for api requests"""
         logger.debug(' > Sending API request to endpoint: %s' % endpoint)
@@ -160,7 +180,7 @@ class api:
         except:
             logger.debug('\tresponse: %s' % r.content)
 
-        return r
+        return self._parse_response(r)
 
     def logs(self):
         """ API call to get a list of logs """
