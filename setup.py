@@ -17,7 +17,7 @@ setup(
     long_description=long_description,
     test_suite="sendwithus.test",
     install_requires=[
-        "requests >= 1.1.0",
+        "requests >= 2.0.0",
         "six >= 1.9.0"
     ],
     classifiers=[
