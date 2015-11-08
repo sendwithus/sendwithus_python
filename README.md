@@ -381,6 +381,15 @@ api.render('tem_12345', { "amount": "$12.00" }, 'French-Version', strict=False)
 ## to run tests
     python setup.py test
 
+### Testing multiple python versions
+This assumes you have [tox](https://testrun.org/tox/latest/) installed and used
+[pyenv](https://github.com/yyuu/pyenv) to install multiple versions of python.
+
+Once all the supported python versions are installed simply run:
+
+    tox
+
+This will run the tests against all the versions specified in `tox.ini`.
+
 ### packaging (internal)
         python setup.py sdist upload
-
