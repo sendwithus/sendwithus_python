@@ -267,7 +267,7 @@ class TestAPI(unittest.TestCase):
         result = self.api.create_customer_group(name=str(time.time()), description='sample description')
         self.assertSuccess(result)
         group_id = json.loads(result.text)['group']['id']
-        result = self.api.update_customer_group(group_id=group_id, name='new+name', description='new description')
+        result = self.api.update_customer_group(group_id=group_id, name='new+name' + str(time.time()), description='new description')
         self.assertSuccess(result)
         result = self.api.add_customer_to_group(email='customer@example.com', group_id=group_id)
         self.assertSuccess(result)
