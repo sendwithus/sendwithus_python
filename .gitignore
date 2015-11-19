@@ -3,6 +3,7 @@
 *.pyc
 *.swo
 *.swp
+__pycache__
 local_settings.py
 
 # pypi building stuff
@@ -16,3 +17,6 @@ build/*
 # IntelliJ
 .idea
 *.iml
+
+# testing/tox
+.tox/

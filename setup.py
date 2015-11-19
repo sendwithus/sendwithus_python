@@ -17,12 +17,15 @@ setup(
     long_description=long_description,
     test_suite="sendwithus.test",
     install_requires=[
-        "requests >= 1.1.0",
+        "requests >= 2.0.0",
         "six >= 1.9.0"
     ],
     classifiers=[
         "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.4",
+        "Programming Language :: Python :: 3.5",
         "License :: OSI Approved :: Apache Software License",
         "Development Status :: 5 - Production/Stable",
         "Topic :: Communications :: Email"
