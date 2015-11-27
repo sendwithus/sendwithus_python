@@ -585,16 +585,6 @@ class api:
 
         return self._api_request(endpoint, self.HTTP_GET)
 
-    def drip_campaign_customers(self, drip_campaign_id):
-        endpoint = self.DRIP_CAMPAIGN_CUSTOMERS_ENDPOINT % drip_campaign_id
-
-        return self._api_request(endpoint, self.HTTP_GET)
-
-    def drip_campaign_step_customers(self, drip_campaign_id, drip_step_id):
-        endpoint = self.DRIP_CAMPAIGN_STEP_CUSTOMERS_ENDPOINT % (drip_campaign_id, drip_step_id)
-
-        return self._api_request(endpoint, self.HTTP_GET)
-
     def start_batch(self):
         return BatchAPI(
             api_key=self.API_KEY,
