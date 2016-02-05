@@ -55,6 +55,25 @@ r.content
 
 # Send
 
+*NOTE* - If a customer does not exist by the specified email (recipient address), the send call will create a customer.
+
+- email_id                  -- Template ID to send
+- recipient
+   - address                -- The recipient's email address
+   - name (optional)        -- The recipient's name
+- email_data                -- Object containing email template data
+- sender (optional)
+   - address                -- The sender's email address
+   - reply_to               -- The sender's reply-to address
+   - name                   -- The sender's name
+- cc (optional)             -- A list of CC recipients, of the format {"address":"cc@email.com"}
+- bcc (optional)            -- A list of BCC recipients, of the format {"address":"bcc@email.com"}
+- headers (options)         -- Object contain SMTP headers to be included with the email
+- esp\_account (optional)   -- ID of the ESP Account to send this email through. ex: esp\_1a2b3c4d5e
+- files (optional)          -- List of file attachments (combined maximum 7MB)
+- inline (optional)         -- Inline attachment object
+- locale (optional)         -- Template locale to send (ie: en-US)
+
 ### Call with REQUIRED parameters only
 The `email_data` field is optional, but highly recommended!
 
