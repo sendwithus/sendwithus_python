@@ -10,6 +10,7 @@ import sys
 import warnings
 
 import requests
+import six
 from six import string_types
 
 from .encoder import SendwithusJSONEncoder
@@ -405,11 +406,9 @@ class api:
                         type(email_version_name)))
             payload['version_name'] = email_version_name
 
-        is_py3 = sys.version_info > (3, 0, 0)
-
         if inline:
             if isinstance(inline, file):
-                image = ({'id': inline.name, 'data': base64.b64encode(inline.read()).decode() if is_py3 else base64.b64encode(inline.read())})
+                image = ({'id': inline.name, 'data': base64.b64encode(inline.read()).decode() if six.PY3 else base64.b64encode(inline.read())})
 
                 payload['inline'] = image
 
@@ -421,7 +420,7 @@ class api:
             file_list = []
             if isinstance(files, list):
                 for f in files:
-                    file_list.append({'id': f.name, 'data': base64.b64encode(f.read()).decode() if is_py3 else base64.b64encode(f.read())})
+                    file_list.append({'id': f.name, 'data': base64.b64encode(f.read()).decode() if six.PY3 else base64.b64encode(f.read())})
 
                 payload['files'] = file_list
 
