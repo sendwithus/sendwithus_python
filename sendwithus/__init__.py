@@ -4,16 +4,18 @@ For more information, visit http://www.sendwithus.com
 """
 
 import base64
-import logging
 import json
-import requests
-from six import string_types
+import logging
+import sys
 import warnings
 
-from .encoder import SendwithusJSONEncoder
-from .version import version
-from .exceptions import APIError, AuthenticationError, ServerError
+import requests
+import six
+from six import string_types
 
+from .encoder import SendwithusJSONEncoder
+from .exceptions import APIError, AuthenticationError, ServerError
+from .version import version
 
 LOGGER_FORMAT = '%(asctime)-15s %(message)s'
 logger = logging.getLogger('sendwithus')
@@ -406,7 +408,7 @@ class api:
 
         if inline:
             if isinstance(inline, file):
-                image = ({'id': inline.name, 'data': base64.b64encode(inline.read())})
+                image = ({'id': inline.name, 'data': base64.b64encode(inline.read()).decode() if six.PY3 else base64.b64encode(inline.read())})
 
                 payload['inline'] = image
 
@@ -418,7 +420,7 @@ class api:
             file_list = []
             if isinstance(files, list):
                 for f in files:
-                    file_list.append({'id': f.name, 'data': base64.b64encode(f.read())})
+                    file_list.append({'id': f.name, 'data': base64.b64encode(f.read()).decode() if six.PY3 else base64.b64encode(f.read())})
 
                 payload['files'] = file_list
 
