@@ -8,6 +8,7 @@ local_settings.py
 
 # pypi building stuff
 MANIFEST
+.cache/
 dist/
 dist/*
 build/
@@ -17,6 +18,9 @@ build/*
 # IntelliJ
 .idea
 *.iml
+
+# Sublime Text
+*.sublime-*
 
 # testing/tox
 .tox/
