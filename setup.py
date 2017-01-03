@@ -20,6 +20,12 @@ setup(
         "requests >= 2.0.0",
         "six >= 1.9.0"
     ],
+    extras_require={
+        "test": [
+            "pytest >= 3.0.5",
+            "pytest-xdist >= 1.15.0"
+        ]
+    },
     classifiers=[
         "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 2.7",

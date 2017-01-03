@@ -40,7 +40,8 @@ class api:
     TEMPLATES_ENDPOINT = 'templates'
     TEMPLATES_SPECIFIC_ENDPOINT = 'templates/%s'
     TEMPLATES_LOCALES_ENDPOINT = 'templates/%s/locales'
-    TEMPLATES_SPECIFIC_LOCALE_VERSIONS_ENDPOINT = 'templates/%s/locales/%s/versions'
+    TEMPLATES_SPECIFIC_LOCALE_VERSIONS_ENDPOINT = \
+        'templates/%s/locales/%s/versions'
     TEMPLATES_NEW_VERSION_ENDPOINT = 'templates/%s/versions'
     TEMPLATES_VERSION_ENDPOINT = 'templates/%s/versions/%s'
     SNIPPETS_ENDPOINT = 'snippets'
@@ -62,7 +63,8 @@ class api:
     DRIP_CAMPAIGN_DEACTIVATE_ENDPOINT = 'drip_campaigns/%s/deactivate'
     DRIP_CAMPAIGN_DETAILS_ENDPOINT = 'drip_campaigns/%s'
     DRIP_CAMPAIGN_CUSTOMERS_ENDPOINT = 'drip_campaigns/%s/customers'
-    DRIP_CAMPAIGN_STEP_CUSTOMERS_ENDPOINT = 'drip_campaigns/%s/steps/%s/customers'
+    DRIP_CAMPAIGN_STEP_CUSTOMERS_ENDPOINT = \
+        'drip_campaigns/%s/steps/%s/customers'
     BATCH_ENDPOINT = 'batch'
     RENDER_ENDPOINT = 'render'
 
@@ -73,7 +75,14 @@ class api:
     DEBUG = False
     DEFAULT_TIMEOUT = None
 
-    def __init__(self, api_key=None, json_encoder=SendwithusJSONEncoder, raise_errors=False, default_timeout=None, **kwargs):
+    def __init__(
+        self,
+        api_key=None,
+        json_encoder=SendwithusJSONEncoder,
+        raise_errors=False,
+        default_timeout=None,
+        **kwargs
+    ):
         """Constructor, expects api key"""
 
         if not api_key:
@@ -104,7 +113,10 @@ class api:
         return (self.API_KEY, '')
 
     def _build_request_headers(self, custom_headers=None):
-        client_header = '%s-%s' % (self.API_CLIENT_LANG, self.API_CLIENT_VERSION)
+        client_header = '%s-%s' % (
+            self.API_CLIENT_LANG,
+            self.API_CLIENT_VERSION
+        )
 
         headers = {
             self.API_HEADER_CLIENT: client_header,
@@ -120,7 +132,12 @@ class api:
     def _build_request_path(self, endpoint, absolute=True):
         path = '/api/v%s/%s' % (self.API_VERSION, endpoint)
         if absolute:
-            path = "%s://%s:%s%s" % (self.API_PROTO, self.API_HOST, self.API_PORT, path)
+            path = "%s://%s:%s%s" % (
+                self.API_PROTO,
+                self.API_HOST,
+                self.API_PORT,
+                path
+            )
         return path
 
     def _build_payload(self, data):
@@ -129,7 +146,9 @@ class api:
         return json.dumps(data, cls=self._json_encoder)
 
     def _parse_response(self, response):
-        """Parses the API response and raises appropriate errors if raise_errors was set to True"""
+        """Parses the API response and raises appropriate errors if
+        raise_errors was set to True
+        """
         if not self._raise_errors:
             return response
 
@@ -324,7 +343,10 @@ class api:
             }
 
         if locale:
-            url = self.TEMPLATES_SPECIFIC_LOCALE_VERSIONS_ENDPOINT % (template_id, locale)
+            url = self.TEMPLATES_SPECIFIC_LOCALE_VERSIONS_ENDPOINT % (
+                template_id,
+                locale
+            )
         else:
             url = self.TEMPLATES_NEW_VERSION_ENDPOINT % template_id
 
@@ -475,18 +497,26 @@ class api:
         if headers:
             if not type(headers) == dict:
                 logger.error(
-                    'kwarg headers must be type(dict), got %s' % (type(headers)))
+                    'kwarg headers must be type(dict), got %s' % (
+                        type(headers)
+                    )
+                )
             payload['headers'] = headers
 
         if esp_account:
             if not isinstance(esp_account, string_types):
                 logger.error(
-                    'kwarg esp_account must be a string, got %s' % (type(esp_account)))
+                    'kwarg esp_account must be a string, got %s' % (
+                        type(esp_account)
+                    )
+                )
             payload['esp_account'] = esp_account
 
         if locale:
             if not isinstance(locale, string_types):
-                logger.error('kwarg locale must be a string, got %s' % (type(locale)))
+                logger.error(
+                    'kwarg locale must be a string, got %s' % (type(locale))
+                )
             payload['locale'] = locale
 
         if email_version_name:
@@ -497,8 +527,14 @@ class api:
             payload['version_name'] = email_version_name
 
         if inline:
-            if isinstance(inline, file):
-                image = ({'id': inline.name, 'data': base64.b64encode(inline.read()).decode() if six.PY3 else base64.b64encode(inline.read())})
+            if isinstance(inline, file):  # noqa, until #47 is fixed
+                image = {
+                    'id': inline.name,
+                    'data': (
+                        base64.b64encode(inline.read()).decode()
+                        if six.PY3 else base64.b64encode(inline.read())
+                    )
+                }
 
                 payload['inline'] = image
 
@@ -510,7 +546,13 @@ class api:
             file_list = []
             if isinstance(files, list):
                 for f in files:
-                    file_list.append({'id': f.name, 'data': base64.b64encode(f.read()).decode() if six.PY3 else base64.b64encode(f.read())})
+                    file_list.append({
+                        'id': f.name,
+                        'data': (
+                            base64.b64encode(f.read()).decode()
+                            if six.PY3 else base64.b64encode(f.read())
+                        )
+                    })
 
                 payload['files'] = file_list
 
@@ -735,12 +777,17 @@ class api:
         if esp_account:
             if not isinstance(esp_account, string_types):
                 logger.error(
-                    'kwarg esp_account must be a string, got %s' % (type(esp_account)))
+                    'kwarg esp_account must be a string, got %s' % (
+                        type(esp_account)
+                    )
+                )
             payload['esp_account'] = esp_account
 
         if locale:
             if not isinstance(locale, string_types):
-                logger.error('kwarg locale must be a string, got %s' % (type(locale)))
+                logger.error(
+                    'kwarg locale must be a string, got %s' % (type(locale))
+                )
             payload['locale'] = locale
 
         return self._api_request(

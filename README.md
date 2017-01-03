@@ -398,7 +398,7 @@ api.render('tem_12345', { "amount": "$12.00" }, 'French-Version', strict=False)
             403
 
 ## to run tests
-    python setup.py test
+    tox
 
 ### Testing multiple python versions
 This assumes you have [tox](https://testrun.org/tox/latest/) installed and used
@@ -411,4 +411,4 @@ Once all the supported python versions are installed simply run:
 This will run the tests against all the versions specified in `tox.ini`.
 
 ### packaging (internal)
-        python setup.py sdist upload
+        python setup.py sdist bdist_wheel upload
