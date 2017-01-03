@@ -3,7 +3,6 @@
 *.pyc
 *.swo
 *.swp
-*.sublime-*
 __pycache__
 local_settings.py
 
