@@ -24,3 +24,6 @@ build/*
 
 # testing/tox
 .tox/
+
+# virtualenv
+.venv
