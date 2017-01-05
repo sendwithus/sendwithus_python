@@ -1,8 +1,11 @@
 import json
 import decimal
+import tempfile
 import time
 
 import pytest
+import six
+
 import sendwithus
 from sendwithus.exceptions import APIError, AuthenticationError
 
@@ -230,6 +233,37 @@ def test_send_headers_invalid(api, email_id, recipient, email_data):
         headers='X-HEADER-ONE'
     )
     assert result.status_code != 200
+
+
+@pytest.yield_fixture
+def file():
+    with tempfile.NamedTemporaryFile() as tempf:
+        data = ('simple file content' + '\n') * 3
+        tempf.write(bytes(data, 'utf-8')) \
+            if six.PY3 else tempf.write(data)
+        tempf.seek(0)
+        yield tempf
+
+
+def test_send_with_files(api, email_id, recipient, email_data, file):
+        result = api.send(
+            email_id,
+            recipient,
+            email_data=email_data,
+            files=[file])
+
+        assert result.status_code == 200
+
+
+def test_send_with_files_explicit_filename(api, email_id,
+                                           recipient, email_data, file):
+        result = api.send(
+            email_id,
+            recipient,
+            email_data=email_data,
+            files=[(file, 'filename.pdf')])
+
+        assert result.status_code == 200
 
 
 def test_drip_deactivate(api, email_address):

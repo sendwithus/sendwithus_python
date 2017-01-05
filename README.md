@@ -191,6 +191,18 @@ print r.status_code
 # 200
 ```
 
+### Optional File Attachments With explicit file names
+
+```python
+r = api.send(
+    email_id='YOUR-EMAIL-ID',
+    recipient={'name': 'Matt',
+               'address': 'us@sendwithus.com'},
+    files=[(open('/home/Matt/report1.txt', 'r'), 'arbitrary_file_name.xyz')])
+print r.status_code
+# 200
+```
+
 ### Optional Inline Image
 
 ```python

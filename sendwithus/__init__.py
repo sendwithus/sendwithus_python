@@ -546,13 +546,17 @@ class api:
             file_list = []
             if isinstance(files, list):
                 for f in files:
-                    file_list.append({
-                        'id': f.name,
-                        'data': (
-                            base64.b64encode(f.read()).decode()
-                            if six.PY3 else base64.b64encode(f.read())
-                        )
-                    })
+                    if isinstance(f, tuple):
+                        file_obj, file_name = f
+                    else:
+                        file_obj = f
+                        file_name = f.name
+
+                    file_list.append(
+                        {'id': file_name,
+                         'data': base64.b64encode(file_obj.read()).decode()
+                         if six.PY3 else base64.b64encode(file_obj.read())}
+                    )
 
                 payload['files'] = file_list
 
