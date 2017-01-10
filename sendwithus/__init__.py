@@ -546,8 +546,12 @@ class api:
             file_list = []
             if isinstance(files, list):
                 for f in files:
-                    if isinstance(f, tuple):
-                        file_obj, file_name = f
+                    if isinstance(f, dict):
+                        file_obj = f['file']
+                        if 'filename' in f:
+                            file_name = f['filename']
+                        else:
+                            file_name = file_obj.name
                     else:
                         file_obj = f
                         file_name = f.name

@@ -198,7 +198,8 @@ r = api.send(
     email_id='YOUR-EMAIL-ID',
     recipient={'name': 'Matt',
                'address': 'us@sendwithus.com'},
-    files=[(open('/home/Matt/report1.txt', 'r'), 'arbitrary_file_name.xyz')])
+    files=[{'file': open('/home/Matt/report1.txt', 'r'),
+            'filename': 'arbitrary_file_name.xyz'}])
 print r.status_code
 # 200
 ```

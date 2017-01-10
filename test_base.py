@@ -245,7 +245,7 @@ def file():
         yield tempf
 
 
-def test_send_with_files(api, email_id, recipient, email_data, file):
+def test_send_with_files_valid(api, email_id, recipient, email_data, file):
         result = api.send(
             email_id,
             recipient,
@@ -261,9 +261,34 @@ def test_send_with_files_explicit_filename(api, email_id,
             email_id,
             recipient,
             email_data=email_data,
-            files=[(file, 'filename.pdf')])
+            files=[{'file': file,
+                    'filename': 'filename.pdf'}]
+        )
 
         assert result.status_code == 200
+
+
+def test_send_with_files_valid_1(api, email_id,
+                                 recipient, email_data, file):
+    result = api.send(
+        email_id,
+        recipient,
+        email_data=email_data,
+        files=[{'file': file}]
+    )
+
+    assert result.status_code == 200
+
+
+def test_send_with_files_invalid(api, email_id,
+                                 recipient, email_data, file):
+    with pytest.raises(KeyError):
+        api.send(
+            email_id,
+            recipient,
+            email_data=email_data,
+            files=[{'filename': 'filename.pdf'}]
+        )
 
 
 def test_drip_deactivate(api, email_address):
