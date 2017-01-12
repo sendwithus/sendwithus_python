@@ -15,13 +15,6 @@ build/
 build/*
 *.egg-info
 
-# IntelliJ
-.idea
-*.iml
-
-# Sublime Text
-*.sublime-*
-
 # testing/tox
 .tox/
 
