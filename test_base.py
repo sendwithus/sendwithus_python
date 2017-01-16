@@ -255,6 +255,16 @@ def test_send_with_files_valid(api, email_id, recipient, email_data, file):
         assert result.status_code == 200
 
 
+def test_send_with_inline_valid(api, email_id, recipient, email_data, file):
+        result = api.send(
+            email_id,
+            recipient,
+            email_data=email_data,
+            inline=file)
+
+        assert result.status_code == 200
+
+
 def test_send_with_files_explicit_filename(api, email_id,
                                            recipient, email_data, file):
         result = api.send(
@@ -263,6 +273,18 @@ def test_send_with_files_explicit_filename(api, email_id,
             email_data=email_data,
             files=[{'file': file,
                     'filename': 'filename.pdf'}]
+        )
+
+        assert result.status_code == 200
+
+
+def test_send_with_inline_explicit_filename(api, email_id,
+                                            recipient, email_data, file):
+        result = api.send(
+            email_id,
+            recipient,
+            email_data=email_data,
+            inline={'file': file, 'filename': 'filename.pdf'}
         )
 
         assert result.status_code == 200
@@ -280,6 +302,17 @@ def test_send_with_files_valid_1(api, email_id,
     assert result.status_code == 200
 
 
+def test_send_with_inline_valid_1(api, email_id,
+                                  recipient, email_data, file):
+    result = api.send(
+        email_id,
+        recipient,
+        email_data=email_data,
+        inline={'file': file},
+    )
+    assert result.status_code == 200
+
+
 def test_send_with_files_invalid(api, email_id,
                                  recipient, email_data, file):
     with pytest.raises(KeyError):
@@ -288,6 +321,37 @@ def test_send_with_files_invalid(api, email_id,
             recipient,
             email_data=email_data,
             files=[{'filename': 'filename.pdf'}]
+        )
+
+
+def test_send_with_inline_invalid(api, email_id,
+                                  recipient, email_data, file):
+    with pytest.raises(KeyError):
+        api.send(
+            email_id,
+            recipient,
+            email_data=email_data,
+            inline={'filename': 'filename.pdf'}
+        )
+
+
+def test_send_with_files_invalid_arg(api, email_id, recipient, email_data):
+    with pytest.raises(AttributeError):
+        api.send(
+            email_id,
+            recipient,
+            email_data=email_data,
+            files='1337'
+        )
+
+
+def test_send_with_inline_invalid_arg(api, email_id, recipient, email_data):
+    with pytest.raises(AttributeError):
+        api.send(
+            email_id,
+            recipient,
+            email_data=email_data,
+            inline='1337'
         )
 
 

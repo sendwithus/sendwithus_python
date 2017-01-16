@@ -441,6 +441,24 @@ class api:
             timeout=timeout
         )
 
+    def _make_file_dict(self, f):
+        """Make a dictionary with filename and base64 file data"""
+        if isinstance(f, dict):
+            file_obj = f['file']
+            if 'filename' in f:
+                file_name = f['filename']
+            else:
+                file_name = file_obj.name
+        else:
+            file_obj = f
+            file_name = f.name
+
+        b64_data = base64.b64encode(file_obj.read())
+        return {
+            'id': file_name,
+            'data': b64_data.decode() if six.PY3 else b64_data,
+        }
+
     def send(
         self,
         email_id,
@@ -527,46 +545,10 @@ class api:
             payload['version_name'] = email_version_name
 
         if inline:
-            if isinstance(inline, file):  # noqa, until #47 is fixed
-                image = {
-                    'id': inline.name,
-                    'data': (
-                        base64.b64encode(inline.read()).decode()
-                        if six.PY3 else base64.b64encode(inline.read())
-                    )
-                }
-
-                payload['inline'] = image
-
-            else:
-                logger.error(
-                    'kwarg files must be type(file), got %s' % type(inline))
+            payload['inline'] = self._make_file_dict(inline)
 
         if files:
-            file_list = []
-            if isinstance(files, list):
-                for f in files:
-                    if isinstance(f, dict):
-                        file_obj = f['file']
-                        if 'filename' in f:
-                            file_name = f['filename']
-                        else:
-                            file_name = file_obj.name
-                    else:
-                        file_obj = f
-                        file_name = f.name
-
-                    file_list.append(
-                        {'id': file_name,
-                         'data': base64.b64encode(file_obj.read()).decode()
-                         if six.PY3 else base64.b64encode(file_obj.read())}
-                    )
-
-                payload['files'] = file_list
-
-            else:
-                logger.error(
-                    'kwarg files must be type(list), got %s' % type(files))
+            payload['files'] = [self._make_file_dict(f) for f in files]
 
         return self._api_request(
             self.SEND_ENDPOINT,
