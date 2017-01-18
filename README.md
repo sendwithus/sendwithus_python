@@ -79,7 +79,7 @@ The `email_data` field is optional, but highly recommended!
 
 ```python
 r = api.send(
-    email_id='YOUR-EMAIL-ID',
+    email_id='YOUR-TEMPLATE-ID',
     recipient={'address': 'us@sendwithus.com'})
 print r.status_code
 # 200
@@ -88,7 +88,7 @@ print r.status_code
 ### Call with REQUIRED parameters and email_data
 ```python
 r = api.send(
-    email_id='YOUR-EMAIL-ID',
+    email_id='YOUR-TEMPLATE-ID',
     recipient={'address': 'us@sendwithus.com'},
     email_data={ 'first_name': 'Matt' })
 print r.status_code
@@ -100,7 +100,7 @@ The `sender['address']` is a required sender field
 
 ```python
 r = api.send(
-    email_id='YOUR-EMAIL-ID',
+    email_id='YOUR-TEMPLATE-ID',
     recipient={ 'name': 'Matt',
                 'address': 'us@sendwithus.com'},
     email_data={ 'first_name': 'Matt' },
@@ -114,7 +114,7 @@ print r.status_code
 
 ```python
 r = api.send(
-    email_id='YOUR-EMAIL-ID',
+    email_id='YOUR-TEMPLATE-ID',
     recipient={ 'name': 'Matt',
                 'address': 'us@sendwithus.com'},
     email_data={ 'first_name': 'Matt' },
@@ -129,7 +129,7 @@ print r.status_code
 
 ```python
 r = api.send(
-    email_id='YOUR-EMAIL-ID',
+    email_id='YOUR-TEMPLATE-ID',
     recipient={'name': 'Matt',
                 'address': 'us@sendwithus.com'},
     cc=[
@@ -144,7 +144,7 @@ print r.status_code
 
 ```python
 r = api.send(
-    email_id='YOUR-EMAIL-ID',
+    email_id='YOUR-TEMPLATE-ID',
     recipient={'name': 'Matt',
                 'address': 'us@sendwithus.com'},
     bcc=[
@@ -159,7 +159,7 @@ print r.status_code
 
 ```python
 r = api.send(
-    email_id='YOUR-EMAIL-ID',
+    email_id='YOUR-TEMPLATE-ID',
     recipient={'name': 'Matt',
                 'address': 'us@sendwithus.com'},
     headers={'X-HEADER-ONE': 'header-value'})
@@ -171,7 +171,7 @@ print r.status_code
 
 ```python
 r = api.send(
-    email_id='YOUR-EMAIL-ID',
+    email_id='YOUR-TEMPLATE-ID',
     recipient={'name': 'Matt',
                 'address': 'us@sendwithus.com'},
     esp_account='esp_1234asdf1234')
@@ -183,7 +183,7 @@ print r.status_code
 
 ```python
 r = api.send(
-    email_id='YOUR-EMAIL-ID',
+    email_id='YOUR-TEMPLATE-ID',
     recipient={'name': 'Matt',
                'address': 'us@sendwithus.com'},
     files=[open('/home/Matt/report1.txt', 'r'), open('/home/Matt/report2.txt', 'r')])
@@ -191,11 +191,11 @@ print r.status_code
 # 200
 ```
 
-### Optional File Attachments With explicit file names
+### Optional File Attachments with explicit file names
 
 ```python
 r = api.send(
-    email_id='YOUR-EMAIL-ID',
+    email_id='YOUR-TEMPLATE-ID',
     recipient={'name': 'Matt',
                'address': 'us@sendwithus.com'},
     files=[{'file': open('/home/Matt/report1.txt', 'r'),
@@ -208,7 +208,7 @@ print r.status_code
 
 ```python
 r = api.send(
-    email_id='YOUR-EMAIL-ID',
+    email_id='YOUR-TEMPLATE-ID',
     recipient={'name': 'Matt',
                'address': 'us@sendwithus.com'},
     inline=open('image.jpg', 'r'))
@@ -216,10 +216,24 @@ print r.status_code
 # 200
 ```
 
+### Optional Inline Image with explicit file names
+
+```python
+r = api.send(
+    email_id='YOUR-TEMPLATE-ID',
+    recipient={'name': 'Matt',
+               'address': 'us@sendwithus.com'},
+    inline=[{'file': open('/home/Matt/image.jpg, 'r'),
+             'filename': 'cool_image.jpg'}])
+print r.status_code
+# 200
+```
+
+
 ### Optional Locale
 ```python
 r = api.send(
-    email_id='YOUR-EMAIL-ID',
+    email_id='YOUR-TEMPLATE-ID',
     recipient={'name': 'Matt',
                'address': 'us@sendwithus.com'},
     locale='en-US')
