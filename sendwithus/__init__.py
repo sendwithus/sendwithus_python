@@ -47,9 +47,6 @@ class api:
     SNIPPETS_ENDPOINT = 'snippets'
     SNIPPET_ENDPOINT = 'snippets/%s'
     SEND_ENDPOINT = 'send'
-    SEGMENTS_ENDPOINT = 'segments'
-    RUN_SEGMENT_ENDPOINT = 'segments/%s/run'
-    SEND_SEGMENT_ENDPOINT = 'segments/%s/send'
     DRIPS_DEACTIVATE_ENDPOINT = 'drips/deactivate'
     CUSTOMER_CREATE_ENDPOINT = 'customers'
     CUSTOMER_DETAILS_ENDPOINT = 'customers/%s'
@@ -552,45 +549,6 @@ class api:
 
         return self._api_request(
             self.SEND_ENDPOINT,
-            self.HTTP_POST,
-            payload=payload,
-            timeout=timeout
-        )
-
-    def segments(self, timeout=None):
-        """ API call to get a list of segments """
-        return self._api_request(
-            self.SEGMENTS_ENDPOINT,
-            self.HTTP_GET,
-            timeout=timeout
-        )
-
-    def run_segment(self, segment_id, timeout=None):
-        """ API call to run a segment, and return the customers"""
-        return self._api_request(
-            self.RUN_SEGMENT_ENDPOINT % segment_id,
-            self.HTTP_GET,
-            timeout=timeout
-        )
-
-    def send_segment(
-        self,
-        email_id,
-        segment_id,
-        email_data=None,
-        timeout=None
-    ):
-        """ API call to send a template, with data, to an entire segment"""
-        if not email_data:
-            email_data = {}
-
-        payload = {
-            'email_id': email_id,
-            'email_data': email_data
-        }
-
-        return self._api_request(
-            self.SEND_SEGMENT_ENDPOINT % segment_id,
             self.HTTP_POST,
             payload=payload,
             timeout=timeout

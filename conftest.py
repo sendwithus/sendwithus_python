@@ -28,11 +28,6 @@ def email_address():
 
 
 @pytest.fixture
-def segment_id():
-    return 'seg_VC8FDxDno9X64iUPDFSd76'
-
-
-@pytest.fixture
 def enabled_drip_campaign_id():
     return 'dc_Rmd7y5oUJ3tn86sPJ8ESCk'
 
