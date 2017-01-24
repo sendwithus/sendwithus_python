@@ -426,11 +426,6 @@ def test_remove_customer_from_group(api):
     assert_success(result)
 
 
-def test_send_segment(api, email_id, segment_id):
-    result = api.send_segment(email_id, segment_id)
-    assert_success(result)
-
-
 def test_list_drip_campaigns(api):
     """ Test listing drip campaigns. """
     result = api.list_drip_campaigns()

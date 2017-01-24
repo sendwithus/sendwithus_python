@@ -367,27 +367,6 @@ api.delete_customer_group('grp_1234')
 api.update_customer_group('new_name', 'updated group description')
 ```
 
-# Segmentation
-
-## Send Template to Segment
-
-You can use the Segments API to send a template to all customers who match a
-segment. The Segment must be created in the Sendwithus dashboard, which is
-where you will find the `segment_id` for use in this API.
-
-```python
-api.send_segment('tem_12345', 'seg_1245')
-```
-
-### Extra Data
-
-You may specify extra data to be merged into the template, alongside the
-individual customer profiles
-
-```python
-api.send_segment('tem_12345', 'seg_12345', email_data={'color': 'blue'})
-```
-
 # Render
 
 ## Render a Template with data
