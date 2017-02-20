@@ -3,13 +3,13 @@ sendwithus python-client
 
 [![Build Status](https://travis-ci.org/sendwithus/sendwithus_python.png)](https://travis-ci.org/sendwithus/sendwithus_python)
 
-## requirements
-python requests library
+## Requirements
+- [Python requests library](http://docs.python-requests.org/en/master/user/install/#install)
 
-## installation
+## Installation
     pip install sendwithus
 
-## usage
+## Usage
 
 For all examples, assume:
 ```python
@@ -17,24 +17,24 @@ import sendwithus
 api = sendwithus.api(api_key='YOUR-API-KEY')
 ```
 
-### error handling
-By default, the api calls return a response object. However, you can use
+### Error Handling
+By default, the API calls return a response object. However, you can use
 `sendwithus.api(api_key='YOUR-API-KEY', raise_errors=True)` which will raise the following errors:
-* `AuthenticationError` - Caused by an invalid api key
-* `APIError` - Caused by an invalid api request (4xx error)
+* `AuthenticationError` - Caused by an invalid API key
+* `APIError` - Caused by an invalid API request (4xx error)
 * `ServerError` - Caused by a server error (5xx error)
 
 Errors can be imported from the `sendwithus.exceptions` module.
 
 # Templates
 
-## Get your templates
+### Get your Templates
 
 ```python
 api.templates()
 ```
 
-## Create a template
+### Create a Template
 
 ```python
 api.create_template(
@@ -57,22 +57,22 @@ r.content
 
 *NOTE* - If a customer does not exist by the specified email (recipient address), the send call will create a customer.
 
-- email_id                  -- Template ID to send
+- email_id                  &mdash; Template ID to send
 - recipient
-   - address                -- The recipient's email address
-   - name (optional)        -- The recipient's name
-- email_data                -- Object containing email template data
+   - address                &mdash; The recipient's email address
+   - name (optional)        &mdash; The recipient's name
+- email_data (optional)     &mdash; Object containing email template data
 - sender (optional)
-   - address                -- The sender's email address
-   - reply_to               -- The sender's reply-to address
-   - name                   -- The sender's name
-- cc (optional)             -- A list of CC recipients, of the format {"address":"cc@email.com"}
-- bcc (optional)            -- A list of BCC recipients, of the format {"address":"bcc@email.com"}
-- headers (options)         -- Object contain SMTP headers to be included with the email
-- esp\_account (optional)   -- ID of the ESP Account to send this email through. ex: esp\_1a2b3c4d5e
-- files (optional)          -- List of file attachments (combined maximum 7MB)
-- inline (optional)         -- Inline attachment object
-- locale (optional)         -- Template locale to send (ie: en-US)
+   - address                &mdash; The sender's email address
+   - reply_to               &mdash; The sender's reply-to address
+   - name                   &mdash; The sender's name
+- cc (optional)             &mdash; A list of CC recipients, of the format {"address":"cc@email.com"}
+- bcc (optional)            &mdash; A list of BCC recipients, of the format {"address":"bcc@email.com"}
+- headers (options)         &mdash; Object contain SMTP headers to be included with the email
+- esp\_account (optional)   &mdash; ID of the ESP Account to send this email through. ex: esp\_1a2b3c4d5e
+- files (optional)          &mdash; List of file attachments (combined maximum 7MB)
+- inline (optional)         &mdash; Inline attachment object
+- locale (optional)         &mdash; Template locale to send (ie: en-US)
 
 ### Call with REQUIRED parameters only
 The `email_data` field is optional, but highly recommended!
@@ -243,7 +243,7 @@ print r.status_code
 
 # Drip Campaigns
 
-## List all drip campaigns
+### List all Drip Campaigns
 
 List all drip campaigns for the current profile
 
@@ -251,7 +251,7 @@ List all drip campaigns for the current profile
 api.list_drip_campaigns()
 ```
 
-## Start a customer on a drip campaign
+### Start a Customer on a Drip Campaign
 
 Starts a customer on the first step of a specified drip campaign
 
@@ -259,9 +259,11 @@ Starts a customer on the first step of a specified drip campaign
 api.start_on_drip_campaign('dc_1234asdf1234', {'address':'customer@email.com'})
 ```
 
-### Extra Data
+### Start a Customer on a Drip Campaign with email_data
 
-You may specify extra data to be merged into the templates in the drip campaign
+You may specify extra data to be merged into the templates in the drip campaign.
+
+*Note* — Any data provided in the `email_data` parameter for `start_on_drip_campaign()` will be used throughout the entire drip campaign.
 
 ```python
 api.start_on_drip_campaign(
@@ -276,7 +278,7 @@ api.start_on_drip_campaign(
 )
 ```
 
-## Remove a customer from a drip campaign
+### Remove a Customer from a Drip Campaign
 
 Deactivates all pending emails for a customer on a specified drip campaign
 
@@ -284,7 +286,7 @@ Deactivates all pending emails for a customer on a specified drip campaign
 api.remove_from_drip_campaign('customer@email.com', 'dc_1234asdf1234')
 ```
 
-## Remove a customer from all drip campaigns
+### Remove a Customer from all Drip Campaigns
 
 You can deactivate all pending drip campaign emails for a customer
 
@@ -292,7 +294,7 @@ You can deactivate all pending drip campaign emails for a customer
 api.drip_deactivate('customer@example.com')
 ```
 
-## List the details of a specific campaign
+### List the details of a specific Drip Campaign
 
 ```python
 api.drip_campaign_details('dc_1234asdf1234')
@@ -300,13 +302,13 @@ api.drip_campaign_details('dc_1234asdf1234')
 
 # Customers
 
-## Get a Customer
+### Get a Customer
 
 ```python
 api.customer_details('customer@example.com')
 ```
 
-## Create/update Customer
+### Create/Update Customer
 
 You can use the same endpoint to create or update a customer. Sendwithus
 will perform a merge of the data on the customer profile, preferring the new data.
@@ -316,19 +318,19 @@ api.customer_create('customer@example.com', data={'first_name': 'Matt'})
 ```
 
 
-## Delete a Customer
+### Delete a Customer
 
 ```python
 api.customer_delete('customer@example.com')
 ```
 
-## Add Customer to a Group
+### Add Customer to a Group
 
 ```python
 api.add_customer_to_group('customer@example.com', 'grp_1234')
 ```
 
-## Remove Customer from a Group
+### Remove Customer from a Group
 
 ```python
 api.remove_customer_from_group('customer@example.com', 'grp_1234')
@@ -336,7 +338,7 @@ api.remove_customer_from_group('customer@example.com', 'grp_1234')
 
 # Conversions
 
-## Create a customer conversion event
+### Create a Customer Conversion event
 
 You can use the Conversion API to track conversion and revenue data events
 against your sent emails.
@@ -349,19 +351,19 @@ api.customer_conversion('customer@example.com', revenue=10050)
 
 # Customer Groups
 
-## Create a Customer Group
+### Create a Customer Group
 
 ```python
 api.create_customer_group('group_name', 'sample group description')
 ```
 
-## Delete a customer group
+### Delete a Customer Group
 
 ```python
 api.delete_customer_group('grp_1234')
 ```
 
-## Update a Customer Group
+### Update a Customer Group
 
 ```python
 api.update_customer_group('new_name', 'updated group description')
@@ -369,17 +371,19 @@ api.update_customer_group('new_name', 'updated group description')
 
 # Render
 
-## Render a Template with data
+### Render a Template with data
 
-The render API allows you to render a template with data, using the exact same rendering workflow that Sendwithus uses when delivering your email.
+The Render API allows you to render a template with data, using the exact same rendering workflow that Sendwithus uses when delivering your email.
+`Strict` is set to `False` as a default, if `Strict=True` this API call will fail on any missing `email_data`.
 
 ```python
 api.render('tem_12345', { "amount": "$12.00" }, 'French-Version', strict=False)
 ```
 
-## expected response
+### Expected Response
 
-### Success
+#### Success
+```bash
     >>> r.status_code
     200
 
@@ -391,30 +395,72 @@ api.render('tem_12345', { "amount": "$12.00" }, 'French-Version', strict=False)
 
     >>> r.json().get('receipt_id')
     u'numeric-receipt-id'
+```
 
-### Error cases
+#### Error cases
 * malformed request
-
-        >>> r.status_code
-        400
+```bash
+    >>> r.status_code
+    400
+```
 
 * bad API key
+```bash
+    >>> r.status_code
+    403
+```
 
-        >>> r.status_code
-            403
+## Run Tests
+Use [tox](https://tox.readthedocs.io/en/latest/) to run the tests:
 
-## to run tests
-    tox
+```bash
+tox
+```
 
-### Testing multiple python versions
-This assumes you have [tox](https://testrun.org/tox/latest/) installed and used
+### Testing Multiple Python Versions
+This assumes you have [tox](https://tox.readthedocs.io/en/latest/) installed and used
 [pyenv](https://github.com/yyuu/pyenv) to install multiple versions of python.
 
 Once all the supported python versions are installed simply run:
 
-    tox
+```bash
+tox
+```
 
 This will run the tests against all the versions specified in `tox.ini`.
 
-### packaging (internal)
-        python setup.py sdist bdist_wheel upload
+## Troubleshooting
+
+### General Troubleshooting
+
+-   Enable debug mode
+-   Make sure you're using the latest Python client
+-   Capture the response data and check your logs &mdash; often this will have the exact error
+
+### Enable Debug Mode
+
+Debug mode prints out the underlying request information as well as the data payload that gets sent to Sendwithus. You will most likely find this information in your logs. To enable it, simply put `DEBUG=True` as a parameter when instantiating the API object. Use the debug mode to compare the data payload getting sent to [Sendwithus' API docs](https://www.sendwithus.com/docs/api "Official Sendwithus API Docs").
+
+```python
+import sendwithus
+api = sendwithus.api(api_key='YOUR-API-KEY', DEBUG=True)
+```
+### Response Ranges
+
+Sendwithus' API typically sends responses back in these ranges:
+
+-   2xx – Successful Request
+-   4xx – Failed Request (Client error)
+-   5xx – Failed Request (Server error)
+
+If you're receiving an error in the 400 response range follow these steps:
+
+-   Double check the data and ID's getting passed to Sendwithus
+-   Ensure your API key is correct
+-   Log and check the body of the response
+
+### Internal
+To package
+```bash
+  python setup.py sdist bdist_wheel upload
+```
