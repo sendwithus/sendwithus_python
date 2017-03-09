@@ -324,17 +324,6 @@ api.customer_create('customer@example.com', data={'first_name': 'Matt'})
 api.customer_delete('customer@example.com')
 ```
 
-### Add Customer to a Group
-
-```python
-api.add_customer_to_group('customer@example.com', 'grp_1234')
-```
-
-### Remove Customer from a Group
-
-```python
-api.remove_customer_from_group('customer@example.com', 'grp_1234')
-```
 
 # Conversions
 
@@ -349,25 +338,6 @@ against your sent emails.
 api.customer_conversion('customer@example.com', revenue=10050)
 ```
 
-# Customer Groups
-
-### Create a Customer Group
-
-```python
-api.create_customer_group('group_name', 'sample group description')
-```
-
-### Delete a Customer Group
-
-```python
-api.delete_customer_group('grp_1234')
-```
-
-### Update a Customer Group
-
-```python
-api.update_customer_group('new_name', 'updated group description')
-```
 
 # Render
 
