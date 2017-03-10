@@ -396,36 +396,6 @@ def test_customer_conversion_revenue(api):
     assert_success(result)
 
 
-def test_customer_group_actions(api):
-    result = api.create_customer_group(
-        name=str(time.time()),
-        description='sample description'
-    )
-    assert_success(result)
-    group_id = json.loads(result.text)['group']['id']
-    result = api.update_customer_group(
-        group_id=group_id,
-        name='new+name' + str(time.time()),
-        description='new description'
-    )
-    assert_success(result)
-    result = api.add_customer_to_group(
-        email='customer@example.com',
-        group_id=group_id
-    )
-    assert_success(result)
-    result = api.delete_customer_group(group_id=group_id)
-    assert_success(result)
-
-
-def test_remove_customer_from_group(api):
-    result = api.remove_customer_from_group(
-        email='customer@example.com',
-        group_id='grp_1234'
-    )
-    assert_success(result)
-
-
 def test_list_drip_campaigns(api):
     """ Test listing drip campaigns. """
     result = api.list_drip_campaigns()

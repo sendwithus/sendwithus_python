@@ -52,9 +52,6 @@ class api:
     CUSTOMER_DETAILS_ENDPOINT = 'customers/%s'
     CUSTOMER_DELETE_ENDPOINT = 'customers/%s'
     CUSTOMER_CONVERSION_ENDPOINT = 'customers/%s/conversions'
-    CUSTOMER_GROUPS_ENDPOINT = 'customers/%s/groups/%s'
-    GROUPS_ENDPOINT = 'groups'
-    GROUP_ENDPOINT = 'groups/%s'
     DRIP_CAMPAIGN_LIST_ENDPOINT = 'drip_campaigns'
     DRIP_CAMPAIGN_ACTIVATE_ENDPOINT = 'drip_campaigns/%s/activate'
     DRIP_CAMPAIGN_DEACTIVATE_ENDPOINT = 'drip_campaigns/%s/deactivate'
@@ -600,76 +597,6 @@ class api:
             self.HTTP_POST,
             payload=payload,
             timeout=None
-        )
-
-    def create_customer_group(
-        self,
-        name,
-        description='',
-        timeout=None
-    ):
-        endpoint = self.GROUPS_ENDPOINT
-
-        payload = {
-            "name": name,
-            "description": description
-        }
-        return self._api_request(
-            endpoint,
-            self.HTTP_POST,
-            payload=payload,
-            timeout=timeout
-        )
-
-    def delete_customer_group(self, group_id, timeout=None):
-        endpoint = self.GROUP_ENDPOINT % group_id
-
-        return self._api_request(
-            endpoint,
-            self.HTTP_DELETE,
-            timeout=timeout
-        )
-
-    def update_customer_group(
-        self,
-        group_id,
-        name='',
-        description='',
-        timeout=None
-    ):
-        endpoint = self.GROUP_ENDPOINT % group_id
-
-        payload = {
-            "name": name,
-            "description": description
-        }
-
-        return self._api_request(
-            endpoint,
-            self.HTTP_PUT,
-            payload=payload,
-            timeout=timeout
-        )
-
-    def add_customer_to_group(self, email, group_id, timeout=None):
-        endpoint = self.CUSTOMER_GROUPS_ENDPOINT % (email, group_id)
-        return self._api_request(
-            endpoint,
-            self.HTTP_POST,
-            timeout=timeout
-        )
-
-    def remove_customer_from_group(
-        self,
-        email,
-        group_id,
-        timeout=None
-    ):
-        endpoint = self.CUSTOMER_GROUPS_ENDPOINT % (email, group_id)
-        return self._api_request(
-            endpoint,
-            self.HTTP_DELETE,
-            timeout=timeout
         )
 
     def list_drip_campaigns(self, timeout=None):
