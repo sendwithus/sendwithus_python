@@ -325,20 +325,6 @@ api.customer_delete('customer@example.com')
 ```
 
 
-# Conversions
-
-### Create a Customer Conversion event
-
-You can use the Conversion API to track conversion and revenue data events
-against your sent emails.
-
-**NOTE:** Revenue is in cents (eg. $100.50 = 10050)
-
-```python
-api.customer_conversion('customer@example.com', revenue=10050)
-```
-
-
 # Render
 
 ### Render a Template with data
