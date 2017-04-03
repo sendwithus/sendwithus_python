@@ -383,19 +383,6 @@ def test_get_customer(api):
     assert_success(result)
 
 
-def test_customer_conversion(api):
-    result = api.customer_conversion('test+python@sendwithus.com')
-    assert_success(result)
-
-
-def test_customer_conversion_revenue(api):
-    result = api.customer_conversion(
-        'test+python@sendwithus.com',
-        revenue=1234
-    )
-    assert_success(result)
-
-
 def test_list_drip_campaigns(api):
     """ Test listing drip campaigns. """
     result = api.list_drip_campaigns()
