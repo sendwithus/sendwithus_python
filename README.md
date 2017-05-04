@@ -223,8 +223,8 @@ r = api.send(
     email_id='YOUR-TEMPLATE-ID',
     recipient={'name': 'Matt',
                'address': 'us@sendwithus.com'},
-    inline=[{'file': open('/home/Matt/image.jpg, 'r'),
-             'filename': 'cool_image.jpg'}])
+    inline={'file': open('/home/Matt/image.jpg, 'r'),
+            'filename': 'cool_image.jpg'})
 print r.status_code
 # 200
 ```
