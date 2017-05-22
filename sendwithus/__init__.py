@@ -699,6 +699,7 @@ class api:
         self,
         email_id,
         email_data,
+        locale=None,
         version_id=None,
         version_name=None,
         strict=False,
@@ -709,6 +710,9 @@ class api:
             "template_id": email_id,
             "template_data": email_data
         }
+
+        if locale:
+            payload['locale'] = locale
 
         if version_id:
             payload['version_id'] = version_id
