@@ -370,6 +370,16 @@ def test_version_name(api, email_id, recipient, email_data):
     assert_success(result)
 
 
+def test_locale(api, email_id, recipient, email_data):
+    result = api.send(
+        email_id,
+        recipient,
+        email_data=email_data,
+        locale='sv-SE'
+    )
+    assert_success(result)
+
+
 def test_customer_actions(api):
     data = {'first_name': 'Python Client Unit Test'}
     result = api.customer_create('test+python@sendwithus.com', data)
