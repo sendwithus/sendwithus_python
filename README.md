@@ -333,7 +333,7 @@ The Render API allows you to render a template with data, using the exact same r
 `Strict` is set to `False` as a default, if `Strict=True` this API call will fail on any missing `email_data`.
 
 ```python
-api.render('tem_12345', { "amount": "$12.00" }, 'French-Version', strict=False)
+api.render('tem_12345', { "amount": "$12.00" }, locale='fr-FR', version_name='French-Version', strict=False)
 ```
 
 ### Expected Response
