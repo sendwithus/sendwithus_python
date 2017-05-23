@@ -699,20 +699,17 @@ class api:
         self,
         email_id,
         email_data,
-        locale=None,
         version_id=None,
         version_name=None,
         strict=False,
-        timeout=None
+        timeout=None,
+        locale=None
     ):
 
         payload = {
             "template_id": email_id,
             "template_data": email_data
         }
-
-        if locale:
-            payload['locale'] = locale
 
         if version_id:
             payload['version_id'] = version_id
@@ -722,6 +719,9 @@ class api:
 
         if strict:
             payload['strict'] = strict
+
+        if locale:
+            payload['locale'] = locale
 
         return self._api_request(
             self.RENDER_ENDPOINT,
