@@ -702,7 +702,8 @@ class api:
         version_id=None,
         version_name=None,
         strict=False,
-        timeout=None
+        timeout=None,
+        locale=None
     ):
 
         payload = {
@@ -718,6 +719,9 @@ class api:
 
         if strict:
             payload['strict'] = strict
+
+        if locale:
+            payload['locale'] = locale
 
         return self._api_request(
             self.RENDER_ENDPOINT,
