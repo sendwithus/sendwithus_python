@@ -34,7 +34,6 @@ class api:
     HTTP_PUT = 'PUT'
     HTTP_DELETE = 'DELETE'
 
-    LOGS_ENDPOINT = 'logs'
     GET_LOG_ENDPOINT = 'logs/%s'
     GET_LOG_EVENTS_ENDPOINT = 'logs/%s/events'
     TEMPLATES_ENDPOINT = 'templates'
@@ -202,14 +201,6 @@ class api:
             logger.debug('\tresponse: %s' % r.content)
 
         return self._parse_response(r)
-
-    def logs(self, timeout=None):
-        """ API call to get a list of logs """
-        return self._api_request(
-            self.LOGS_ENDPOINT,
-            self.HTTP_GET,
-            timeout=timeout
-        )
 
     def get_log(self, log_id, timeout=None):
         """ API call to get a specific log entry """
