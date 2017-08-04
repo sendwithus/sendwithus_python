@@ -28,10 +28,27 @@ Errors can be imported from the `sendwithus.exceptions` module.
 
 # Templates
 
-### Get your Templates
+### Get Your Templates
 
 ```python
 api.templates()
+```
+
+### Get a Specific Template
+
+```python
+api.get_template(
+    'YOUR-TEMPLATE-ID'
+)
+```
+
+### Get a Specific Template Version
+
+```python
+api.get_template(
+    'YOUR-TEMPLATE-ID',
+    version='YOUR-VERSION-ID'
+)
 ```
 
 ### Create a Template
@@ -41,7 +58,47 @@ api.create_template(
     name='Email Name',
     subject='Email Subject',
     html='<html><head></head><body>Valid HTML</body></html>',
-    text='Optional text content')
+    text='Optional text content'
+)
+```
+
+### Create a New Locale
+
+```python
+api.create_new_locale(
+    'YOUR-TEMPLATE-ID',
+    locale='fr-FR',
+    version_name='Version Name',
+    subject='Email Subject',
+    html='<html><head></head><body>Valid HTML</body></html>',
+    text='Optional text content'
+)
+```
+
+### Create a New Version
+
+```python
+api.create_new_version(
+    template_id='YOUR-TEMPLATE-ID',
+    name='Version Name',
+    subject='Email Subject',
+    html='<html><head></head><body>Valid HTML</body></html>',
+    text='Optional text content',
+    locale='fr-FR'
+)
+```
+
+### Update a Template Version
+
+```python
+api.update_template_version(
+    template_id='YOUR-TEMPLATE-ID',
+    version_id='YOUR-VERSION-ID',
+    name='Email Name'
+    subject='Email Subject',
+    html='<html><head></head><body>Valid HTML</body></html>',
+    text='Optional text content'
+)
 ```
 
 We validate all HTML and will return an error if it's invalid.
@@ -57,22 +114,23 @@ r.content
 
 *NOTE* - If a customer does not exist by the specified email (recipient address), the send call will create a customer.
 
-- email_id                  &mdash; Template ID to send
+- email_id                      &mdash; Template ID to send
 - recipient
-   - address                &mdash; The recipient's email address
-   - name (optional)        &mdash; The recipient's name
-- email_data (optional)     &mdash; Object containing email template data
+   - address                    &mdash; The recipient's email address
+   - name (optional)            &mdash; The recipient's name
+- email_data (optional)         &mdash; Object containing email template data
 - sender (optional)
-   - address                &mdash; The sender's email address
-   - reply_to               &mdash; The sender's reply-to address
-   - name                   &mdash; The sender's name
-- cc (optional)             &mdash; A list of CC recipients, of the format {"address":"cc@email.com"}
-- bcc (optional)            &mdash; A list of BCC recipients, of the format {"address":"bcc@email.com"}
-- headers (options)         &mdash; Object contain SMTP headers to be included with the email
-- esp\_account (optional)   &mdash; ID of the ESP Account to send this email through. ex: esp\_1a2b3c4d5e
-- files (optional)          &mdash; List of file attachments (combined maximum 7MB)
-- inline (optional)         &mdash; Inline attachment object
-- locale (optional)         &mdash; Template locale to send (ie: en-US)
+   - address                    &mdash; The sender's email address
+   - reply_to                   &mdash; The sender's reply-to address
+   - name                       &mdash; The sender's name
+- cc (optional)                 &mdash; A list of CC recipients, of the format {'address': 'cc@email.com'}
+- bcc (optional)                &mdash; A list of BCC recipients, of the format {'address': 'bcc@email.com'}
+- headers (options)             &mdash; Object contain SMTP headers to be included with the email
+- esp\_account (optional)       &mdash; ID of the ESP Account to send this email through. ex: esp\_1a2b3c4d5e
+- files (optional)              &mdash; List of file attachments (combined maximum 7MB)
+- inline (optional)             &mdash; Inline attachment object
+- locale (optional)             &mdash; Template locale to send (ie: en-US)
+- email_version_name (option)   &mdash; Template version to send (ie: Version A)
 
 ### Call with REQUIRED parameters only
 The `email_data` field is optional, but highly recommended!
@@ -80,7 +138,10 @@ The `email_data` field is optional, but highly recommended!
 ```python
 r = api.send(
     email_id='YOUR-TEMPLATE-ID',
-    recipient={'address': 'us@sendwithus.com'})
+    recipient={
+        'address': 'us@sendwithus.com'
+    }
+)
 print r.status_code
 # 200
 ```
@@ -89,38 +150,36 @@ print r.status_code
 ```python
 r = api.send(
     email_id='YOUR-TEMPLATE-ID',
-    recipient={'address': 'us@sendwithus.com'},
-    email_data={ 'first_name': 'Matt' })
+    recipient={
+        'address': 'us@sendwithus.com'
+    },
+    email_data={
+        'first_name': 'Matt'
+    }
+)
 print r.status_code
 # 200
 ```
 
 ### Optional Sender
-The `sender['address']` is a required sender field
+The `sender['address']` is a required sender field. `sender['name']` and `sender['reply_to']` are both optional.
 
 ```python
 r = api.send(
     email_id='YOUR-TEMPLATE-ID',
-    recipient={ 'name': 'Matt',
-                'address': 'us@sendwithus.com'},
-    email_data={ 'first_name': 'Matt' },
-    sender={ 'address':'company@company.com' })
-print r.status_code
-# 200
-```
-
-### Optional Sender with reply_to address
-`sender['name']` and `sender['reply_to']` are both optional
-
-```python
-r = api.send(
-    email_id='YOUR-TEMPLATE-ID',
-    recipient={ 'name': 'Matt',
-                'address': 'us@sendwithus.com'},
-    email_data={ 'first_name': 'Matt' },
-    sender={ 'name': 'Company',
-                'address':'company@company.com',
-                'reply_to':'info@company.com'})
+    recipient={
+        'name': 'Matt',
+        'address': 'us@sendwithus.com'
+    },
+    email_data={
+        'first_name': 'Matt'
+    },
+    sender={
+        'address': 'company@company.com',
+        'reply_to':'info@company.com',  # Optional
+        'name': 'Company'  # Optional
+    }
+)
 print r.status_code
 # 200
 ```
@@ -130,12 +189,15 @@ print r.status_code
 ```python
 r = api.send(
     email_id='YOUR-TEMPLATE-ID',
-    recipient={'name': 'Matt',
-                'address': 'us@sendwithus.com'},
+    recipient={
+        'name': 'Matt',
+        'address': 'us@sendwithus.com'
+    },
     cc=[
         {'address': 'company@company.com'},
         {'address': 'info@company.com'}
-    ])
+    ]
+)
 print r.status_code
 # 200
 ```
@@ -145,12 +207,15 @@ print r.status_code
 ```python
 r = api.send(
     email_id='YOUR-TEMPLATE-ID',
-    recipient={'name': 'Matt',
-                'address': 'us@sendwithus.com'},
+    recipient={
+        'name': 'Matt',
+        'address': 'us@sendwithus.com'
+    },
     bcc=[
         {'address': 'company@company.com'},
         {'address': 'info@company.com'}
-    ])
+    ]
+)
 print r.status_code
 # 200
 ```
@@ -160,9 +225,14 @@ print r.status_code
 ```python
 r = api.send(
     email_id='YOUR-TEMPLATE-ID',
-    recipient={'name': 'Matt',
-                'address': 'us@sendwithus.com'},
-    headers={'X-HEADER-ONE': 'header-value'})
+    recipient={
+        'name': 'Matt',
+        'address': 'us@sendwithus.com'
+    },
+    headers={
+        'X-HEADER-ONE': 'header-value'
+    }
+)
 print r.status_code
 # 200
 ```
@@ -172,9 +242,12 @@ print r.status_code
 ```python
 r = api.send(
     email_id='YOUR-TEMPLATE-ID',
-    recipient={'name': 'Matt',
-                'address': 'us@sendwithus.com'},
-    esp_account='esp_1234asdf1234')
+    recipient={
+        'name': 'Matt',
+        'address': 'us@sendwithus.com'
+    },
+    esp_account='YOUR-ESP-ID'
+)
 print r.status_code
 # 200
 ```
@@ -184,9 +257,15 @@ print r.status_code
 ```python
 r = api.send(
     email_id='YOUR-TEMPLATE-ID',
-    recipient={'name': 'Matt',
-               'address': 'us@sendwithus.com'},
-    files=[open('/home/Matt/report1.txt', 'r'), open('/home/Matt/report2.txt', 'r')])
+    recipient={
+        'name': 'Matt',
+        'address': 'us@sendwithus.com'
+    },
+    files=[
+        open('/home/Matt/report1.txt', 'r'),
+        open('/home/Matt/report2.txt', 'r')
+    ]
+)
 print r.status_code
 # 200
 ```
@@ -196,10 +275,15 @@ print r.status_code
 ```python
 r = api.send(
     email_id='YOUR-TEMPLATE-ID',
-    recipient={'name': 'Matt',
-               'address': 'us@sendwithus.com'},
-    files=[{'file': open('/home/Matt/report1.txt', 'r'),
-            'filename': 'arbitrary_file_name.xyz'}])
+    recipient={
+        'name': 'Matt',
+        'address': 'us@sendwithus.com'
+    },
+    files=[{
+        'file': open('/home/Matt/report1.txt', 'r'),
+        'filename': 'arbitrary_file_name.xyz'
+    }]
+)
 print r.status_code
 # 200
 ```
@@ -209,9 +293,12 @@ print r.status_code
 ```python
 r = api.send(
     email_id='YOUR-TEMPLATE-ID',
-    recipient={'name': 'Matt',
-               'address': 'us@sendwithus.com'},
-    inline=open('image.jpg', 'r'))
+    recipient={
+        'name': 'Matt',
+        'address': 'us@sendwithus.com'
+    },
+    inline=open('image.jpg', 'r')
+)
 print r.status_code
 # 200
 ```
@@ -221,22 +308,43 @@ print r.status_code
 ```python
 r = api.send(
     email_id='YOUR-TEMPLATE-ID',
-    recipient={'name': 'Matt',
-               'address': 'us@sendwithus.com'},
-    inline={'file': open('/home/Matt/image.jpg, 'r'),
-            'filename': 'cool_image.jpg'})
+    recipient={
+        'name': 'Matt',
+        'address': 'us@sendwithus.com'
+    },
+    inline={
+        'file': open('/home/Matt/image.jpg', 'r'),
+        'filename': 'cool_image.jpg'
+    }
+)
 print r.status_code
 # 200
 ```
-
 
 ### Optional Locale
 ```python
 r = api.send(
     email_id='YOUR-TEMPLATE-ID',
-    recipient={'name': 'Matt',
-               'address': 'us@sendwithus.com'},
-    locale='en-US')
+    recipient={
+        'name': 'Matt',
+        'address': 'us@sendwithus.com'
+    },
+    locale='fr-FR'
+)
+print r.status_code
+# 200
+```
+
+### Optional Version Name
+```python
+r = api.send(
+    email_id='YOUR-TEMPLATE-ID',
+    recipient={
+        'name': 'Matt',
+        'address': 'us@sendwithus.com'
+    },
+    email_version_name='Version A'
+)
 print r.status_code
 # 200
 ```
@@ -256,7 +364,10 @@ api.list_drip_campaigns()
 Starts a customer on the first step of a specified drip campaign
 
 ```python
-api.start_on_drip_campaign('dc_1234asdf1234', {'address':'customer@email.com'})
+api.start_on_drip_campaign(
+    'dc_1234asdf1234',
+    {'address': 'customer@email.com'}
+)
 ```
 
 ### Start a Customer on a Drip Campaign with email_data
@@ -268,13 +379,13 @@ You may specify extra data to be merged into the templates in the drip campaign.
 ```python
 api.start_on_drip_campaign(
     'dc_1234asdf1234',
-    {'address':'customer@email.com'},
+    {'address': 'customer@email.com'},
     email_data={'color': 'blue'},
     sender={'address': 'from@email.com'},
     cc=[{'address': 'cc@email.com'}],
     tags=['tag_one', 'tag_two'],
     esp_account='esp_1234',
-    locale='en-US'
+    locale='fr-FR'
 )
 ```
 
@@ -283,7 +394,10 @@ api.start_on_drip_campaign(
 Deactivates all pending emails for a customer on a specified drip campaign
 
 ```python
-api.remove_from_drip_campaign('customer@email.com', 'dc_1234asdf1234')
+api.remove_from_drip_campaign(
+    'customer@email.com',
+    'dc_1234asdf1234'
+)
 ```
 
 ### Remove a Customer from all Drip Campaigns
@@ -291,13 +405,26 @@ api.remove_from_drip_campaign('customer@email.com', 'dc_1234asdf1234')
 You can deactivate all pending drip campaign emails for a customer
 
 ```python
-api.drip_deactivate('customer@example.com')
+api.drip_deactivate(
+    'customer@example.com'
+)
+```
+
+### Remove a Customer from a Single Drip Campaigns
+
+```python
+api.remove_from_drip_campaign(
+    'customer@example.com',
+    'dc_1234asdf1234'
+)
 ```
 
 ### List the details of a specific Drip Campaign
 
 ```python
-api.drip_campaign_details('dc_1234asdf1234')
+api.drip_campaign_details(
+    'dc_1234asdf1234'
+)
 ```
 
 # Customers
@@ -305,7 +432,9 @@ api.drip_campaign_details('dc_1234asdf1234')
 ### Get a Customer
 
 ```python
-api.customer_details('customer@example.com')
+api.customer_details(
+    'customer@example.com'
+)
 ```
 
 ### Create/Update Customer
@@ -314,16 +443,57 @@ You can use the same endpoint to create or update a customer. Sendwithus
 will perform a merge of the data on the customer profile, preferring the new data.
 
 ```python
-api.customer_create('customer@example.com', data={'first_name': 'Matt'})
+api.customer_create(
+    'customer@example.com',
+    data={
+        'first_name': 'Matt'
+    }
+)
 ```
 
 
 ### Delete a Customer
 
 ```python
-api.customer_delete('customer@example.com')
+api.customer_delete(
+    'customer@example.com'
+)
 ```
 
+# Snippets
+
+### Get All Snippets
+
+```python
+api.snippets()
+```
+
+### Get a Specific Snippet
+
+```python
+api.get_snippet(
+    'snp_1234asdf1234'
+)
+```
+
+### Create a Snippet
+
+```python
+api.create_snippet(
+    name='My Snippet',
+    body='<h1>Snippets!</h1>'
+)
+```
+
+### Update a Snippet
+
+```python
+api.update_snippet(
+    'snp_1234asdf1234',
+    name='My Snippet',
+    body='<h1>Snippets!</h1>'
+)
+```
 
 # Render
 
@@ -333,7 +503,15 @@ The Render API allows you to render a template with data, using the exact same r
 `Strict` is set to `False` as a default, if `Strict=True` this API call will fail on any missing `email_data`.
 
 ```python
-api.render('tem_12345', { "amount": "$12.00" }, locale='fr-FR', version_name='French-Version', strict=False)
+api.render(
+    email_id='tem_12345',
+    email_data={
+        'amount': '$12.00'
+    },
+    locale='fr-FR',
+    version_name='French-Version',
+    strict=False
+)
 ```
 
 ### Expected Response
