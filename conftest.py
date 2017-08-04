@@ -4,7 +4,7 @@ import sendwithus
 
 @pytest.fixture
 def api_key():
-    return 'THIS_IS_A_TEST_API_KEY'
+    return 'PYTHON_API_CLIENT_TEST_KEY'
 
 
 @pytest.fixture

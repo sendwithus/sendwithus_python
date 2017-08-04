@@ -48,7 +48,7 @@ def test_create_email_success(api):
 
 def test_create_new_version_success(api):
     result = api.create_new_version(
-        'name',
+        'name{time}'.format(time=time.time()),
         'subject',
         text="Some stuff",
         template_id="pmaBsiatWCuptZmojWESme"
