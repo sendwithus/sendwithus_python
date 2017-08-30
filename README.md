@@ -567,7 +567,7 @@ for email in emails:
     batch.send(
         email_id='TEMPLATE_ID',
         recipient={
-            'address': emails
+            'address': email
         }
     )
 
