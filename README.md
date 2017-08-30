@@ -544,6 +544,37 @@ api.render(
     403
 ```
 
+## Using the Batch API
+
+Sendwithus' API has a [batch endpoint](https://support.sendwithus.com/api/#batchapi) that can take multiple requests and execute them concurrently. 
+*Note* that Sendwithus recommends keeping batch requests to 10 items or less.
+
+### Creating and Executing a Batch Request
+
+```python
+api = sendwithus.api(API_KEY, DEBUG=False)
+batch = api.start_batch()
+
+emails = [
+    'user+1@example.com',
+    'user+2@example.com',
+    # ...
+    'user+10@example.com'
+]
+
+# Generate the batch request
+for email in emails:
+    batch.send(
+        email_id='TEMPLATE_ID',
+        recipient={
+            'address': emails
+        }
+    )
+
+print batch.command_length()  # show number of items in the batch request
+results = batch.execute()     # returns a `requests` Response Object
+```
+
 ## Run Tests
 Use [tox](https://tox.readthedocs.io/en/latest/) to run the tests:
 
@@ -573,7 +604,7 @@ This will run the tests against all the versions specified in `tox.ini`.
 
 ### Enable Debug Mode
 
-Debug mode prints out the underlying request information as well as the data payload that gets sent to Sendwithus. You will most likely find this information in your logs. To enable it, simply put `DEBUG=True` as a parameter when instantiating the API object. Use the debug mode to compare the data payload getting sent to [Sendwithus' API docs](https://www.sendwithus.com/docs/api "Official Sendwithus API Docs").
+Debug mode prints out the underlying request information as well as the data payload that gets sent to Sendwithus. You will most likely find this information in your logs. To enable it, simply put `DEBUG=True` as a parameter when instantiating the API object. Use the debug mode to compare the data payload getting sent to [Sendwithus' API docs](https://support.sendwithus.com/api "Official Sendwithus API Docs").
 
 ```python
 import sendwithus
