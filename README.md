@@ -504,7 +504,7 @@ The Render API allows you to render a template with data, using the exact same r
 
 ```python
 api.render(
-    email_id='tem_12345',
+    email_id='YOUR-TEMPLATE-ID',
     email_data={
         'amount': '$12.00'
     },
@@ -514,9 +514,40 @@ api.render(
 )
 ```
 
-### Expected Response
+# Batch API
 
-#### Success
+Sendwithus' API has a [batch endpoint](https://support.sendwithus.com/api/#batchapi) that can take multiple requests and execute them concurrently. 
+*Note* that Sendwithus recommends keeping batch requests to 10 items or less.
+
+### Creating and Executing a Batch Request
+
+```python
+api = sendwithus.api('YOUR-API-KEY')
+batch = api.start_batch()
+
+emails = [
+    'user+1@example.com',
+    'user+2@example.com',
+    # ...
+    'user+10@example.com'
+]
+
+# Generate the batch request
+for email in emails:
+    batch.send(
+        email_id='YOUR-TEMPLATE-ID',
+        recipient={
+            'address': email
+        }
+    )
+
+print batch.command_length()  # show number of items in the batch request
+results = batch.execute()     # returns a `requests` Response Object
+```
+
+# Expected Responses
+
+### Success
 ```bash
     >>> r.status_code
     200
@@ -531,7 +562,7 @@ api.render(
     u'numeric-receipt-id'
 ```
 
-#### Error cases
+### Error cases
 * malformed request
 ```bash
     >>> r.status_code
@@ -542,37 +573,6 @@ api.render(
 ```bash
     >>> r.status_code
     403
-```
-
-## Using the Batch API
-
-Sendwithus' API has a [batch endpoint](https://support.sendwithus.com/api/#batchapi) that can take multiple requests and execute them concurrently. 
-*Note* that Sendwithus recommends keeping batch requests to 10 items or less.
-
-### Creating and Executing a Batch Request
-
-```python
-api = sendwithus.api(API_KEY, DEBUG=False)
-batch = api.start_batch()
-
-emails = [
-    'user+1@example.com',
-    'user+2@example.com',
-    # ...
-    'user+10@example.com'
-]
-
-# Generate the batch request
-for email in emails:
-    batch.send(
-        email_id='TEMPLATE_ID',
-        recipient={
-            'address': email
-        }
-    )
-
-print batch.command_length()  # show number of items in the batch request
-results = batch.execute()     # returns a `requests` Response Object
 ```
 
 ## Run Tests
