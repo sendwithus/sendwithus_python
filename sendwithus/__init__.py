@@ -687,22 +687,13 @@ class api:
             timeout=timeout
         )
 
-    def get_translation_file(self, tag, timeout=None):
-        endpoint = self.TRANSLATION_FILE_ENDPOINT % tag
-
-        return self._api_request(
-            endpoint,
-            self.HTTP_GET,
-            timeout=timeout
-        )
-
     def create_translation_file(self, tag, zipfile, timeout=None):
         endpoint = self.TRANSLATION_FILE_ENDPOINT % tag
 
         return self._api_request(
             endpoint,
             self.HTTP_POST,
-            payload=zipfile,
+            data=zipfile,
             timeout=timeout
         )
 
