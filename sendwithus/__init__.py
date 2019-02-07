@@ -419,6 +419,26 @@ class api:
             timeout=timeout
         )
 
+    def get_translation_template(self, tag, timeout=None):
+        endpoint = self.TRANSLATION_TEMPLATE_ENDPOINT % tag
+
+        return self._api_request(
+            endpoint,
+            self.HTTP_GET,
+            timeout=timeout
+        )
+
+    def create_translation_file(self, tag, zipfile, timeout=None):
+        endpoint = self.TRANSLATION_FILE_ENDPOINT % tag
+
+        return self._api_request(
+            endpoint,
+            self.HTTP_POST,
+            data=zipfile,
+            headers={'Content-type': 'application/zip'},
+            timeout=timeout
+        )
+
     def drip_deactivate(self, email_address, timeout=None):
         payload = {'email_address': email_address}
 
@@ -676,27 +696,6 @@ class api:
         return self._api_request(
             endpoint,
             self.HTTP_GET,
-            timeout=timeout
-        )
-
-
-    def get_translation_template(self, tag, timeout=None):
-        endpoint = self.TRANSLATION_TEMPLATE_ENDPOINT % tag
-
-        return self._api_request(
-            endpoint,
-            self.HTTP_GET,
-            timeout=timeout
-        )
-
-    def create_translation_file(self, tag, zipfile, timeout=None):
-        endpoint = self.TRANSLATION_FILE_ENDPOINT % tag
-
-        return self._api_request(
-            endpoint,
-            self.HTTP_POST,
-            data=zipfile,
-            headers={'Content-type': 'application/zip'},
             timeout=timeout
         )
 
