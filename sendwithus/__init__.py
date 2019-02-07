@@ -172,6 +172,8 @@ class api:
         logger.debug('\tpath: %s' % path)
 
         data = self._build_payload(kwargs.get('payload'))
+        if not data:
+            data = kwargs.get('data')
         logger.debug('\tdata: %s' % data)
 
         req_kw = dict(
@@ -694,6 +696,7 @@ class api:
             endpoint,
             self.HTTP_POST,
             data=zipfile,
+            headers={'Content-type': 'application/zip'},
             timeout=timeout
         )
 
