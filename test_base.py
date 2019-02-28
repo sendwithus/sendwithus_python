@@ -550,3 +550,21 @@ def test_raise_errors_option(api_key, api_options):
     )
 
     assert 400 == response.status_code
+
+
+def test_translation_upload(api, translation_tag_test, translation_file_test):
+    with open(translation_file_test, 'rb') as f:
+        response = api.create_translation_file(
+            translation_tag_test,
+            f.read()
+        )
+
+        assert_success(response)
+
+
+def test_translation_get(api, translation_tag_test, translation_file_test):
+    response = api.get_translation_template(
+        translation_tag_test
+    )
+
+    assert 200 == response.status_code

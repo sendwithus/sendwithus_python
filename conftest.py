@@ -23,6 +23,11 @@ def email_id():
 
 
 @pytest.fixture
+def translation_template_id():
+    return 'test_translation_fixture_1'
+
+
+@pytest.fixture
 def email_address():
     return 'person@example.com'
 
@@ -85,3 +90,13 @@ def bcc_test():
             'address': 'test+bcc@sendwithus.com'
         }
     ]
+
+
+@pytest.fixture
+def translation_file_test():
+    return './fixtures/translations.zip'
+
+
+@pytest.fixture
+def translation_tag_test():
+    return 'translate'
