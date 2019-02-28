@@ -495,6 +495,26 @@ api.update_snippet(
 )
 ```
 
+# Internationalization (i18n) API
+
+### Get translation package (.pot file)
+
+```python
+api.get_translation_template(
+    `my_translation_tag`
+)
+```
+
+### Post translated strings and .po files
+
+```python
+with open('my_translation_file', 'rb') as f:
+    api.create_translation_file(
+        `my_translation_tag`,
+        f.read()
+    )
+```
+
 # Render
 
 ### Render a Template with data

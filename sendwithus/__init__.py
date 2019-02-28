@@ -57,6 +57,8 @@ class api:
     DRIP_CAMPAIGN_CUSTOMERS_ENDPOINT = 'drip_campaigns/%s/customers'
     DRIP_CAMPAIGN_STEP_CUSTOMERS_ENDPOINT = \
         'drip_campaigns/%s/steps/%s/customers'
+    TRANSLATION_TEMPLATE_ENDPOINT = 'i18n/pot/%s'
+    TRANSLATION_FILE_ENDPOINT = 'i18n/po/%s'
     BATCH_ENDPOINT = 'batch'
     RENDER_ENDPOINT = 'render'
 
@@ -170,6 +172,8 @@ class api:
         logger.debug('\tpath: %s' % path)
 
         data = self._build_payload(kwargs.get('payload'))
+        if not data:
+            data = kwargs.get('data')
         logger.debug('\tdata: %s' % data)
 
         req_kw = dict(
@@ -412,6 +416,26 @@ class api:
             self.SNIPPET_ENDPOINT % (snippet_id),
             self.HTTP_PUT,
             payload=payload,
+            timeout=timeout
+        )
+
+    def get_translation_template(self, tag, timeout=None):
+        endpoint = self.TRANSLATION_TEMPLATE_ENDPOINT % tag
+
+        return self._api_request(
+            endpoint,
+            self.HTTP_GET,
+            timeout=timeout
+        )
+
+    def create_translation_file(self, tag, zipfile, timeout=None):
+        endpoint = self.TRANSLATION_FILE_ENDPOINT % tag
+
+        return self._api_request(
+            endpoint,
+            self.HTTP_POST,
+            data=zipfile,
+            headers={'Content-type': 'application/zip'},
             timeout=timeout
         )
 
