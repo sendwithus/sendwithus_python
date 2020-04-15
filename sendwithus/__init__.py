@@ -565,7 +565,7 @@ class api:
             timeout=timeout
         )
 
-    def customer_create(self, email, data=None, timeout=None):
+    def customer_create(self, email, data=None, locale=None, timeout=None):
         if not data:
             data = {}
 
@@ -573,6 +573,9 @@ class api:
             'email': email,
             'data': data
         }
+
+        if locale:
+            payload["locale"] = locale
 
         return self._api_request(
             self.CUSTOMER_CREATE_ENDPOINT,
