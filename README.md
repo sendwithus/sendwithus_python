@@ -437,17 +437,17 @@ api.customer_details(
 )
 ```
 
-### Create/Update Customer
+### Create/Update Customer Locale
 
-You can use the same endpoint to create or update a customer. Sendwithus
-will perform a merge of the data on the customer profile, preferring the new data.
+You can use the same endpoint to create or update a customer. This is primarily
+used to associate a locale with an email address so Sendwithus can
+automatically send them the correct template. Note that if your templates are
+only in one language then you don't need to use this feature.
 
 ```python
 api.customer_create(
     'customer@example.com',
-    data={
-        'first_name': 'Matt'
-    }
+    locale="fr-FR"
 )
 ```
 
