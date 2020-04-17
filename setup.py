@@ -1,7 +1,9 @@
 from distutils.core import setup
 from setuptools import find_packages
 
-with open('README.md') as fp:
+from io import open
+
+with open('README.md', encoding="utf-8") as fp:
     long_description = fp.read()
 
 setup(
@@ -15,6 +17,7 @@ setup(
     license='LICENSE.txt',
     description='Python API client for sendwithus.com',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     test_suite="sendwithus.test",
     install_requires=[
         "requests >= 2.0.0",
