@@ -374,7 +374,7 @@ api.start_on_drip_campaign(
 
 You may specify extra data to be merged into the templates in the drip campaign.
 
-*Note* — Any data provided in the `email_data` parameter for `start_on_drip_campaign()` will be used throughout the entire drip campaign.
+*Note* &emdash; Any data provided in the `email_data` parameter for `start_on_drip_campaign()` will be used throughout the entire drip campaign.
 
 ```python
 api.start_on_drip_campaign(
@@ -634,9 +634,9 @@ api = sendwithus.api(api_key='YOUR-API-KEY', DEBUG=True)
 
 Sendwithus' API typically sends responses back in these ranges:
 
--   2xx – Successful Request
--   4xx – Failed Request (Client error)
--   5xx – Failed Request (Server error)
+-   2xx &emdash; Successful Request
+-   4xx &emdash; Failed Request (Client error)
+-   5xx &emdash; Failed Request (Server error)
 
 If you're receiving an error in the 400 response range follow these steps:
 
