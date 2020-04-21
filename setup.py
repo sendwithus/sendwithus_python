@@ -15,6 +15,7 @@ setup(
     license='LICENSE.txt',
     description='Python API client for sendwithus.com',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     test_suite="sendwithus.test",
     install_requires=[
         "requests >= 2.0.0",
