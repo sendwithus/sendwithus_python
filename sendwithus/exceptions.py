@@ -1,6 +1,9 @@
 class SendwithusError(Exception):
     """Base class for Sendwithus API errors"""
 
+    def __init__(self, content=None):
+        self.content = content
+
 
 class AuthenticationError(SendwithusError):
     """API Authentication Failed"""
