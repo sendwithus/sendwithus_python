@@ -47,7 +47,8 @@ def test_create_new_version_success(api, email_id):
         'name{time}'.format(time=time.time()),
         'subject',
         text="Some stuff",
-        template_id=email_id
+        template_id=email_id,
+        preheader='test preheader'
     )
     assert_success(result)
 
@@ -59,6 +60,7 @@ def test_update_template_version(api, email_id, version_id):
         email_id,
         version_id,
         text='Some more stuff',
+        preheader='test preheader'
     )
     assert_success(result)
 
@@ -564,3 +566,24 @@ def test_translation_get(api, translation_tag_test, translation_file_test):
     )
 
     assert 200 == response.status_code
+
+
+def test_create_template_with_preheader(api):
+    """ Test creating a template with a preheader and fetching the result """
+    expected = 'this is a preheader'
+    result = api.create_template(
+        'name',
+        'subject',
+        '<html><head></head><body></body></html>',
+        preheader=expected)
+    assert_success(result)
+
+    id = result.json()['id']
+    result = api.get_template(id)
+    assert_success(result)
+
+    version_id = result.json()['versions'][0]['id']
+    result = api.get_template(id, version_id)
+    assert_success(result)
+
+    assert result.json()['preheader'] == expected
