@@ -58,7 +58,8 @@ api.create_template(
     name='Email Name',
     subject='Email Subject',
     html='<html><head></head><body>Valid HTML</body></html>',
-    text='Optional text content'
+    text='Optional text content',
+    preheader='Optional preheader'
 )
 ```
 
@@ -71,7 +72,8 @@ api.create_new_locale(
     version_name='Version Name',
     subject='Email Subject',
     html='<html><head></head><body>Valid HTML</body></html>',
-    text='Optional text content'
+    text='Optional text content',
+    preheader='Optional preheader'
 )
 ```
 
@@ -84,6 +86,7 @@ api.create_new_version(
     subject='Email Subject',
     html='<html><head></head><body>Valid HTML</body></html>',
     text='Optional text content',
+    preheader='Optional preheader',
     locale='fr-FR'
 )
 ```
@@ -97,7 +100,8 @@ api.update_template_version(
     name='Email Name'
     subject='Email Subject',
     html='<html><head></head><body>Valid HTML</body></html>',
-    text='Optional text content'
+    text='Optional text content',
+    preheader='Optional preheader'
 )
 ```
 
