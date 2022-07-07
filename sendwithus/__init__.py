@@ -201,7 +201,7 @@ class api:
         logger.debug('\tresponse code:%s' % r.status_code)
         try:
             logger.debug('\tresponse: %s' % r.json())
-        except:
+        except Exception:
             logger.debug('\tresponse: %s' % r.content)
 
         return self._parse_response(r)
@@ -803,7 +803,7 @@ class BatchAPI(api):
         logger.debug('\tresponse code:%s' % r.status_code)
         try:
             logger.debug('\tresponse: %s' % r.json())
-        except:
+        except Exception:
             logger.debug('\tresponse: %s' % r.content)
 
         return r

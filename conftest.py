@@ -1,10 +1,11 @@
 import pytest
 import sendwithus
+import os
 
 
 @pytest.fixture
 def api_key():
-    return 'PYTHON_API_CLIENT_TEST_KEY'
+    return os.environ.get('SWU_API_KEY')
 
 
 @pytest.fixture
@@ -19,12 +20,15 @@ def api(api_key, api_options):
 
 @pytest.fixture
 def email_id():
-    return 'test_fixture_1'
+    return os.environ.get('TEMPLATE_ID')
 
+@pytest.fixture
+def version_id():
+    return os.environ.get('VERSION_ID')
 
 @pytest.fixture
 def translation_template_id():
-    return 'test_translation_fixture_1'
+    return os.environ.get('TEMPLATE_ID')
 
 
 @pytest.fixture
@@ -34,24 +38,24 @@ def email_address():
 
 @pytest.fixture
 def enabled_drip_campaign_id():
-    return 'dc_Rmd7y5oUJ3tn86sPJ8ESCk'
+    return os.environ.get('DRIP_CAMPAIGN_ID')
 
 
 @pytest.fixture
 def disabled_drip_campaign_id():
-    return 'dc_AjR6Ue9PHPFYmEu2gd8x5V'
+    return os.environ.get('DRIP_CAMPAIGN_DISABLED_ID')
 
 
 @pytest.fixture
 def drip_campaign_step_id():
-    return 'dcs_yaAMiZNWCLAEGw7GLjBuGY'
+    return os.environ.get('DRIP_CAMPAIGN_STEP_ID')
 
 
 @pytest.fixture
 def recipient():
     return {
-        'name': 'Matt',
-        'address': 'us@sendwithus.com'
+        'name': 'Test User',
+        'address': 'person@example.com'
     }
 
 
@@ -67,8 +71,8 @@ def email_data():
 def sender():
     return {
         'name': 'Company',
-        'address': 'company@company.com',
-        'reply_to': 'info@company.com'
+        'address': 'company@example.com',
+        'reply_to': 'info@example.com'
     }
 
 
@@ -76,8 +80,8 @@ def sender():
 def cc_test():
     return [
         {
-            'name': 'Matt CC',
-            'address': 'test+cc@sendwithus.com'
+            'name': 'Test CC',
+            'address': 'test+cc@example.com'
         }
     ]
 
@@ -86,8 +90,8 @@ def cc_test():
 def bcc_test():
     return [
         {
-            'name': 'Matt BCC',
-            'address': 'test+bcc@sendwithus.com'
+            'name': 'Test BCC',
+            'address': 'test+bcc@example.com'
         }
     ]
 

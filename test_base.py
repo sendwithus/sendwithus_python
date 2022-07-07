@@ -1,4 +1,3 @@
-import json
 import decimal
 import tempfile
 import time
@@ -22,18 +21,15 @@ def test_get_emails(api):
     assert_success(result)
 
 
-def test_get_template(api):
+def test_get_template(api, email_id):
     """ Test template endpoint. """
-    result = api.get_template("pmaBsiatWCuptZmojWESme")
+    result = api.get_template(email_id)
     assert_success(result)
 
 
-def test_get_template_with_version(api):
+def test_get_template_with_version(api, email_id, version_id):
     """ Test template with version endpoint. """
-    result = api.get_template(
-        'pmaBsiatWCuptZmojWESme',
-        version='ver_pYj27c8DTBsWB4MRsoB2MF'
-    )
+    result = api.get_template(email_id, version_id)
     assert_success(result)
 
 
@@ -46,22 +42,22 @@ def test_create_email_success(api):
     assert_success(result)
 
 
-def test_create_new_version_success(api):
+def test_create_new_version_success(api, email_id):
     result = api.create_new_version(
         'name{time}'.format(time=time.time()),
         'subject',
         text="Some stuff",
-        template_id="pmaBsiatWCuptZmojWESme"
+        template_id=email_id
     )
     assert_success(result)
 
 
-def test_update_template_version(api):
+def test_update_template_version(api, email_id, version_id):
     result = api.update_template_version(
         'name',
         'subject',
-        'pmaBsiatWCuptZmojWESme',
-        'ver_pYj27c8DTBsWB4MRsoB2MF',
+        email_id,
+        version_id,
         text='Some more stuff',
     )
     assert_success(result)
@@ -235,7 +231,7 @@ def test_send_headers_invalid(api, email_id, recipient, email_data):
     assert result.status_code != 200
 
 
-@pytest.yield_fixture
+@pytest.fixture
 def file():
     with tempfile.NamedTemporaryFile() as tempf:
         data = ('simple file content' + '\n') * 3
@@ -246,48 +242,48 @@ def file():
 
 
 def test_send_with_files_valid(api, email_id, recipient, email_data, file):
-        result = api.send(
-            email_id,
-            recipient,
-            email_data=email_data,
-            files=[file])
+    result = api.send(
+        email_id,
+        recipient,
+        email_data=email_data,
+        files=[file])
 
-        assert result.status_code == 200
+    assert result.status_code == 200
 
 
 def test_send_with_inline_valid(api, email_id, recipient, email_data, file):
-        result = api.send(
-            email_id,
-            recipient,
-            email_data=email_data,
-            inline=file)
+    result = api.send(
+        email_id,
+        recipient,
+        email_data=email_data,
+        inline=file)
 
-        assert result.status_code == 200
+    assert result.status_code == 200
 
 
 def test_send_with_files_explicit_filename(api, email_id,
                                            recipient, email_data, file):
-        result = api.send(
-            email_id,
-            recipient,
-            email_data=email_data,
-            files=[{'file': file,
-                    'filename': 'filename.pdf'}]
-        )
+    result = api.send(
+        email_id,
+        recipient,
+        email_data=email_data,
+        files=[{'file': file,
+                'filename': 'filename.pdf'}]
+    )
 
-        assert result.status_code == 200
+    assert result.status_code == 200
 
 
 def test_send_with_inline_explicit_filename(api, email_id,
                                             recipient, email_data, file):
-        result = api.send(
-            email_id,
-            recipient,
-            email_data=email_data,
-            inline={'file': file, 'filename': 'filename.pdf'}
-        )
+    result = api.send(
+        email_id,
+        recipient,
+        email_data=email_data,
+        inline={'file': file, 'filename': 'filename.pdf'}
+    )
 
-        assert result.status_code == 200
+    assert result.status_code == 200
 
 
 def test_send_with_files_valid_1(api, email_id,
