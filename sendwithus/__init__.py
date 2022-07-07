@@ -259,6 +259,8 @@ class api:
         subject,
         html,
         text='',
+        preheader=None,
+        amp_html=None,
         timeout=None
     ):
         """ API call to create a template """
@@ -268,6 +270,11 @@ class api:
             'html': html,
             'text': text
         }
+
+        if preheader is not None:
+            payload['preheader'] = preheader
+        if amp_html is not None:
+            payload['amp_html'] = amp_html
 
         return self._api_request(
             self.TEMPLATES_ENDPOINT,
@@ -284,6 +291,8 @@ class api:
         subject,
         text='',
         html='',
+        preheader=None,
+        amp_html=None,
         timeout=None
     ):
         """ API call to create a new locale and version of a template """
@@ -297,6 +306,10 @@ class api:
             payload['html'] = html
         if text:
             payload['text'] = text
+        if preheader is not None:
+            payload['preheader'] = preheader
+        if amp_html is not None:
+            payload['amp_html'] = amp_html
 
         return self._api_request(
             self.TEMPLATES_LOCALES_ENDPOINT % template_id,
@@ -313,6 +326,8 @@ class api:
         template_id=None,
         html=None,
         locale=None,
+        preheader=None,
+        amp_html=None,
         timeout=None
     ):
         """ API call to create a new version of a template """
@@ -329,6 +344,11 @@ class api:
                 'subject': subject,
                 'text': text
             }
+
+        if preheader is not None:
+            payload['preheader'] = preheader
+        if amp_html is not None:
+            payload['amp_html'] = amp_html
 
         if locale:
             url = self.TEMPLATES_SPECIFIC_LOCALE_VERSIONS_ENDPOINT % (
@@ -353,6 +373,8 @@ class api:
         version_id,
         text='',
         html=None,
+        preheader=None,
+        amp_html=None,
         timeout=None
     ):
         """ API call to update a template version """
@@ -369,6 +391,11 @@ class api:
                 'subject': subject,
                 'text': text
             }
+
+        if preheader is not None:
+            payload['preheader'] = preheader
+        if amp_html is not None:
+            payload['amp_html'] = amp_html
 
         return self._api_request(
             self.TEMPLATES_VERSION_ENDPOINT % (template_id, version_id),
