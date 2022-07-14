@@ -8,7 +8,7 @@ with open('README.md', encoding="utf-8") as fp:
 
 setup(
     name='sendwithus',
-    version='5.2.2',
+    version='5.3.0',
     author='sendwithus',
     author_email='us@sendwithus.com',
     packages=find_packages(),
