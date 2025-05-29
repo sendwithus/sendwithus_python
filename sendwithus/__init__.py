@@ -338,7 +338,7 @@ class api:
         timeout=None
     ):
         """ API call to create a new version of a template """
-        if(html):
+        if (html):
             payload = {
                 'name': name,
                 'subject': subject,
@@ -388,7 +388,7 @@ class api:
         timeout=None
     ):
         """ API call to update a template version """
-        if(html):
+        if (html):
             payload = {
                 'name': name,
                 'subject': subject,
@@ -543,24 +543,24 @@ class api:
         if sender:
             payload['sender'] = sender
         if cc:
-            if not type(cc) == list:
+            if not isinstance(cc, list):
                 logger.error(
                     'kwarg cc must be type(list), got %s' % type(cc))
             payload['cc'] = cc
         if bcc:
-            if not type(bcc) == list:
+            if not isinstance(cc, list):
                 logger.error(
                     'kwarg bcc must be type(list), got %s' % type(bcc))
             payload['bcc'] = bcc
 
         if tags:
-            if not type(tags) == list:
+            if not isinstance(cc, list):
                 logger.error(
                     'kwarg tags must be type(list), got %s' % (type(tags)))
             payload['tags'] = tags
 
         if headers:
-            if not type(headers) == dict:
+            if not type(headers) is dict:
                 logger.error(
                     'kwarg headers must be type(dict), got %s' % (
                         type(headers)
@@ -674,19 +674,19 @@ class api:
             payload['sender'] = sender
 
         if cc:
-            if not type(cc) == list:
+            if not isinstance(cc, list):
                 logger.error(
                     'kwarg cc must be type(list), got %s' % type(cc))
             payload['cc'] = cc
 
         if bcc:
-            if not type(bcc) == list:
+            if not isinstance(cc, list):
                 logger.error(
                     'kwarg bcc must be type(list), got %s' % type(bcc))
             payload['bcc'] = bcc
 
         if tags:
-            if not type(tags) == list:
+            if not isinstance(cc, list):
                 logger.error(
                     'kwarg tags must be type(list), got %s' % (type(tags)))
             payload['tags'] = tags

@@ -49,7 +49,7 @@ def test_create_new_version_success(api, email_id):
         text="Some stuff",
         template_id=email_id,
         preheader='test preheader',
-        template_data={'test':'data'}
+        template_data={'test': 'data'}
     )
     assert_success(result)
 
@@ -62,7 +62,7 @@ def test_update_template_version(api, email_id, version_id):
         version_id,
         text='Some more stuff',
         preheader='test preheader',
-        template_data={'test':'data'}
+        template_data={'test': 'data'}
     )
     assert_success(result)
 
@@ -590,8 +590,9 @@ def test_create_template_with_preheader(api):
 
     assert result.json()['preheader'] == expected
 
+
 def test_create_template_with_template_data(api):
-    """ Test creating a template with a template data and fetching the result """
+    """ Test creating a template with a template data / fetching the result """
     expected = {'test': 'data'}
     result = api.create_template(
         'name',
