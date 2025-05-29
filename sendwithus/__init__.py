@@ -260,6 +260,7 @@ class api:
         html,
         text='',
         preheader=None,
+        template_data=None,
         amp_html=None,
         timeout=None
     ):
@@ -273,6 +274,8 @@ class api:
 
         if preheader is not None:
             payload['preheader'] = preheader
+        if template_data is not None:
+            payload['template_data'] = template_data
         if amp_html is not None:
             payload['amp_html'] = amp_html
 
@@ -292,6 +295,7 @@ class api:
         text='',
         html='',
         preheader=None,
+        template_data=None,
         amp_html=None,
         timeout=None
     ):
@@ -308,6 +312,8 @@ class api:
             payload['text'] = text
         if preheader is not None:
             payload['preheader'] = preheader
+        if template_data is not None:
+            payload['template_data'] = template_data
         if amp_html is not None:
             payload['amp_html'] = amp_html
 
@@ -327,6 +333,7 @@ class api:
         html=None,
         locale=None,
         preheader=None,
+        template_data=None,
         amp_html=None,
         timeout=None
     ):
@@ -347,6 +354,8 @@ class api:
 
         if preheader is not None:
             payload['preheader'] = preheader
+        if template_data is not None:
+            payload['template_data'] = template_data
         if amp_html is not None:
             payload['amp_html'] = amp_html
 
@@ -374,6 +383,7 @@ class api:
         text='',
         html=None,
         preheader=None,
+        template_data=None,
         amp_html=None,
         timeout=None
     ):
@@ -394,6 +404,8 @@ class api:
 
         if preheader is not None:
             payload['preheader'] = preheader
+        if template_data is not None:
+            payload['template_data'] = template_data
         if amp_html is not None:
             payload['amp_html'] = amp_html
 
