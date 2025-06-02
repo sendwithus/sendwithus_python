@@ -260,6 +260,7 @@ class api:
         html,
         text='',
         preheader=None,
+        template_data=None,
         amp_html=None,
         timeout=None
     ):
@@ -273,6 +274,8 @@ class api:
 
         if preheader is not None:
             payload['preheader'] = preheader
+        if template_data is not None:
+            payload['template_data'] = template_data
         if amp_html is not None:
             payload['amp_html'] = amp_html
 
@@ -292,6 +295,7 @@ class api:
         text='',
         html='',
         preheader=None,
+        template_data=None,
         amp_html=None,
         timeout=None
     ):
@@ -308,6 +312,8 @@ class api:
             payload['text'] = text
         if preheader is not None:
             payload['preheader'] = preheader
+        if template_data is not None:
+            payload['template_data'] = template_data
         if amp_html is not None:
             payload['amp_html'] = amp_html
 
@@ -327,11 +333,12 @@ class api:
         html=None,
         locale=None,
         preheader=None,
+        template_data=None,
         amp_html=None,
         timeout=None
     ):
         """ API call to create a new version of a template """
-        if(html):
+        if (html):
             payload = {
                 'name': name,
                 'subject': subject,
@@ -347,6 +354,8 @@ class api:
 
         if preheader is not None:
             payload['preheader'] = preheader
+        if template_data is not None:
+            payload['template_data'] = template_data
         if amp_html is not None:
             payload['amp_html'] = amp_html
 
@@ -374,11 +383,12 @@ class api:
         text='',
         html=None,
         preheader=None,
+        template_data=None,
         amp_html=None,
         timeout=None
     ):
         """ API call to update a template version """
-        if(html):
+        if (html):
             payload = {
                 'name': name,
                 'subject': subject,
@@ -394,6 +404,8 @@ class api:
 
         if preheader is not None:
             payload['preheader'] = preheader
+        if template_data is not None:
+            payload['template_data'] = template_data
         if amp_html is not None:
             payload['amp_html'] = amp_html
 
@@ -531,24 +543,24 @@ class api:
         if sender:
             payload['sender'] = sender
         if cc:
-            if not type(cc) == list:
+            if not isinstance(cc, list):
                 logger.error(
                     'kwarg cc must be type(list), got %s' % type(cc))
             payload['cc'] = cc
         if bcc:
-            if not type(bcc) == list:
+            if not isinstance(cc, list):
                 logger.error(
                     'kwarg bcc must be type(list), got %s' % type(bcc))
             payload['bcc'] = bcc
 
         if tags:
-            if not type(tags) == list:
+            if not isinstance(cc, list):
                 logger.error(
                     'kwarg tags must be type(list), got %s' % (type(tags)))
             payload['tags'] = tags
 
         if headers:
-            if not type(headers) == dict:
+            if not type(headers) is dict:
                 logger.error(
                     'kwarg headers must be type(dict), got %s' % (
                         type(headers)
@@ -662,19 +674,19 @@ class api:
             payload['sender'] = sender
 
         if cc:
-            if not type(cc) == list:
+            if not isinstance(cc, list):
                 logger.error(
                     'kwarg cc must be type(list), got %s' % type(cc))
             payload['cc'] = cc
 
         if bcc:
-            if not type(bcc) == list:
+            if not isinstance(cc, list):
                 logger.error(
                     'kwarg bcc must be type(list), got %s' % type(bcc))
             payload['bcc'] = bcc
 
         if tags:
-            if not type(tags) == list:
+            if not isinstance(cc, list):
                 logger.error(
                     'kwarg tags must be type(list), got %s' % (type(tags)))
             payload['tags'] = tags

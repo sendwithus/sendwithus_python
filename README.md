@@ -59,7 +59,8 @@ api.create_template(
     subject='Email Subject',
     html='<html><head></head><body>Valid HTML</body></html>',
     text='Optional text content',
-    preheader='Optional preheader'
+    preheader='Optional preheader',
+    template_data={'optional': 'data'}
 )
 ```
 
@@ -73,7 +74,8 @@ api.create_new_locale(
     subject='Email Subject',
     html='<html><head></head><body>Valid HTML</body></html>',
     text='Optional text content',
-    preheader='Optional preheader'
+    preheader='Optional preheader',
+    template_data={'optional': 'data'}
 )
 ```
 
@@ -87,6 +89,7 @@ api.create_new_version(
     html='<html><head></head><body>Valid HTML</body></html>',
     text='Optional text content',
     preheader='Optional preheader',
+    template_data={'optional': 'data'},
     locale='fr-FR'
 )
 ```
@@ -101,7 +104,8 @@ api.update_template_version(
     subject='Email Subject',
     html='<html><head></head><body>Valid HTML</body></html>',
     text='Optional text content',
-    preheader='Optional preheader'
+    preheader='Optional preheader',
+    template_data={'optional': 'data'}
 )
 ```
 
